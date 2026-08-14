@@ -1,6 +1,6 @@
 ---
 layout: topic
-title: "Introduction to R and RStudio"
+title: "Testing git stuff"
 output: html_document
 ---
 
@@ -20,6 +20,16 @@ knitr::opts_chunk$set(fig.path = "images/01-A/")
 # Set the web address where R will look for files from this repository
 # Do not change this address
 repo_url <- "https://raw.githubusercontent.com/fukamilab/BIO202/master/"
+```
+
+```{r, include = TRUE}
+
+for (i in 1:10) {
+
+print(paste("this loop ran", i, " times."))
+
+}
+
 ```
 
 ### Key Points
