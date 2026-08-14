@@ -2,6 +2,12 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Getting Started"
+      menu:
+        - text: "Computer setup"
+          href: 00-computer-setup.html
+        - text: "Git Intro"
+          href: 00-E-git-intro.html
     - text: "Data Exploration"
       menu:
         - text: "Lab"

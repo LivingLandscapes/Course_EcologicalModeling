@@ -11,7 +11,7 @@
 
 
 
-<title>Homework 2</title>
+<title>Introduction to R markdown</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -551,173 +551,279 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Homework 2</h1>
+<h1 class="title toc-ignore">Introduction to R markdown</h1>
 
 </div>
 
 
-<div id="overview" class="section level2">
-<h2>Overview</h2>
-<p>Please provide a reproducible .Rmd script that answers all questions
-below and produces all of your analysis and plots. Some reminders:</p>
+<div id="key-points" class="section level3">
+<h3>Key Points</h3>
 <ul>
-<li><strong>Reproducible:</strong> This means when I run your .Rmd file,
-it will run all analyses and create all plots without errors, without me
-having to reset my working directory, and without forcing me to install
-anything on my machine (i.e., use the require(librarian); shelf(your
-packages, lib = tempdir()) approach as in the code block below). This
-also means there should be <em>NO ERRORS</em> when I run it!</li>
-<li><strong>Format:</strong> Answer each question with text and code,
-plus figures/tables where appropriate.</li>
+<li>R markdown is text-based formatting that allows you to embed code
+and explanatory text in the same document.</li>
+<li>R markdown documents consist of a header, code chunks and text.</li>
+<li>R markdown files (.Rmd) can be rendered to other document formats
+(e.g. html, pdf, docx) to generate reports or web applications.</li>
+<li>Formatting analyses in R markdown keeps the entire research process
+in one document that can easily regenerate reports and output if the
+data are changed.</li>
 </ul>
-<div id="background" class="section level3">
-<h3>Background</h3>
-<p>
-<div class="float">
-<img
-src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/MtLofty_RubenSchade.jpg"
-width="300"
-alt="“Mount Lofty in the Adelaide Hills” by Ruben Schade is licensed under CC BY-NC 2.0" />
-<div class="figcaption">“Mount Lofty in the Adelaide Hills” by Ruben
-Schade is licensed under CC BY-NC 2.0</div>
+<blockquote>
+<p><strong>Suggested Reading:</strong></p>
+<p>Grolemund, G. 2014. <em>Introduction to R Markdown</em>. RStudio. <a
+href="http://rmarkdown.rstudio.com/articles_intro.html"
+class="uri">http://rmarkdown.rstudio.com/articles_intro.html</a></p>
+</blockquote>
 </div>
-<p>
-<p>The discipline of landscape ecology frequently postulates that the
-spatial pattern of habitat is important, in addition to local
-characteristics such as patch area, vegetation type, and climate.
-Westphal et al (2003) analyzed data from the South Australian Bird Atlas
-using a series of landscape pattern metrics estimated at 3 spatial
-scales. They concluded that landscape structure had a positive effect on
-many bird species. However, this dataset was never designed to be
-analyzed using logistic regression, and consequently their conclusions
-were somewhat weak, and badly compromised by model selection
-uncertainty. They used AIC rather than AICc, because the number of
-datapoints was relatively large (n=499) compared to the number of
-parameters in the most complex model (K = 5) so n/K ~ 100 and AIC is
-probably adequate. However the number of models considered (R = 45) is
-quite large. In addition, because of the way the Atlas data were
-archived, it was not possible to directly compare the effect of local
-patch variables to landscape pattern covariates.</p>
-<p>At the same time, Dr. Scott Field and colleagues of the University of
-Adelaide collected an independent data set at 34 woodland sites in the
-Mt. Lofty Ranges using a standard 2 ha, 20 min timed count procedure in
-each of 2 years. Field et al. (2002) describe some of the issues related
-to designing this survey; we have data for 34 of the 38 sites in that
-study. The bird data has sites and years in rows, and bird species in
-columns; for a given site in a particular year, a 1 indicates that the
-species was observed at least once out of three visits to the site, and
-a zero indicates that the species was not observed in three visits. This
-provides some correction for the problem of false negatives. <em>FYI: if
-you’re thinking “duh–these folks should have just used an occupancy
-model,” check out the date of the OG occupancy modeling papers (e.g.,
-MacKenzie et al. 2002 in Ecology).</em></p>
-<p>Here are citations for the papers mentioned above:</p>
-<ul>
-<li><em>Westphal, M. I., Field, S. A., Tyre, A. J., Paton, D., &amp;
-Possingham, H. P. (2003). Effects of landscape pattern on bird species
-distribution in the Mt. Lofty Ranges, South Australia. Landscape
-Ecology, 18, 413-426.</em></li>
-<li><em>Field, S. A., Tyre, A. J., &amp; Possingham, H. P. (2002).
-Estimating bird species richness: how should repeat surveys be organized
-in time?. Austral Ecology, 27(6), 624-629.</em></li>
-</ul>
-<p>Do not use the analysis presented in these papers, although you can
-refer to the paper for the ecological background.</p>
-</div>
-</div>
-<div id="data-descriptions" class="section level2">
-<h2>Data descriptions:</h2>
-<p>We have two datasets for this homework. First, we have the bird
-occurrence data in mlrbird:</p>
-<ul>
-<li>Year - year codes.</li>
-<li>Patch - patch code</li>
-<li>Name - Name of survey location</li>
-<li>East - UTM easting</li>
-<li>North - UTM northing</li>
-<li>All the rest are four-letter bird species codes.</li>
-</ul>
-<p>We also have landscape pattern variables similar to those used by
-Westphal et al at 2 km, 5 km, and 10 km scales, as well as three “local”
-covariates. Each of the landscape variables starts with the name,
-followed by 2k, 5k, or 10K according to which buffer size was used. The
-variables used by Westphal et al are indicated with an asterisk, and
-“local” covariates are indicated by two asterisks. These landscape data
-are in mlrland. Note that these data have NOT been modified to reduce
-correlations among the variables as Westphal et al described (This is a
-hint, maybe).</p>
-<p><strong>NOTE:</strong> There are twice as many rows in mlrbird than
-mlrland. This is because the bird surveys were conducted over two years,
-but landscape variables were only collected once… How should you deal
-with this?</p>
-<ul>
-<li>Patch - patch code</li>
-<li>Name - Name of survey location</li>
-<li>*TLA - total landscape area</li>
-<li>NumP - number of patches</li>
-<li>MPS - mean patch size</li>
-<li>LPI - largest patch index (% of TLA covered by largest patch)</li>
-<li>*LSI - landscape shape index (measure of edge) = 1.0 if one circular
-patch, increases with edge</li>
-<li>PSSD - patch size std. Dev.</li>
-<li>*MNN - mean nearest neighbor distance (not if NumP is 0, it should
-be NA not 0 - check)</li>
-<li>TE - total edge</li>
-<li>*MPAR = (TE/TLA/NumP) = mean patch perimeter area ratio. Note that
-MPAR is a derived variable not found in the provided dataset.</li>
-<li>**MRF - mean annual rainfall</li>
-<li>**PA - patch area</li>
-<li>**PP - patch perimeter</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, cowplot,</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      AICcmodavg, <span class="co"># for aic.tab, model averaging, etc.</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      mgcv, <span class="co"># for qq.gam</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Load data:</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>mlrbird <span class="ot">&lt;-</span> </span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/data/mlrbird.csv&quot;</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>mlrland <span class="ot">&lt;-</span> </span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/data/mlrland.csv&quot;</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: You will need to join these datasets to conduct the analysis.</span></span></code></pre></div>
-</div>
-<div id="homework-questions" class="section level2">
-<h2>Homework questions</h2>
+<div id="how-we-will-use-r-markdown" class="section level3">
+<h3>How we will use R markdown</h3>
+<p>Our course website is a set of R markdown files that have been
+rendered to html files and are hosted on <a
+href="https://pages.github.com/">GitHub Pages</a>. You can find all of
+the pages that comprise our course website in <a
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling">this
+GitHub repository</a>. The main landing page is found in the file
+<code>index.html</code> which has been generated from the file
+<code>index.Rmd</code>.</p>
+<p>We are requiring you to interact with the course website in this way
+because being able to document reproducible analyses is a valuable skill
+that is becoming nearly required for today’s ecologists. As analyses
+become more complex and specialized, code review, in addition to open
+access to data, is likely to become a regular aspect of formal and
+informal scientific review. Documenting your analyses in R markdown with
+RStudio is a (relatively) painless way to ensure that you (and your
+reviewers) understand how you obtained and analyzed your data even after
+months of putting a project “on the back burner”. Therefore, we hope
+that you will find this additional class requirement useful even as it
+introduces a bit more cognitive burden.</p>
+<p>You have two options for editing the content of the course
+webpage:</p>
 <ol style="list-style-type: decimal">
-<li>Describe a set of 7 - 10 hypotheses (i.e., models comprised of
-combinations of covariates) that will allow you to compare patch
-vs. landscape explanations for variation in patch use of woodland birds,
-and estimate the best scale for landscape effects.</li>
-<li>Fit your selected models to the data using binomial generalized
-linear models (GLMs) for at least two bird species. I recommend using
-grcu (Grey Currawong), silv (Silvereye), or yfhe (Yellow faced
-Honeyeater) – at first glance they appear to have something interesting
-to say with this limited dataset.</li>
-<li>Use AICc – based model selection to compare your approximating
-models with each other, and draw conclusions about the relative
-importance of patch vs. landscape effects for the species you
-considered.</li>
-<li>Calculate a model averaged estimate for one or more of the
-biologically important parameters in your models. For example, the
-effect of patch area (PA) is directly relevant to estimating the effects
-of proposed land use changes (e.g. vegetation clearance) on bird
-species.</li>
-<li>Create model ranking tables (AICc tables) and create “marginal
-effects” plots for the model-averaged parameters from question #4.
-Marginal effects tells us how the response variable changes when a
-specific predictor variable changes. Other covariates held constant
-(e.g., at zero, at their means, etc.). There are multiple ways to
-generate marginal effects plots (e.g., ggeffects R package, use the base
-R package ‘predict’ function), but make sure the confidence interval
-calculations are correct (Hint: you may want to revisit Question #6 from
-Homework #1 for this).</li>
-<li>Interpret the results of your model selection and model
-averaging.</li>
+<li>Use git on your computer to interface with the files on GitHub.</li>
+<li>Download the .Rmd files from GitHub, edit them on your computer and
+email them to Jes.</li>
 </ol>
+<!-- Today we will learn option 2 and there will be an optional session on Wednesday of Week 2 for anyone who wishes to learn how to use git for option 1. These two options are summarized on the [Editing the Course Website](file:///C:/Users/jrcoyle/Documents/Stanford/BIO202/GitHub/00-computer-setup.html#editing_the_course_website) section of the Computer Setup page on the course website. -->
+<div id="downloading-files-from-github" class="section level4">
+<h4>Downloading files from GitHub</h4>
+<p>Go to the <a
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling">course
+website GitHub repository</a>. Notice that you can choose to download
+all of the files as a zip file by clicking the green “Clone or download”
+button in the upper right. You will only need to edit one (or a few)
+pages, so let’s just download one file rather than the whole website.
+Click on the R markdown file corresponding to the example lesson
+template: <code>00-example-lesson.Rmd</code>, then click the ‘Raw’
+button that appears at the top right corner of the document viewer on
+the page that loads. This will take you to a page that displays the text
+in the file. Download the page as a .Rmd file (remove the .txt extension
+that your browser will attempt to append) and save it somewhere useful
+on your computer (e.g. the folder you have made for this class, not
+Downloads or Desktop). Find the file on your computer and open it. It
+should open in RStudio.</p>
+<blockquote>
+<p><strong>Exercise:</strong></p>
+<p>Compare the contents of the .Rmd file to what you see on the course
+website: <a
+href="http://fukamilab.github.io/BIO202/00-example-lesson.html"
+class="uri">http://fukamilab.github.io/BIO202/00-example-lesson.html</a>
+.</p>
+<ul>
+<li>What is the same?</li>
+<li>What is different?</li>
+</ul>
+</blockquote>
+</div>
+</div>
+<div id="structure-of-a-rmd-document" class="section level3">
+<h3>Structure of a Rmd document</h3>
+<p>R markdown files have three main pieces:</p>
+<ol style="list-style-type: decimal">
+<li>A header that tells the program how to read the document.</li>
+<li>Text with markdown-style formatting.</li>
+<li>Code chunks that conduct the analysis.</li>
+</ol>
+<blockquote>
+<p><strong>Exercise:</strong></p>
+<p>Find each of these three pieces in the example lesson document.</p>
+</blockquote>
+<p>You will not need to edit the header for any of the course webpages,
+other than to add you name to the list of authors. Check out the
+following resources if you are interested in generating your own
+markdown documents from scratch and want to learn more about how to
+change the format of the output document:</p>
+<ul>
+<li><a href="http://rmarkdown.rstudio.com/lesson-1.html">RStudio’s
+lessons on using R markdown</a></li>
+<li><a
+href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">Reference
+guide</a></li>
+<li>Busy, but printable <a
+href="https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf">cheatsheet</a></li>
+</ul>
+<div id="markdown-style-text" class="section level4">
+<h4>Markdown-style text</h4>
+<p>Markdown is a basic and readable way to format text that is used by
+many web platforms because it enables to easily make web-based content
+without writing html. Most importantly- it is a way to encode formatting
+directly into the text, which can then be interpretted into multiple
+different document formats. Markdown keeps documents text-based so that
+files are readable by both humans and machines.</p>
+<p>Here’s <a
+href="https://guides.github.com/features/mastering-markdown/">a quick
+lesson</a> on markdown from GitHub.</p>
+<blockquote>
+<p><strong>Exercise:</strong> Look at the Introduction to R lesson .Rmd
+file and find examples of the following formatting:</p>
+<ul>
+<li>a header (what controls the size of the header?)</li>
+<li>bold text and italic text</li>
+<li>a list</li>
+<li>a numbered list</li>
+<li>text that links to a webpage</li>
+<li>text formatted as code that is not evaluated (verbatim code)</li>
+</ul>
+</blockquote>
+<p>R markdown also allows you to type latex-style mathematical formulas
+using <code>$ $</code> for inline text and <code>$$  $$</code> for for
+equations centered on their own lines. For example:
+<code>$$ E(X) = \sum_{i=1}^N x_i*p(x_i)$$</code> would display as: <span
+class="math display">\[ E(X) = \sum_{i=1}^N x_i*p(x_i)\]</span></p>
+</div>
+<div id="code-chunks" class="section level4">
+<h4>Code chunks</h4>
+<p>Code chunks perform the analysis. Code chunks begin with
+<code>```{}</code> and end with <code>```</code>. Any text inside the
+<code>{}</code> at the beginning of the chunk tells R how to evaluate
+and display the results of the code. Since we will be using R to
+evaluate our code, all of our code chunks will begin with:
+<code>```{r}</code>. You can name code chunks (to keep track of parts of
+an analysis) by typing a word after the <code>r</code>:
+<code>```{r chunk-name}</code> Any text that you place between the
+beginning and ending tags of a code chunk will be treated as plain R
+code. Code chunks are evaluated sequentially, so any objects that you
+create in a chunk will be available to the chunks that follow it.</p>
+<p>You can also evaluate R code within a paragraph of text (e.g. inline
+code). For example, suppose you know that you weigh 142 lbs, but want to
+report it in kg. If you had done the calculation in a code chunk:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>my_lbs <span class="ot">&lt;-</span> <span class="dv">142</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>my_kg <span class="ot">&lt;-</span> my_lbs <span class="sc">*</span> <span class="fl">0.45359237</span></span></code></pre></div>
+<p>You could write: I weigh <code>`r my_kg`</code> kg. Which would
+display: I weigh 64.4101165 kg. Or, for better formatting: I weigh
+<code>`r round(my_kg, 1)`</code> kg. (Displays: I weigh 64.4 kg.) If you
+hadn’t done the calculation in a code chunk you can also do calculation
+in the line: I weigh <code>`r round(142*0.453, 1)`</code> kg.</p>
+</div>
+</div>
+<div id="conducting-analyses-in-rmd" class="section level3">
+<h3>Conducting analyses in Rmd</h3>
+<p>You can treat R markdown files (almost) just like a regular R script.
+Any text that you highlight or line that you place your cursor on can be
+run by pressing Ctr+Enter or Cmd+Enter. You can also run an entire code
+chunk by pressing the green arrow that appears to the right of it.</p>
+<p>If you click the ‘Run’ button at the top of the document you can
+choose to run all code chunks in the document (or just those above or
+below your cursor).</p>
+<blockquote>
+<p><strong>Exercise:</strong></p>
+<p>Run a line of code in the example lesson Rmd file. What happens in
+the Console window? What happens in the Environment window?</p>
+<p>Now try running a line of text from this document. What happens?</p>
+<p>What happens when you use the ‘Run’ button to run all code chunks in
+the document?</p>
+</blockquote>
+</div>
+<div id="rendering-rmd-to-html" class="section level3">
+<h3>Rendering Rmd to html</h3>
+<p>When you are finished with an analysis (or even if you are only
+part-way through) you can convert your Rmd file to another file format
+to generate a report. This process is called <em>rendering</em> and we
+will be rendering all of our Rmd files to html so that they can display
+as webpages on our course website. For your project, you may want to
+render your analysis to a slide show (beamer) or pdf or word
+document.</p>
+<p>Documents written in R markdown are rendered to other document
+formats by the <code>rmarkdown</code> package that comes automatically
+installed with RStudio. The rmarkdown package renders documents using
+two steps: First, it excutes all of the code using functions from the
+<code>knitr</code> package. Then, it converts the output of the code and
+any markdown-formatted text to a new document format using functions in
+the <code>pandoc</code> package. Note that any output that you generate
+in the code chunks (e.g. plots, exported data) will be saved relative to
+the working directory, unless you specify otherwise in a code chunk
+option.</p>
+<p>To render an Rmd document in Rstudio, click the ‘Knit’ button at the
+top of the window displaying the document. If everything goes right a
+new window should pop up showing the new file that was generated (or
+prompt you to open the file in a browser window). The file will be saved
+in the directory where the Rmd file is located.</p>
+<blockquote>
+<p><strong>Exercise:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Render the example lesson Rmd file to an html file in RStudio by
+clicking the Knit button.</li>
+<li>Use your file browser to locate the html file that was generated.
+Open it with your browser- what do you see? How does it differ from what
+is displayed <a
+href="https://livinglandscapes.github.io/Course_EcologicalModeling/00-example-lesson.html">on
+the course website</a>?</li>
+<li>Now open the html file with a text editor (emacs, notepad). What do
+you see?</li>
+</ol>
+</blockquote>
+<div id="code-chunk-options" class="section level4">
+<h4>Code chunk options</h4>
+<p>The way that pandoc displays the contents and output of code chunks
+is determined by the <em>options</em> that you set. These can be set for
+all code chunks in the document (<em>global</em> options) or for each
+chunk individually.</p>
+<p>This <a
+href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">reference
+guide</a> has a good overview of what the different options will do.</p>
+<p>Look at the first code chunk in the example lesson Rmd document where
+the global options are set. This code block demonstrates 3 global
+options that apply to all following code chunks in the document:
+<code>knitr::opts_chunk$set()</code>. It also shows how you would apply
+an options to a single code chunk in the brackets at the start of the
+chunk: <code>{r include = FALSE}</code>, so that this chunk is not shown
+in the resulting html document, even though it is evaluated.</p>
+<blockquote>
+<p><strong>Exercise:</strong></p>
+<p>What other chunk options do you see in the example lesson Rmd file?
+What do they do? (Hint: You can figure it out by removing them and
+rendering the document.)</p>
+</blockquote>
+</div>
+<div id="figures" class="section level4">
+<h4>Figures</h4>
+<p>Any figure that you make in a code chunk will by default be saved as
+separate files in your working directory and then imported into the
+final document created by <code>pandoc</code>. In our class webpages,
+the first code chunk specifies:
+<code>knitr::opts_chunk$set(fig.path = "images/")</code>, which tells
+<code>knitr</code> that it should save any figures generated with code
+chunks to a folder named “images” within the working directory. The
+image files will be named according to the name of the code chunk from
+which they are generated. Hence, it is a good idea to separate analyses
+into separate code chunks and give them somewhat descriptive names. R
+markdown can also automatically number and caption your figures and
+tables. The <a
+href="https://cran.r-project.org/web/packages/captioner/vignettes/using_captioner.html"><code>captioner</code></a>
+package is particularly useful for this.</p>
+<blockquote>
+<p><strong>Exercise:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Add a new section to the example lesson Rmd document with
+markdown-formatted text and a new R code chunk. Render the document
+again.</li>
+<li>Open the html file with your web browser to see what your changes
+would look like online. How does what you see differ from what is shown
+at <a href="https://fukamilab.github.io/BIO202/00-example-lesson.html"
+class="uri">https://fukamilab.github.io/BIO202/00-example-lesson.html</a>
+?</li>
+</ol>
+</blockquote>
+</div>
 </div>
 
 
