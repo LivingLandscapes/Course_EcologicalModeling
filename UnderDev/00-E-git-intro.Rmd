@@ -44,7 +44,7 @@ Anyone on the internet can see and download files from a GitHub repository (unle
 
 #### Creating a GitHub account
 
-In order to use GitHub you will first need to create an account and give yourself a username so that you can create and work on projects. Go to https://github.com/ and on the main screen choose a username and password. You will need to check your email to confirm your regsitration. 
+In order to use GitHub you will first need to create an account and give yourself a username so that you can create and work on projects. Go to https://github.com/ and on the main screen choose a username and password. You will need to check your email to confirm your registration. 
 
 Once you have registered an logged in using your new username and password you can get started. GitHub provides a nice tutorial on creating a new project repository [here](https://guides.github.com/activities/hello-world/). Feel free to try out this tutorial on your own to learn how to make a repository for your class project.
 
