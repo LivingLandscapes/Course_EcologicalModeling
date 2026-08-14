@@ -13,7 +13,7 @@
 
 <title>Generalized Linear Mixed Models</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -54,8 +54,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,7 +67,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -420,6 +421,21 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-computer-setup.html">Computer setup</a>
+    </li>
+    <li>
+      <a href="00-E-git-intro.html">Git Intro</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Data Exploration
      
     <span class="caret"></span>
@@ -597,7 +613,7 @@ very large values.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">hist</span>(ecervi<span class="sc">$</span>Ecervi,</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of L1 E. cervi&quot;</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>The response variable is continuous, so we need to do some data
 manipulation in order to get presence/absence data. This is one way to
 handle highly skewed data like this. While we’re doing that, we’ll make
@@ -621,7 +637,7 @@ probability of presence for an average size deer.</p>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> fSex) <span class="sc">+</span> </span>
 <span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 <p>One issue that can affect a binomial model is called “complete
 separation”. This arises when one predictor is a “perfect” predictor of
 presence or absence. There is a value above which there are only
@@ -680,35 +696,35 @@ length could vary by farm.</p>
 ## Formula: Ecervi.pa ~ fSex * cLength + (1 + fSex * cLength | Farm)
 ##    Data: ecervi
 ## 
-##      AIC      BIC   logLik deviance df.resid 
-##    841.9    907.9   -406.9    813.9      812 
+##       AIC       BIC    logLik -2*log(L)  df.resid 
+##     841.9     907.9    -406.9     813.9       812 
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
 ## -5.7870 -0.5971  0.2498  0.4947  3.1101 
 ## 
 ## Random effects:
-##  Groups Name               Variance Std.Dev. Corr             
-##  Farm   (Intercept)        2.163852 1.47100                   
-##         fSexFemale         0.228874 0.47841  -0.06            
-##         cLength            0.001641 0.04051   0.58  0.09      
-##         fSexFemale:cLength 0.001296 0.03600  -0.48  0.66 -0.69
+##  Groups Name               Variance Std.Dev. Corr              
+##  Farm   (Intercept)        2.163852 1.47100                    
+##         fSexFemale         0.228874 0.47841  -0.06             
+##         cLength            0.001641 0.04051   0.58  0.09       
+##         fSexFemale:cLength 0.001296 0.03600  -0.48  0.66 -0.69 
 ## Number of obs: 826, groups:  Farm, 24
 ## 
 ## Fixed effects:
-##                    Estimate Std. Error z value Pr(&gt;|z|)   
-## (Intercept)         1.08697    0.35723   3.043  0.00234 **
-## fSexFemale          0.65000    0.33597   1.935  0.05303 . 
-## cLength             0.04370    0.01329   3.289  0.00101 **
-## fSexFemale:cLength  0.03521    0.01782   1.976  0.04820 * 
+##                    Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         1.08697    0.35096   3.097 0.001954 ** 
+## fSexFemale          0.65000    0.29683   2.190 0.028541 *  
+## cLength             0.04370    0.01270   3.440 0.000583 ***
+## fSexFemale:cLength  0.03521    0.01657   2.126 0.033541 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) fSxFml cLngth
-## fSexFemale  -0.246              
-## cLength      0.325  0.036       
-## fSxFml:cLng -0.191  0.526 -0.578
+## fSexFemale  -0.222              
+## cLength      0.317  0.073       
+## fSxFml:cLng -0.169  0.484 -0.574
 ## optimizer (Nelder_Mead) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <p>That model fails to converge. Asking for the sex by length
@@ -762,10 +778,10 @@ that allow fSex or csLength to vary across farms.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Get residuals with DHARMa: QQ plot and residuals vs. predicted</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>simulationOutput_LF <span class="ot">&lt;-</span> </span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> M0_LF, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Plot residuals vs. group--farm in this case</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">plotResiduals</span>(simulationOutput_LF, <span class="at">form =</span> ecervi<span class="sc">$</span>Farm)</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-10-2.png" alt="" width="672" /></p>
 <p>The QQ plot, tests, and residuals vs. predicted plots look fine, but
 there appear to be issues with heteroscedasticity across farms.
 <strong>On your own, check the residuals for the “SF” model, including
@@ -869,7 +885,7 @@ setting <code>re.form=~0</code>.</p>
 <span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
 <span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;t&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, <span class="sc">!</span>Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;b&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-16-1.png" alt="" width="672" /></p>
 <p>These lines represent the effect of length and sex for a typical
 farm.</p>
 <p>Now, here’s an interesting challenge: <strong>On your
@@ -907,93 +923,68 @@ seconds, this routine will take 500 times as long to complete! You will
 also probably see warnings about convergence failures – all this reminds
 us that we’re out on the bleeding edge of computational statistics
 here.</p>
-</div>
-<div id="profile-and-wald-intervals" class="section level4">
-<h4>Profile and Wald intervals</h4>
-<p>Profile intervals are also good, slow, but not as bad as
-bootstrap.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># profile limits</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>topmod.profCI <span class="ot">&lt;-</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">confint</span>(topmod, <span class="at">method =</span> <span class="st">&quot;profile&quot;</span>, <span class="at">oldNames =</span> <span class="cn">FALSE</span>)) </span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co"># Wald limits</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>topmod.WaldCI <span class="ot">&lt;-</span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">confint</span>(topmod, <span class="at">method =</span> <span class="st">&quot;Wald&quot;</span>, <span class="at">oldNames =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co"># get rid of rownames</span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="fu">rownames</span>(topmod.profCI) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="fu">rownames</span>(topmod.WaldCI) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a></span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co"># and change names to include type of CI</span></span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="fu">names</span>(topmod.profCI) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Profile_CI2.5&quot;</span>, <span class="st">&quot;Profile_CI97.5&quot;</span>)</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="fu">names</span>(topmod.WaldCI) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Wald_CI2.5&quot;</span>, <span class="st">&quot;Wald_CI97.5&quot;</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="co"># Get the coefficients from the top model, add the Wald and profile intervals,</span></span>
-<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="co"># do some data manipulation to prepare for ggplot.</span></span>
-<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>topmod.CI <span class="ot">&lt;-</span> </span>
-<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>  broom.mixed<span class="sc">::</span><span class="fu">tidy</span>(topmod) <span class="sc">%&gt;%</span> <span class="co"># add the profile intervals -- confint() uses a different order from tidy() </span></span>
-<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>  <span class="fu">cbind</span>(topmod.profCI[<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>),],</span>
-<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>        topmod.WaldCI[<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>),]) <span class="sc">%&gt;%</span></span>
-<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">c</span>(term, estimate, Profile_CI2<span class="fl">.5</span>, </span>
-<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a>                  Profile_CI97<span class="fl">.5</span>, Wald_CI2<span class="fl">.5</span>, Wald_CI97<span class="fl">.5</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(Profile_CI2<span class="fl">.5</span><span class="sc">:</span>Wald_CI97<span class="fl">.5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a>  <span class="fu">separate_wider_delim</span>(<span class="at">cols =</span> <span class="st">&quot;name&quot;</span>,</span>
-<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a>                       <span class="at">delim =</span> <span class="st">&quot;_&quot;</span>,</span>
-<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>                       <span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;type&quot;</span>, <span class="st">&quot;level&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Estimate =</span> estimate, <span class="at">Type =</span> type, <span class="at">Term =</span> term) <span class="sc">%&gt;%</span></span>
-<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(Term, Estimate, Type),</span>
-<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a>              <span class="at">names_from =</span> level, </span>
-<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a>              <span class="at">values_from =</span> value)</span>
-<span id="cb19-32"><a href="#cb19-32" tabindex="-1"></a></span>
-<span id="cb19-33"><a href="#cb19-33" tabindex="-1"></a><span class="co"># Plot the profile and Wald confidence intervals on coefficients.</span></span>
-<span id="cb19-34"><a href="#cb19-34" tabindex="-1"></a><span class="fu">ggplot</span>(topmod.CI, </span>
-<span id="cb19-35"><a href="#cb19-35" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Term, </span>
-<span id="cb19-36"><a href="#cb19-36" tabindex="-1"></a>           <span class="at">y =</span> Estimate, </span>
-<span id="cb19-37"><a href="#cb19-37" tabindex="-1"></a>           <span class="at">color =</span> Type)) <span class="sc">+</span></span>
-<span id="cb19-38"><a href="#cb19-38" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-39"><a href="#cb19-39" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>),</span>
-<span id="cb19-40"><a href="#cb19-40" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb19-41"><a href="#cb19-41" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI2<span class="fl">.5</span>, </span>
-<span id="cb19-42"><a href="#cb19-42" tabindex="-1"></a>                    <span class="at">ymax =</span> CI97<span class="fl">.5</span>), </span>
-<span id="cb19-43"><a href="#cb19-43" tabindex="-1"></a>                <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>),</span>
-<span id="cb19-44"><a href="#cb19-44" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
-<span id="cb19-45"><a href="#cb19-45" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">yIntercept =</span> <span class="dv">0</span>),</span>
-<span id="cb19-46"><a href="#cb19-46" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">yintercept =</span> yIntercept),</span>
-<span id="cb19-47"><a href="#cb19-47" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-48"><a href="#cb19-48" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey60&quot;</span>),</span>
-<span id="cb19-49"><a href="#cb19-49" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
-<span id="cb19-50"><a href="#cb19-50" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Term&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-51"><a href="#cb19-51" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Coefficient Estimate&quot;</span>)</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>It can be hard to see what is going on unless you use the “zoom” to
-make this plot large enough for the term names to not overlap. So the
-intervals for the intercept and sex effects are pretty close to the
-“simple” Wald intervals. The intervals for csLength and the interaction
-are longer with profile intervals, but at least they still exclude zero.
-In addition, the profile method gives us intervals on the variance
-parameters as well.</p>
-<p>The reason it is hard to get confidence intervals on predictions is
-because of the uncertainty in the variance parameters, which can be
-substantial. The correlation coefficient includes zero, for example.
-This makes sense, as the 2nd best model was a model that assumed the
-random effects were uncorrelated.</p>
-</div>
-<div id="but-what-the-heck-is-a-profile-limit" class="section level4">
-<h4>But what the heck <em>IS</em> a profile limit?</h4>
-<p>The basic idea is best illustrated with a figure showing how the
-log-likelihood of a model changes as one of the parameter values is
-changed.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># get a profile for the fixed effect csLength</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>lengthProf <span class="ot">&lt;-</span> <span class="fu">profile</span>(topmod, <span class="at">which=</span><span class="st">&quot;csLength&quot;</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">xyplot</span>(lengthProf, <span class="at">absVal=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="05-B-Generalized-Linear-Mixed-Models_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<p>The x-axis on that figure are values of the coefficient csLength. The
-y-axis is a measure of the change in deviance as the coefficient is
-moved away from the maximum likelihood estimate (the peak at the
-bottom). The vertical and horizontal lines indicate 50%, 80%, 90%, 95%,
-and 99% confidence intervals. As the parameter value moves away from the
-MLE, the model’s log-likehood gets worse. Particular points along that
-profile correspond to different critical points on chisquare
-distribution with one degree of freedom.</p>
+<!-- #### Profile and Wald intervals -->
+<!-- Profile intervals are also good, slow, but not as bad as bootstrap. -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # profile limits -->
+<!-- topmod.profCI <- -->
+<!--   as.data.frame(confint(topmod, method = "profile", oldNames = FALSE))  -->
+<!-- # Wald limits -->
+<!-- topmod.WaldCI <- -->
+<!--   as.data.frame(confint(topmod, method = "Wald", oldNames = FALSE)) -->
+<!-- # get rid of rownames -->
+<!-- rownames(topmod.profCI) <- NULL -->
+<!-- rownames(topmod.WaldCI) <- NULL -->
+<!-- # and change names to include type of CI -->
+<!-- names(topmod.profCI) <- c("Profile_CI2.5", "Profile_CI97.5") -->
+<!-- names(topmod.WaldCI) <- c("Wald_CI2.5", "Wald_CI97.5") -->
+<!-- # Get the coefficients from the top model, add the Wald and profile intervals, -->
+<!-- # do some data manipulation to prepare for ggplot. -->
+<!-- topmod.CI <-  -->
+<!--   broom.mixed::tidy(topmod) %>% # add the profile intervals -- confint() uses a different order from tidy()  -->
+<!--   cbind(topmod.profCI[c(4:7,1,3,2),], -->
+<!--         topmod.WaldCI[c(4:7,1,3,2),]) %>% -->
+<!--   dplyr::select(c(term, estimate, Profile_CI2.5,  -->
+<!--                   Profile_CI97.5, Wald_CI2.5, Wald_CI97.5)) %>% -->
+<!--   pivot_longer(Profile_CI2.5:Wald_CI97.5) %>% -->
+<!--   separate_wider_delim(cols = "name", -->
+<!--                        delim = "_", -->
+<!--                        names = c("type", "level")) %>% -->
+<!--   rename(Estimate = estimate, Type = type, Term = term) %>% -->
+<!--   pivot_wider(id_cols = c(Term, Estimate, Type), -->
+<!--               names_from = level,  -->
+<!--               values_from = value) -->
+<!-- # Plot the profile and Wald confidence intervals on coefficients. -->
+<!-- ggplot(topmod.CI,  -->
+<!--        aes(x = Term,  -->
+<!--            y = Estimate,  -->
+<!--            color = Type)) + -->
+<!--   scale_color_viridis_d(option = "plasma") + -->
+<!--   geom_point(position = position_dodge(width = 0.5), -->
+<!--              size = 3) + -->
+<!--   geom_errorbar(aes(ymin = CI2.5,  -->
+<!--                     ymax = CI97.5),  -->
+<!--                 position = position_dodge(width = 0.5), -->
+<!--                 width = 0.2) +  -->
+<!--   geom_hline(data = data.frame(yIntercept = 0), -->
+<!--              mapping = aes(yintercept = yIntercept), -->
+<!--              color = "darkred") + -->
+<!--   theme(panel.background = element_rect(fill = "grey60"), -->
+<!--         panel.grid.minor = element_blank()) +  -->
+<!--   xlab("Term") + -->
+<!--   ylab("Coefficient Estimate") -->
+<!-- ``` -->
+<!-- It can be hard to see what is going on unless you use the "zoom" to make this plot large enough for the term names to not overlap. -->
+<!-- So the intervals for the intercept and sex effects are pretty close to the "simple" Wald intervals. The intervals for csLength and the interaction are longer with profile intervals, but at least they still exclude zero. In addition, the profile method gives us intervals on the variance parameters as well.  -->
+<!-- The reason it is hard to get confidence intervals on predictions is because of the uncertainty in the variance parameters, which can be substantial. The correlation coefficient includes zero, for example. This makes sense, as the 2nd best model was a model that assumed the random effects were uncorrelated. -->
+<!-- #### But what the heck *IS* a profile limit? -->
+<!-- The basic idea is best illustrated with a figure showing how the log-likelihood of a model changes as one of the parameter values is changed. -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # get a profile for the fixed effect csLength -->
+<!-- lengthProf <- profile(topmod, which="csLength") -->
+<!-- xyplot(lengthProf, absVal=TRUE) -->
+<!-- ``` -->
+<!-- The x-axis on that figure are values of the coefficient csLength. The y-axis is a measure of the change in deviance as the coefficient is moved away from the maximum likelihood estimate (the peak at the bottom). The vertical and horizontal lines indicate 50%, 80%, 90%, 95%, and 99% confidence intervals. As the parameter value moves away from the MLE, the model's log-likehood gets worse. Particular points along that profile correspond to different critical points on chisquare distribution with one degree of freedom.  -->
 </div>
 </div>
 </div>
