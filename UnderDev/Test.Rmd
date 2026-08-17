@@ -1,5 +1,5 @@
 ---
-layout: topic
+layout: topic   Michael Ferrara
 title: "Testing git stuff"
 output: html_document
 ---
