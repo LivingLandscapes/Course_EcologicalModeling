@@ -42,7 +42,7 @@ We'll continue to look at Linear and Generalized linear mixed effects models, em
 # List of packages necessary to run this script:
 require(librarian, quietly = TRUE)
 library(librarian)
-shelf(tidyverse, broom.mixed, broom, lme4, boot, snow, here,
+shelf(tidyverse, broom.mixed, broom, lme4, boot, snow, here, parallel,
       lib = tempdir())
 
 # Set seed
@@ -122,7 +122,7 @@ nd <- data.frame(Days=0:9)
 # ~0 says ignore them; population level predictions
 nd$PopPred <- predict(ss.mm, newdata=nd, re.form=~0)
 ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted, alpha=0.5) + 
-  geom_line(aes(y=PopPred), data=nd, size=2) +
+  geom_line(aes(y=PopPred), data=nd, linewidth =2) +
   guides(color=FALSE)
 ```
 
@@ -157,9 +157,9 @@ test <- bootMer(ss.mm, myFunc)
 test$t #works
 ```
 
-OK, this next bit takes a while ... about 1 minute on my (old) home computer
+OK, this next bit takes a while ... about 10 ten seconds on my laptop
 ```{r bigBoot, include = TRUE, eval = TRUE, message = FALSE}
-bigBoot <- bootMer(ss.mm, myFunc, nsim=1000)
+bigBoot <- bootMer(ss.mm, myFunc, nsim=100)
 head(bigBoot$t)
 ```
 
@@ -283,103 +283,111 @@ ggplot(nd, aes(x=csLength, y=pp, col=fSex)) +
 
 OK, now we want to do the bootstrap. But fitting this model already is slow, so doing it 1000 times is even slower! Bootstrapping is one of the things that benefits from parallel computing very easily. The bit of code below sets up a "cluster" on my computer and splits the computation up 4 ways. 4 times faster. Most modern CPU's have multiple cores that can run independently. In normal operation R uses just one core. Depending on how many cores your computer has, running this code in parallel could speed up this computation by a lot. 
 
-```{r bigBoot2, include = TRUE, eval = TRUE, message = FALSE}
-
-# Make the cluster
-cl <- makeCluster(4, type = "SOCK")
-
-# Export to the cluster
-clusterEvalQ(cl, library("lme4"))
-clusterExport(cl, list("myFunc", "M0", "cl"))
-
-# now we pass the cluster object to bootMer
-# note that I can use the same myFunc!
-bigBoot2 <- bootMer(M0, myFunc, nsim = 100,
-                    parallel = "snow",
-                    cl = cl)
-stopCluster(cl) # takes a long time ...
-
-# # Without running parallel
-# bigBoot2 <- bootMer(M0, myFunc, nsim=100)
 
 
-```
+<!-- ```{r bigBoot2, include = TRUE, eval = TRUE, message = FALSE} -->
 
-```{r calculateEnvelope, include = TRUE, eval = TRUE, message = FALSE}
+<!-- # Make the cluster -->
+<!-- cl <- parallel::makeCluster(4, type = "SOCK") -->
 
-# the object returned by bootMer is of type boot
-# and there are some useful functions there.
-envPred <- boot::envelope(bigBoot2)
-str(envPred)
-```
+<!-- # Export to the cluster -->
+<!-- clusterEvalQ(cl, library("lme4")) -->
+<!-- clusterExport(cl, varlist = c("myFunc", "M0", "cl", "nd")) -->
 
-The matrix `point` in there is the "pointwise" 95% confidence intervals for each of the 40 rows in `nd`. The error rate for those intervals is 5% on each value, which means that 24% of the points will be outside the interval over the entire curve. The matrix `overall` expands those limits until the number of points over the entire curve is 5%. Time to add these to a plot. First we have to get them into the nd data.frame.
+<!-- # now we pass the cluster object to bootMer -->
+<!-- # note that I can use the same myFunc! -->
+<!-- bigBoot2 <- bootMer(x = M0,  -->
+<!--                     FUN = myFunc,  -->
+<!--                     parallel = "snow", -->
+<!--                     use.u = FALSE,  -->
+<!--                     type = "parametric", -->
+<!--                     # ncpus = 2, -->
+<!--                     nsim = 50, -->
+<!--                     cl = cl) -->
 
-```{r plotEnvelope, include = TRUE, eval = TRUE, message = FALSE}
-nd$lower.point <- envPred$point[1,]
-nd$upper.point <- envPred$point[2,]
-ggplot(nd, aes(x=csLength, y=pp, col=fSex)) +
-  geom_line(alpha=0.5) +
-   ylab("Probability of E. cervi infection") +
-  geom_line(aes(x=csLength, y=pp, col=fSex), data=nd, inherit.aes = FALSE, size=2) +
-  geom_ribbon(aes(x=csLength, ymin=lower.point, ymax=upper.point, fill=fSex), 
-              data=nd, inherit.aes=FALSE,
-              alpha = 0.25) +
-  facet_wrap(~fSex) +
-  guides(color=FALSE)
+<!-- stopCluster(cl) # can take a while -->
 
-```
+<!-- # # Without running parallel -->
+<!-- # bigBoot2 <- bootMer(M0, myFunc, nsim=50) -->
 
-OK. That's not right! Look at the range, those values go from -5 to nearly 8. They can't be probabilities.
 
-And in fact they aren't. Back when we created `myFunc()`, we just used `predict()` without specifying the argument `type` (think back to Homework #1 `glm()` fits). By default, `predict()` produces values on the link scale, the scale of the linear predictor part of the model. But we want to plot probabilities, so we have two choices.
+<!-- ``` -->
 
-1) change myFunc to use `type="response"` and rerun `bootMer()`
-2) transform the link scale values to probabilities with the logistic function.
+<!-- ```{r calculateEnvelope, include = TRUE, eval = TRUE, message = FALSE} -->
 
-I'm going with (2), because it took a while to do (1) the first time.
+<!-- # the object returned by bootMer is of type boot -->
+<!-- # and there are some useful functions there. -->
+<!-- envPred <- boot::envelope(boot.out = bigBoot2) -->
+<!-- str(envPred) -->
+<!-- ``` -->
 
-```{r secondTry, include = TRUE, eval = TRUE, message = FALSE}
-# boot::inv.logit() does the job
-nd$lower.point <- inv.logit(envPred$point[1,])
-nd$upper.point <- inv.logit(envPred$point[2,])
+<!-- The matrix `point` in there is the "pointwise" 95% confidence intervals for each of the 40 rows in `nd`. The error rate for those intervals is 5% on each value, which means that 24% of the points will be outside the interval over the entire curve. The matrix `overall` expands those limits until the number of points over the entire curve is 5%. Time to add these to a plot. First we have to get them into the nd data.frame. -->
 
-# Make the bootstrap object into a nice data.frame for ggplot
-bigboot2_df <- 
-  as.data.frame(apply(bigBoot2$t, 1, inv.logit)) %>%
-  cbind(nd %>% dplyr::select(c("csLength", "fSex"))) %>%
-  pivot_longer(cols = starts_with("V"),
-               names_to = "Sample",
-               values_to = "Estimate")
+<!-- ```{r plotEnvelope, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- nd$lower.point <- envPred$point[1,] -->
+<!-- nd$upper.point <- envPred$point[2,] -->
+<!-- ggplot(nd, aes(x=csLength, y=pp, col=fSex)) + -->
+<!--   geom_line(alpha=0.5) + -->
+<!--    ylab("Probability of E. cervi infection") + -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex), data=nd, inherit.aes = FALSE, size=2) + -->
+<!--   geom_ribbon(aes(x=csLength, ymin=lower.point, ymax=upper.point, fill=fSex),  -->
+<!--               data=nd, inherit.aes=FALSE, -->
+<!--               alpha = 0.25) + -->
+<!--   facet_wrap(~fSex) + -->
+<!--   guides(color=FALSE) -->
 
-# Create a prediction with all bootstrap samples similar to Shipley et al. (2022)
-ggplot() +
-  # and don't forget to change alpha
-  geom_line(aes(x=csLength, y=lower.point, color=fSex), 
-              data=nd, 
-            linetype = 2,
-              linewidth = 1,
-              inherit.aes=FALSE, 
-              alpha=0.75) +
-    geom_line(aes(x=csLength, y=upper.point, color=fSex), 
-              data=nd, 
-              linetype = 2,
-              linewidth = 1,
-              inherit.aes=FALSE, 
-              alpha=0.75) +
-  geom_line(data = bigboot2_df,
-            aes(x = csLength, y = Estimate, group = Sample),
-            color = "grey70",
-            alpha = 0.5) + 
-  geom_line(aes(x=csLength, y=pp, col=fSex),
-            data = nd,
-            alpha=0.5) +
-   ylab("Probability of E. cervi infection") +
-  geom_line(aes(x=csLength, y=pp, col=fSex), 
-            data = nd, 
-            inherit.aes = FALSE, 
-            linewidth = 1.5) +
-  facet_wrap(~fSex) +
-  guides(color=FALSE, fill=FALSE)
+<!-- ``` -->
 
-```
+<!-- OK. That's not right! Look at the range, those values go from -5 to nearly 8. They can't be probabilities. -->
+
+<!-- And in fact they aren't. Back when we created `myFunc()`, we just used `predict()` without specifying the argument `type` (think back to Homework #1 `glm()` fits). By default, `predict()` produces values on the link scale, the scale of the linear predictor part of the model. But we want to plot probabilities, so we have two choices. -->
+
+<!-- 1) change myFunc to use `type="response"` and rerun `bootMer()` -->
+<!-- 2) transform the link scale values to probabilities with the logistic function. -->
+
+<!-- I'm going with (2), because it took a while to do (1) the first time. -->
+
+<!-- ```{r secondTry, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # boot::inv.logit() does the job -->
+<!-- nd$lower.point <- inv.logit(envPred$point[1,]) -->
+<!-- nd$upper.point <- inv.logit(envPred$point[2,]) -->
+
+<!-- # Make the bootstrap object into a nice data.frame for ggplot -->
+<!-- bigboot2_df <-  -->
+<!--   as.data.frame(apply(bigBoot2$t, 1, inv.logit)) %>% -->
+<!--   cbind(nd %>% dplyr::select(c("csLength", "fSex"))) %>% -->
+<!--   pivot_longer(cols = starts_with("V"), -->
+<!--                names_to = "Sample", -->
+<!--                values_to = "Estimate") -->
+
+<!-- # Create a prediction with all bootstrap samples similar to Shipley et al. (2022) -->
+<!-- ggplot() + -->
+<!--   # and don't forget to change alpha -->
+<!--   geom_line(aes(x=csLength, y=lower.point, color=fSex),  -->
+<!--               data=nd,  -->
+<!--             linetype = 2, -->
+<!--               linewidth = 1, -->
+<!--               inherit.aes=FALSE,  -->
+<!--               alpha=0.75) + -->
+<!--     geom_line(aes(x=csLength, y=upper.point, color=fSex),  -->
+<!--               data=nd,  -->
+<!--               linetype = 2, -->
+<!--               linewidth = 1, -->
+<!--               inherit.aes=FALSE,  -->
+<!--               alpha=0.75) + -->
+<!--   geom_line(data = bigboot2_df, -->
+<!--             aes(x = csLength, y = Estimate, group = Sample), -->
+<!--             color = "grey70", -->
+<!--             alpha = 0.5) +  -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex), -->
+<!--             data = nd, -->
+<!--             alpha=0.5) + -->
+<!--    ylab("Probability of E. cervi infection") + -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex),  -->
+<!--             data = nd,  -->
+<!--             inherit.aes = FALSE,  -->
+<!--             linewidth = 1.5) + -->
+<!--   facet_wrap(~fSex) + -->
+<!--   guides(color=FALSE, fill=FALSE) -->
+
+<!-- ``` -->

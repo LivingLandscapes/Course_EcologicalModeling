@@ -13,7 +13,7 @@
 
 <title>Confidence Intervals for Mixed Models</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -54,8 +54,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,7 +67,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -420,6 +421,21 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-computer-setup.html">Computer setup</a>
+    </li>
+    <li>
+      <a href="00-E-git-intro.html">Git Intro</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Data Exploration
      
     <span class="caret"></span>
@@ -566,56 +582,53 @@ width="600" />
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(librarian)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, broom.mixed, broom, lme4, boot, snow, here,</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span></code></pre></div>
-<pre><code>## package &#39;snow&#39; successfully unpacked and MD5 sums checked
-## 
-## The downloaded binary packages are in
-##  C:\Users\cr065\AppData\Local\Temp\RtmpgfBDT0\downloaded_packages</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Set seed</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7871</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="fu">read.table</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;/data/DeerEcervi.txt&quot;</span>), </span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>             <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, broom.mixed, broom, lme4, boot, snow, here, parallel,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Set seed</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7871</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> </span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="fu">read.table</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;/data/DeerEcervi.txt&quot;</span>), </span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>             <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="confidence-intervals-for-lmms" class="section level2">
 <h2>Confidence intervals for LMMs</h2>
 <p>We’ll start with something easy - a linear mixed effects model with
 the sleepstudy data.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>ssBase <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction)) <span class="sc">+</span> </span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Subject)) <span class="sc">+</span> </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>() <span class="sc">+</span> </span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Days with no sleep&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Reaction time [ms]&quot;</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>)<span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Subject) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/PrepareData-1.png" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>ssBase <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction)) <span class="sc">+</span> </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Subject)) <span class="sc">+</span> </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>() <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Days with no sleep&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Reaction time [ms]&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>)<span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Subject) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/PrepareData-1.png" alt="" width="672" /></p>
 <p>So there’s the basic data, and now we fit a mixed model with both the
 intercept and Days varying across subjects.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># fit a mixed model</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">summary</span>(ss.mm <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject),</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                      sleepstudy,<span class="at">REML=</span><span class="cn">FALSE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># fit a mixed model</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">summary</span>(ss.mm <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject),</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                      sleepstudy,<span class="at">REML=</span><span class="cn">FALSE</span>))</span></code></pre></div>
 <pre><code>## Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (1 + Days | Subject)
 ##    Data: sleepstudy
 ## 
-##      AIC      BIC   logLik deviance df.resid 
-##   1763.9   1783.1   -876.0   1751.9      174 
+##       AIC       BIC    logLik -2*log(L)  df.resid 
+##    1763.9    1783.1    -876.0    1751.9       174 
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
 ## -3.9416 -0.4656  0.0289  0.4636  5.1793 
 ## 
 ## Random effects:
-##  Groups   Name        Variance Std.Dev. Corr
-##  Subject  (Intercept) 565.48   23.780       
-##           Days         32.68    5.717   0.08
-##  Residual             654.95   25.592       
+##  Groups   Name        Variance Std.Dev. Corr 
+##  Subject  (Intercept) 565.48   23.780        
+##           Days         32.68    5.717   0.08 
+##  Residual             654.95   25.592        
 ## Number of obs: 180, groups:  Subject, 18
 ## 
 ## Fixed effects:
@@ -628,17 +641,17 @@ intercept and Days varying across subjects.</p>
 ## Days -0.138</code></pre>
 <p>Let’s check the profile confidence limits on the estimates before we
 look at getting confidence limits on predictions.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># remember this is SLOOOOW</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#ss.parms &lt;- tidy(ss.mm, conf.int=TRUE, conf.method=&quot;profile&quot;)</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># unfortunately tidy.merMod doesn&#39;t do profile intervals</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">confint</span>(ss.mm, <span class="at">oldNames =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<pre><code>##                                    2.5 %      97.5 %
-## sd_(Intercept)|Subject        14.3814916  37.7160187
-## cor_Days.(Intercept)|Subject  -0.4815004   0.6849861
-## sd_Days|Subject                3.8011648   8.7533667
-## sigma                         22.8982662  28.8579973
-## (Intercept)                  237.6806955 265.1295147
-## Days                           7.3586533  13.5759187</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># remember this is SLOOOOW</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#ss.parms &lt;- tidy(ss.mm, conf.int=TRUE, conf.method=&quot;profile&quot;)</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># unfortunately tidy.merMod doesn&#39;t do profile intervals</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">confint</span>(ss.mm, <span class="at">oldNames =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>##                                    2.5 %     97.5 %
+## sd_(Intercept)|Subject        14.3813951  37.715952
+## sd_Days|Subject                3.8011648   8.752802
+## cor_Days.(Intercept)|Subject  -0.4815007   0.684986
+## sigma                         22.8982661  28.857997
+## (Intercept)                  237.6806955 265.129515
+## Days                           7.3586533  13.575919</code></pre>
 <p>So the most interesting thing here is that the confidence limit for
 the correlation coefficient includes 0. The other thing to recognize is
 that all of the variance parameters are uncertain as well. Even the
@@ -656,9 +669,9 @@ parameters are uncertain would increase the width of the confidence
 intervals on our predictions.</p>
 <p>First I want to make a plot that has both the population level fitted
 values and the subject level lines. This is going to get messy.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># get fitted values</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>ss.fitted <span class="ot">&lt;-</span> broom.mixed<span class="sc">::</span><span class="fu">augment</span>(ss.mm)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">names</span>(ss.fitted)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># get fitted values</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>ss.fitted <span class="ot">&lt;-</span> broom.mixed<span class="sc">::</span><span class="fu">augment</span>(ss.mm)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">names</span>(ss.fitted)</span></code></pre></div>
 <pre><code>##  [1] &quot;Reaction&quot; &quot;Days&quot;     &quot;Subject&quot;  &quot;.fitted&quot;  &quot;.resid&quot;   &quot;.hat&quot;    
 ##  [7] &quot;.cooksd&quot;  &quot;.fixed&quot;   &quot;.mu&quot;      &quot;.offset&quot;  &quot;.sqrtXwt&quot; &quot;.sqrtrwt&quot;
 ## [13] &quot;.weights&quot; &quot;.wtres&quot;</code></pre>
@@ -670,22 +683,22 @@ default logit link for the binomial family) <code>.fixed</code> will be
 on the <em>link</em> scale, and <code>.mu</code> will be on the
 <em>response</em> scale. We’ll come back to that in the next
 example.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># x is inherited from ssBase</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># if we don&#39;t specify color=Subject in geom_line()</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># we only get one line ... oh, because I specified color=Subject</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># in geom_points() not ggplot()</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject), <span class="at">data=</span>ss.fitted) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/messyPlot1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># x is inherited from ssBase</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># if we don&#39;t specify color=Subject in geom_line()</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># we only get one line ... oh, because I specified color=Subject</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># in geom_points() not ggplot()</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject), <span class="at">data=</span>ss.fitted) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/messyPlot1-1.png" alt="" width="672" /></p>
 <p>So each line represents the fitted values including the effects of
 the random perturbations on the intercept and slope. Now get the
 population level predictions using predict() and a new data.frame.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Days=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co"># re.form tells predict what to do with the random effects</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co"># ~0 says ignore them; population level predictions</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>nd<span class="sc">$</span>PopPred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ss.mm, <span class="at">newdata=</span>nd, <span class="at">re.form=</span><span class="sc">~</span><span class="dv">0</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject), <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Days=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># re.form tells predict what to do with the random effects</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># ~0 says ignore them; population level predictions</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>nd<span class="sc">$</span>PopPred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ss.mm, <span class="at">newdata=</span>nd, <span class="at">re.form=</span><span class="sc">~</span><span class="dv">0</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject), <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">linewidth =</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <div class="figure">
 <img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/popPredictions-1.png" alt="Reaction time as a function of days without sleep. Fine lines are subject level fitted values, thick black line is the population level prediction." width="672" />
 <p class="caption">
@@ -703,12 +716,12 @@ model to that new data. Repeat that 1000’s of times and you can get a
 distribution of possible model fits. Unfortunately we have to write a
 function to extract the predictions from the random samples the way we
 want them. Start by getting a single random sample.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># bootMer takes a fitted merMod object</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># then the function that takes a fitted merMod object and returns the thing we want as a vector</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># fitted() will give us the coefficients from a fit</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, fixef)</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># a (fairly) compact look at the *str*ucture of an object</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">str</span>(test)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># bootMer takes a fitted merMod object</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># then the function that takes a fitted merMod object and returns the thing we want as a vector</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># fitted() will give us the coefficients from a fit</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, fixef)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># a (fairly) compact look at the *str*ucture of an object</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">str</span>(test)</span></code></pre></div>
 <pre><code>## List of 10
 ##  $ t0       : Named num [1:2] 251.4 10.5
 ##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;(Intercept)&quot; &quot;Days&quot;
@@ -771,8 +784,8 @@ us a vector of the fixed effects coefficients. <code>t</code> is a
 matrix of the simulation output. In each row is the result of our FUN
 applied to a simulated result. By default <code>bootMer</code> only does
 one simulation. If we want more:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, fixef, <span class="at">nsim=</span><span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>test<span class="sc">$</span>t</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, fixef, <span class="at">nsim=</span><span class="dv">10</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>test<span class="sc">$</span>t</span></code></pre></div>
 <pre><code>##       (Intercept)      Days
 ##  [1,]    253.6133 11.429613
 ##  [2,]    240.6025 10.097065
@@ -792,75 +805,75 @@ makes a prediction from a fitted model. Just using
 <code>predict()</code> won’t work, because the function only takes one
 argument, the fitted model. So we have to make a “wrapper” that will
 call <code>predict()</code> with the right arguments.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>myFunc <span class="ot">&lt;-</span> <span class="cf">function</span>(mm){</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="co"># forgot the re.form argument on first try</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">predict</span>(mm, <span class="at">newdata=</span>nd, <span class="at">re.form=</span><span class="sc">~</span><span class="dv">0</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>}</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">myFunc</span>(ss.mm) <span class="co"># works</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>myFunc <span class="ot">&lt;-</span> <span class="cf">function</span>(mm){</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="co"># forgot the re.form argument on first try</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">predict</span>(mm, <span class="at">newdata=</span>nd, <span class="at">re.form=</span><span class="sc">~</span><span class="dv">0</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>}</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">myFunc</span>(ss.mm) <span class="co"># works</span></span></code></pre></div>
 <pre><code>##        1        2        3        4        5        6        7        8 
 ## 251.4051 261.8724 272.3397 282.8070 293.2742 303.7415 314.2088 324.6761 
 ##        9       10 
 ## 335.1434 345.6107</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># try with bootMer()</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, myFunc)</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>test<span class="sc">$</span>t <span class="co">#works</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># try with bootMer()</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, myFunc)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>test<span class="sc">$</span>t <span class="co">#works</span></span></code></pre></div>
 <pre><code>##            1        2        3        4        5       6        7        8
 ## [1,] 256.399 265.7822 275.1654 284.5486 293.9318 303.315 312.6982 322.0814
 ##             9       10
 ## [1,] 331.4646 340.8478</code></pre>
-<p>OK, this next bit takes a while … about 1 minute on my (old) home
-computer</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>bigBoot <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, myFunc, <span class="at">nsim=</span><span class="dv">1000</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">head</span>(bigBoot<span class="sc">$</span>t)</span></code></pre></div>
+<p>OK, this next bit takes a while … about 10 ten seconds on my
+laptop</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>bigBoot <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(ss.mm, myFunc, <span class="at">nsim=</span><span class="dv">100</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">head</span>(bigBoot<span class="sc">$</span>t)</span></code></pre></div>
 <pre><code>##             1        2        3        4        5        6        7        8
-## [1,] 240.5466 250.0874 259.6282 269.1690 278.7099 288.2507 297.7915 307.3323
-## [2,] 251.5451 261.2985 271.0518 280.8051 290.5585 300.3118 310.0651 319.8184
-## [3,] 257.8782 268.9857 280.0932 291.2008 302.3083 313.4158 324.5233 335.6309
-## [4,] 257.9161 267.2057 276.4954 285.7851 295.0748 304.3645 313.6542 322.9438
-## [5,] 259.9344 272.1300 284.3256 296.5212 308.7168 320.9124 333.1080 345.3036
-## [6,] 253.6331 263.4394 273.2457 283.0520 292.8583 302.6647 312.4710 322.2773
+## [1,] 250.4695 258.5733 266.6771 274.7809 282.8847 290.9885 299.0923 307.1961
+## [2,] 253.0480 261.3757 269.7033 278.0310 286.3586 294.6862 303.0139 311.3415
+## [3,] 253.9247 266.9440 279.9634 292.9828 306.0022 319.0215 332.0409 345.0603
+## [4,] 251.3297 261.2839 271.2381 281.1923 291.1465 301.1006 311.0548 321.0090
+## [5,] 257.3137 269.6384 281.9631 294.2878 306.6124 318.9371 331.2618 343.5865
+## [6,] 257.0421 267.0787 277.1152 287.1517 297.1882 307.2247 317.2613 327.2978
 ##             9       10
-## [1,] 316.8732 326.4140
-## [2,] 329.5718 339.3251
-## [3,] 346.7384 357.8459
-## [4,] 332.2335 341.5232
-## [5,] 357.4992 369.6948
-## [6,] 332.0836 341.8899</code></pre>
+## [1,] 315.2999 323.4037
+## [2,] 319.6691 327.9968
+## [3,] 358.0797 371.0990
+## [4,] 330.9632 340.9174
+## [5,] 355.9112 368.2359
+## [6,] 337.3343 347.3708</code></pre>
 <p>Now we want quantiles of each column of that thing, turned around so
 the columns are rows like the original <code>nd</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># apply(xx, MARGIN = 2, FUN, ...) &#39;applies&#39; FUN to each column (because MARGIN = 2). arguments in ... get passed to FUN</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="co"># t() transposes the result</span></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>predCL <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(bigBoot<span class="sc">$</span>t, <span class="at">MARGIN =</span> <span class="dv">2</span>, </span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>                  <span class="at">FUN =</span> quantile, </span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>                  <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))</span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co"># ggplot only works with data.frames so</span></span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co"># add to nd</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co"># &#39;%&#39; in column names is a disaster so be explicit</span></span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>nd<span class="sc">$</span>lci <span class="ot">&lt;-</span> predCL[,<span class="dv">1</span>]</span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>nd<span class="sc">$</span>uci <span class="ot">&lt;-</span> predCL[,<span class="dv">2</span>]</span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a></span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject), <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>lci, <span class="at">ymax=</span>uci),</span>
-<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/getQuantiles-1.png" width="672" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># apply(xx, MARGIN = 2, FUN, ...) &#39;applies&#39; FUN to each column (because MARGIN = 2). arguments in ... get passed to FUN</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co"># t() transposes the result</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>predCL <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(bigBoot<span class="sc">$</span>t, <span class="at">MARGIN =</span> <span class="dv">2</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>                  <span class="at">FUN =</span> quantile, </span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>                  <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co"># ggplot only works with data.frames so</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co"># add to nd</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co"># &#39;%&#39; in column names is a disaster so be explicit</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>nd<span class="sc">$</span>lci <span class="ot">&lt;-</span> predCL[,<span class="dv">1</span>]</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>nd<span class="sc">$</span>uci <span class="ot">&lt;-</span> predCL[,<span class="dv">2</span>]</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject), <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>lci, <span class="at">ymax=</span>uci),</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/getQuantiles-1.png" alt="" width="672" /></p>
 <p>So that’s pretty nice. I can add a geom_smooth() to show how much
 wider the confidence intervals are compared to ignoring all the extra
 variability.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject),</span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>                   <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="co"># set inherit.aes to FALSE here otherwise </span></span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="co"># geom_ribbon looks for a y aesthetic </span></span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>  <span class="co"># called Reaction</span></span>
-<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>lci, <span class="at">ymax=</span>uci),</span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">alpha=</span><span class="fl">0.8</span>, </span>
-<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>              <span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>ssBase <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject),</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>                   <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="co"># set inherit.aes to FALSE here otherwise </span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="co"># geom_ribbon looks for a y aesthetic </span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="co"># called Reaction</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>lci, <span class="at">ymax=</span>uci),</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">alpha=</span><span class="fl">0.8</span>, </span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>              <span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <div class="figure">
 <img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/compareRibbons-1.png" alt="Reaction time as a function of days without sleep. Fine lines are subject level fits, thick line is population level prediction. The outer ribbon are bootstrapped 95% confidence limits. The inner ribbon is a 95% confidence limit ignoring between subject variation and random effects uncertainty." width="672" />
 <p class="caption">
@@ -874,43 +887,43 @@ uncertainty.
 <p>It is interesting that there isn’t much difference when Days == 0.
 Note that you wouldn’t ever do this in practice! However, it might be
 nice to build a few polygons at different levels of confidence.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>predCL <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(bigBoot<span class="sc">$</span>t, <span class="at">MARGIN =</span> <span class="dv">2</span>, </span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>                  <span class="at">FUN =</span> quantile, </span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>                  <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, </span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>                          <span class="fl">0.1</span>, <span class="fl">0.9</span>, </span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>                          <span class="fl">0.25</span>, <span class="fl">0.75</span>)))</span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co"># try making it into a dataframe</span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>predCL <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(predCL)</span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co"># names(predCL)</span></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co"># so puts a X at the front bc can&#39;t start with a number, </span></span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co"># and replaces % with . </span></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co"># put them into nd</span></span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(nd, predCL)</span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="co"># brute force multi-ribbons:</span></span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>ssBase <span class="sc">+</span> </span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject),</span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>                   <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a>  <span class="co"># set inherit.aes to FALSE here otherwise </span></span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>  <span class="co"># geom_ribbon looks for a y aesthetic </span></span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>  <span class="co"># called Reaction</span></span>
-<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>lci, <span class="at">ymax=</span>uci),</span>
-<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a>  <span class="co"># add 90% ribbon</span></span>
-<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>X5., <span class="at">ymax=</span>X95.),</span>
-<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb25-27"><a href="#cb25-27" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb25-28"><a href="#cb25-28" tabindex="-1"></a>  <span class="co"># add 80% ribbon</span></span>
-<span id="cb25-29"><a href="#cb25-29" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>X10., <span class="at">ymax=</span>X90.),</span>
-<span id="cb25-30"><a href="#cb25-30" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb25-31"><a href="#cb25-31" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb25-32"><a href="#cb25-32" tabindex="-1"></a>  <span class="co"># add 50% ribbon</span></span>
-<span id="cb25-33"><a href="#cb25-33" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>X25., <span class="at">ymax=</span>X75.),</span>
-<span id="cb25-34"><a href="#cb25-34" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb25-35"><a href="#cb25-35" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb25-36"><a href="#cb25-36" tabindex="-1"></a></span>
-<span id="cb25-37"><a href="#cb25-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>predCL <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(bigBoot<span class="sc">$</span>t, <span class="at">MARGIN =</span> <span class="dv">2</span>, </span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>                  <span class="at">FUN =</span> quantile, </span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>                  <span class="at">probs=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, </span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>                          <span class="fl">0.1</span>, <span class="fl">0.9</span>, </span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>                          <span class="fl">0.25</span>, <span class="fl">0.75</span>)))</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co"># try making it into a dataframe</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>predCL <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(predCL)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co"># names(predCL)</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co"># so puts a X at the front bc can&#39;t start with a number, </span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co"># and replaces % with . </span></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co"># put them into nd</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(nd, predCL)</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a><span class="co"># brute force multi-ribbons:</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>ssBase <span class="sc">+</span> </span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>.fitted, <span class="at">color=</span>Subject),</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>                   <span class="at">data=</span>ss.fitted, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>PopPred), <span class="at">data=</span>nd, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>  <span class="co"># set inherit.aes to FALSE here otherwise </span></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>  <span class="co"># geom_ribbon looks for a y aesthetic </span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>  <span class="co"># called Reaction</span></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>lci, <span class="at">ymax=</span>uci),</span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>  <span class="co"># add 90% ribbon</span></span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>X5., <span class="at">ymax=</span>X95.),</span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a>  <span class="co"># add 80% ribbon</span></span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>X10., <span class="at">ymax=</span>X90.),</span>
+<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb23-31"><a href="#cb23-31" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a>  <span class="co"># add 50% ribbon</span></span>
+<span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">ymin=</span>X25., <span class="at">ymax=</span>X75.),</span>
+<span id="cb23-34"><a href="#cb23-34" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb23-35"><a href="#cb23-35" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb23-36"><a href="#cb23-36" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <div class="figure">
 <img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/multiRibbons-1.png" alt="Adding multiple transparent ribbons to match 95%, 90%, 80% and 50% confidence limits." width="672" />
 <p class="caption">
@@ -925,33 +938,33 @@ confidence region.</p>
 <div id="doing-it-with-a-glmm" class="section level2">
 <h2>Doing it with a GLMM</h2>
 <p>So now we want to redo the deer model from last lab.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> ecervi <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ecervi.pa =</span> Ecervi <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>         <span class="at">fSex =</span> <span class="fu">factor</span>(Sex, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>,<span class="st">&quot;Female&quot;</span>)),</span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>         <span class="at">cLength =</span> Length <span class="sc">-</span> <span class="fu">mean</span>(Length),</span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>         <span class="at">csLength =</span> cLength <span class="sc">/</span> <span class="fu">sd</span>(Length))</span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a><span class="fu">contrasts</span>(ecervi<span class="sc">$</span>fSex) <span class="ot">&lt;-</span> <span class="fu">contr.sum</span>(<span class="dv">2</span>)</span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa<span class="sc">~</span>fSex<span class="sc">*</span>csLength<span class="sc">+</span>(<span class="dv">1</span> <span class="sc">+</span> csLength <span class="sc">|</span> Farm),</span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>            <span class="at">data=</span>ecervi,<span class="at">family=</span>binomial)</span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>lr <span class="ot">=</span> <span class="fu">range</span>(ecervi<span class="sc">$</span>csLength)</span>
-<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">csLength =</span> <span class="fu">seq</span>(lr[<span class="dv">1</span>], lr[<span class="dv">2</span>], <span class="at">length=</span><span class="dv">20</span>),</span>
-<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a>                  <span class="at">fSex=</span><span class="fu">factor</span>(<span class="fu">levels</span>(ecervi<span class="sc">$</span>fSex)))</span>
-<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a></span>
-<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a>nd<span class="sc">$</span>pp <span class="ot">=</span> <span class="fu">predict</span>(M0,<span class="at">newdata=</span>nd,</span>
-<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a>             <span class="at">type=</span><span class="st">&quot;response&quot;</span>, <span class="at">re.form=</span><span class="sc">~</span><span class="dv">0</span>)</span>
-<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a></span>
-<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a><span class="fu">ggplot</span>(nd, <span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex)) <span class="sc">+</span></span>
-<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
-<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex), <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">linewidth=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>    <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;t&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, <span class="sc">!</span>Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;b&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fSex) <span class="sc">+</span></span>
-<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>ecervi <span class="ot">&lt;-</span> ecervi <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ecervi.pa =</span> Ecervi <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>         <span class="at">fSex =</span> <span class="fu">factor</span>(Sex, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>,<span class="st">&quot;Female&quot;</span>)),</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>         <span class="at">cLength =</span> Length <span class="sc">-</span> <span class="fu">mean</span>(Length),</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>         <span class="at">csLength =</span> cLength <span class="sc">/</span> <span class="fu">sd</span>(Length))</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="fu">contrasts</span>(ecervi<span class="sc">$</span>fSex) <span class="ot">&lt;-</span> <span class="fu">contr.sum</span>(<span class="dv">2</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(Ecervi.pa<span class="sc">~</span>fSex<span class="sc">*</span>csLength<span class="sc">+</span>(<span class="dv">1</span> <span class="sc">+</span> csLength <span class="sc">|</span> Farm),</span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>            <span class="at">data=</span>ecervi,<span class="at">family=</span>binomial)</span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>lr <span class="ot">=</span> <span class="fu">range</span>(ecervi<span class="sc">$</span>csLength)</span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a>nd <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">csLength =</span> <span class="fu">seq</span>(lr[<span class="dv">1</span>], lr[<span class="dv">2</span>], <span class="at">length=</span><span class="dv">20</span>),</span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a>                  <span class="at">fSex=</span><span class="fu">factor</span>(<span class="fu">levels</span>(ecervi<span class="sc">$</span>fSex)))</span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a>nd<span class="sc">$</span>pp <span class="ot">=</span> <span class="fu">predict</span>(M0,<span class="at">newdata=</span>nd,</span>
+<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a>             <span class="at">type=</span><span class="st">&quot;response&quot;</span>, <span class="at">re.form=</span><span class="sc">~</span><span class="dv">0</span>)</span>
+<span id="cb24-18"><a href="#cb24-18" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" tabindex="-1"></a><span class="fu">ggplot</span>(nd, <span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex)) <span class="sc">+</span></span>
+<span id="cb24-20"><a href="#cb24-20" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb24-21"><a href="#cb24-21" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-22"><a href="#cb24-22" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex), <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">linewidth=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb24-23"><a href="#cb24-23" tabindex="-1"></a>    <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;t&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb24-24"><a href="#cb24-24" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength), <span class="at">data=</span><span class="fu">filter</span>(ecervi, <span class="sc">!</span>Ecervi.pa),<span class="at">sides=</span><span class="st">&quot;b&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb24-25"><a href="#cb24-25" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fSex) <span class="sc">+</span></span>
+<span id="cb24-26"><a href="#cb24-26" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>OK, now we want to do the bootstrap. But fitting this model already
 is slow, so doing it 1000 times is even slower! Bootstrapping is one of
 the things that benefits from parallel computing very easily. The bit of
@@ -960,132 +973,92 @@ up 4 ways. 4 times faster. Most modern CPU’s have multiple cores that
 can run independently. In normal operation R uses just one core.
 Depending on how many cores your computer has, running this code in
 parallel could speed up this computation by a lot.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Make the cluster</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="dv">4</span>, <span class="at">type =</span> <span class="st">&quot;SOCK&quot;</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co"># Export to the cluster</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="fu">clusterEvalQ</span>(cl, <span class="fu">library</span>(<span class="st">&quot;lme4&quot;</span>))</span></code></pre></div>
-<pre><code>## [[1]]
-##  [1] &quot;lme4&quot;      &quot;Matrix&quot;    &quot;snow&quot;      &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot;
-##  [7] &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[2]]
-##  [1] &quot;lme4&quot;      &quot;Matrix&quot;    &quot;snow&quot;      &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot;
-##  [7] &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[3]]
-##  [1] &quot;lme4&quot;      &quot;Matrix&quot;    &quot;snow&quot;      &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot;
-##  [7] &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;     
-## 
-## [[4]]
-##  [1] &quot;lme4&quot;      &quot;Matrix&quot;    &quot;snow&quot;      &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot;
-##  [7] &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;   &quot;base&quot;</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">clusterExport</span>(cl, <span class="fu">list</span>(<span class="st">&quot;myFunc&quot;</span>, <span class="st">&quot;M0&quot;</span>, <span class="st">&quot;cl&quot;</span>))</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co"># now we pass the cluster object to bootMer</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co"># note that I can use the same myFunc!</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>bigBoot2 <span class="ot">&lt;-</span> <span class="fu">bootMer</span>(M0, myFunc, <span class="at">nsim =</span> <span class="dv">100</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>                    <span class="at">parallel =</span> <span class="st">&quot;snow&quot;</span>,</span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>                    <span class="at">cl =</span> cl)</span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="fu">stopCluster</span>(cl) <span class="co"># takes a long time ...</span></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="co"># # Without running parallel</span></span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a><span class="co"># bigBoot2 &lt;- bootMer(M0, myFunc, nsim=100)</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># the object returned by bootMer is of type boot</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="co"># and there are some useful functions there.</span></span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>envPred <span class="ot">&lt;-</span> boot<span class="sc">::</span><span class="fu">envelope</span>(bigBoot2)</span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">str</span>(envPred)</span></code></pre></div>
-<pre><code>## List of 7
-##  $ point  : num [1:2, 1:40] -0.75 -4.355 -0.528 -3.885 -0.306 ...
-##   ..- attr(*, &quot;dimnames&quot;)=List of 2
-##   .. ..$ : NULL
-##   .. ..$ : chr [1:40] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
-##  $ overall: num [1:2, 1:40] -0.351 -4.511 -0.246 -3.972 -0.141 ...
-##   ..- attr(*, &quot;dimnames&quot;)=List of 2
-##   .. ..$ : NULL
-##   .. ..$ : chr [1:40] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
-##  $ k.pt   : num [1:2] 2 99
-##  $ err.pt : num [1:2] 0.0396 0.2376
-##  $ k.ov   : num [1:2] 1 100
-##  $ err.ov : num [1:2] 0.0198 0.1287
-##  $ err.nom: num [1:2] 0.05 0.05</code></pre>
-<p>The matrix <code>point</code> in there is the “pointwise” 95%
-confidence intervals for each of the 40 rows in <code>nd</code>. The
-error rate for those intervals is 5% on each value, which means that 24%
-of the points will be outside the interval over the entire curve. The
-matrix <code>overall</code> expands those limits until the number of
-points over the entire curve is 5%. Time to add these to a plot. First
-we have to get them into the nd data.frame.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>nd<span class="sc">$</span>lower.point <span class="ot">&lt;-</span> envPred<span class="sc">$</span>point[<span class="dv">1</span>,]</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>nd<span class="sc">$</span>upper.point <span class="ot">&lt;-</span> envPred<span class="sc">$</span>point[<span class="dv">2</span>,]</span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="fu">ggplot</span>(nd, <span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex)) <span class="sc">+</span></span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex), <span class="at">data=</span>nd, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">ymin=</span>lower.point, <span class="at">ymax=</span>upper.point, <span class="at">fill=</span>fSex), </span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>              <span class="at">data=</span>nd, <span class="at">inherit.aes=</span><span class="cn">FALSE</span>,</span>
-<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
-<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fSex) <span class="sc">+</span></span>
-<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/plotEnvelope-1.png" width="672" /></p>
-<p>OK. That’s not right! Look at the range, those values go from -5 to
-nearly 8. They can’t be probabilities.</p>
-<p>And in fact they aren’t. Back when we created <code>myFunc()</code>,
-we just used <code>predict()</code> without specifying the argument
-<code>type</code> (think back to Homework #1 <code>glm()</code> fits).
-By default, <code>predict()</code> produces values on the link scale,
-the scale of the linear predictor part of the model. But we want to plot
-probabilities, so we have two choices.</p>
-<ol style="list-style-type: decimal">
-<li>change myFunc to use <code>type="response"</code> and rerun
-<code>bootMer()</code></li>
-<li>transform the link scale values to probabilities with the logistic
-function.</li>
-</ol>
-<p>I’m going with (2), because it took a while to do (1) the first
-time.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># boot::inv.logit() does the job</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>nd<span class="sc">$</span>lower.point <span class="ot">&lt;-</span> <span class="fu">inv.logit</span>(envPred<span class="sc">$</span>point[<span class="dv">1</span>,])</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>nd<span class="sc">$</span>upper.point <span class="ot">&lt;-</span> <span class="fu">inv.logit</span>(envPred<span class="sc">$</span>point[<span class="dv">2</span>,])</span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co"># Make the bootstrap object into a nice data.frame for ggplot</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>bigboot2_df <span class="ot">&lt;-</span> </span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">apply</span>(bigBoot2<span class="sc">$</span>t, <span class="dv">1</span>, inv.logit)) <span class="sc">%&gt;%</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>  <span class="fu">cbind</span>(nd <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">c</span>(<span class="st">&quot;csLength&quot;</span>, <span class="st">&quot;fSex&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;V&quot;</span>),</span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;Sample&quot;</span>,</span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;Estimate&quot;</span>)</span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a><span class="co"># Create a prediction with all bootstrap samples similar to Shipley et al. (2022)</span></span>
-<span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb33-15"><a href="#cb33-15" tabindex="-1"></a>  <span class="co"># and don&#39;t forget to change alpha</span></span>
-<span id="cb33-16"><a href="#cb33-16" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>lower.point, <span class="at">color=</span>fSex), </span>
-<span id="cb33-17"><a href="#cb33-17" tabindex="-1"></a>              <span class="at">data=</span>nd, </span>
-<span id="cb33-18"><a href="#cb33-18" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="dv">2</span>,</span>
-<span id="cb33-19"><a href="#cb33-19" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
-<span id="cb33-20"><a href="#cb33-20" tabindex="-1"></a>              <span class="at">inherit.aes=</span><span class="cn">FALSE</span>, </span>
-<span id="cb33-21"><a href="#cb33-21" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb33-22"><a href="#cb33-22" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>upper.point, <span class="at">color=</span>fSex), </span>
-<span id="cb33-23"><a href="#cb33-23" tabindex="-1"></a>              <span class="at">data=</span>nd, </span>
-<span id="cb33-24"><a href="#cb33-24" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="dv">2</span>,</span>
-<span id="cb33-25"><a href="#cb33-25" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
-<span id="cb33-26"><a href="#cb33-26" tabindex="-1"></a>              <span class="at">inherit.aes=</span><span class="cn">FALSE</span>, </span>
-<span id="cb33-27"><a href="#cb33-27" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb33-28"><a href="#cb33-28" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> bigboot2_df,</span>
-<span id="cb33-29"><a href="#cb33-29" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> csLength, <span class="at">y =</span> Estimate, <span class="at">group =</span> Sample),</span>
-<span id="cb33-30"><a href="#cb33-30" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;grey70&quot;</span>,</span>
-<span id="cb33-31"><a href="#cb33-31" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb33-32"><a href="#cb33-32" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex),</span>
-<span id="cb33-33"><a href="#cb33-33" tabindex="-1"></a>            <span class="at">data =</span> nd,</span>
-<span id="cb33-34"><a href="#cb33-34" tabindex="-1"></a>            <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb33-35"><a href="#cb33-35" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Probability of E. cervi infection&quot;</span>) <span class="sc">+</span></span>
-<span id="cb33-36"><a href="#cb33-36" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>csLength, <span class="at">y=</span>pp, <span class="at">col=</span>fSex), </span>
-<span id="cb33-37"><a href="#cb33-37" tabindex="-1"></a>            <span class="at">data =</span> nd, </span>
-<span id="cb33-38"><a href="#cb33-38" tabindex="-1"></a>            <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb33-39"><a href="#cb33-39" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb33-40"><a href="#cb33-40" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fSex) <span class="sc">+</span></span>
-<span id="cb33-41"><a href="#cb33-41" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="cn">FALSE</span>, <span class="at">fill=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="05-C-Confidence-Intervals-Mixed-Models_files/figure-html/secondTry-1.png" width="672" /></p>
+<!-- ```{r bigBoot2, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # Make the cluster -->
+<!-- cl <- parallel::makeCluster(4, type = "SOCK") -->
+<!-- # Export to the cluster -->
+<!-- clusterEvalQ(cl, library("lme4")) -->
+<!-- clusterExport(cl, varlist = c("myFunc", "M0", "cl", "nd")) -->
+<!-- # now we pass the cluster object to bootMer -->
+<!-- # note that I can use the same myFunc! -->
+<!-- bigBoot2 <- bootMer(x = M0,  -->
+<!--                     FUN = myFunc,  -->
+<!--                     parallel = "snow", -->
+<!--                     use.u = FALSE,  -->
+<!--                     type = "parametric", -->
+<!--                     # ncpus = 2, -->
+<!--                     nsim = 50, -->
+<!--                     cl = cl) -->
+<!-- stopCluster(cl) # can take a while -->
+<!-- # # Without running parallel -->
+<!-- # bigBoot2 <- bootMer(M0, myFunc, nsim=50) -->
+<!-- ``` -->
+<!-- ```{r calculateEnvelope, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # the object returned by bootMer is of type boot -->
+<!-- # and there are some useful functions there. -->
+<!-- envPred <- boot::envelope(boot.out = bigBoot2) -->
+<!-- str(envPred) -->
+<!-- ``` -->
+<!-- The matrix `point` in there is the "pointwise" 95% confidence intervals for each of the 40 rows in `nd`. The error rate for those intervals is 5% on each value, which means that 24% of the points will be outside the interval over the entire curve. The matrix `overall` expands those limits until the number of points over the entire curve is 5%. Time to add these to a plot. First we have to get them into the nd data.frame. -->
+<!-- ```{r plotEnvelope, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- nd$lower.point <- envPred$point[1,] -->
+<!-- nd$upper.point <- envPred$point[2,] -->
+<!-- ggplot(nd, aes(x=csLength, y=pp, col=fSex)) + -->
+<!--   geom_line(alpha=0.5) + -->
+<!--    ylab("Probability of E. cervi infection") + -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex), data=nd, inherit.aes = FALSE, size=2) + -->
+<!--   geom_ribbon(aes(x=csLength, ymin=lower.point, ymax=upper.point, fill=fSex),  -->
+<!--               data=nd, inherit.aes=FALSE, -->
+<!--               alpha = 0.25) + -->
+<!--   facet_wrap(~fSex) + -->
+<!--   guides(color=FALSE) -->
+<!-- ``` -->
+<!-- OK. That's not right! Look at the range, those values go from -5 to nearly 8. They can't be probabilities. -->
+<!-- And in fact they aren't. Back when we created `myFunc()`, we just used `predict()` without specifying the argument `type` (think back to Homework #1 `glm()` fits). By default, `predict()` produces values on the link scale, the scale of the linear predictor part of the model. But we want to plot probabilities, so we have two choices. -->
+<!-- 1) change myFunc to use `type="response"` and rerun `bootMer()` -->
+<!-- 2) transform the link scale values to probabilities with the logistic function. -->
+<!-- I'm going with (2), because it took a while to do (1) the first time. -->
+<!-- ```{r secondTry, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # boot::inv.logit() does the job -->
+<!-- nd$lower.point <- inv.logit(envPred$point[1,]) -->
+<!-- nd$upper.point <- inv.logit(envPred$point[2,]) -->
+<!-- # Make the bootstrap object into a nice data.frame for ggplot -->
+<!-- bigboot2_df <-  -->
+<!--   as.data.frame(apply(bigBoot2$t, 1, inv.logit)) %>% -->
+<!--   cbind(nd %>% dplyr::select(c("csLength", "fSex"))) %>% -->
+<!--   pivot_longer(cols = starts_with("V"), -->
+<!--                names_to = "Sample", -->
+<!--                values_to = "Estimate") -->
+<!-- # Create a prediction with all bootstrap samples similar to Shipley et al. (2022) -->
+<!-- ggplot() + -->
+<!--   # and don't forget to change alpha -->
+<!--   geom_line(aes(x=csLength, y=lower.point, color=fSex),  -->
+<!--               data=nd,  -->
+<!--             linetype = 2, -->
+<!--               linewidth = 1, -->
+<!--               inherit.aes=FALSE,  -->
+<!--               alpha=0.75) + -->
+<!--     geom_line(aes(x=csLength, y=upper.point, color=fSex),  -->
+<!--               data=nd,  -->
+<!--               linetype = 2, -->
+<!--               linewidth = 1, -->
+<!--               inherit.aes=FALSE,  -->
+<!--               alpha=0.75) + -->
+<!--   geom_line(data = bigboot2_df, -->
+<!--             aes(x = csLength, y = Estimate, group = Sample), -->
+<!--             color = "grey70", -->
+<!--             alpha = 0.5) +  -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex), -->
+<!--             data = nd, -->
+<!--             alpha=0.5) + -->
+<!--    ylab("Probability of E. cervi infection") + -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex),  -->
+<!--             data = nd,  -->
+<!--             inherit.aes = FALSE,  -->
+<!--             linewidth = 1.5) + -->
+<!--   facet_wrap(~fSex) + -->
+<!--   guides(color=FALSE, fill=FALSE) -->
+<!-- ``` -->
 </div>
 
 

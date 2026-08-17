@@ -13,7 +13,7 @@
 
 <title>Homework 5</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -54,8 +54,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,7 +67,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -420,6 +421,21 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="00-computer-setup.html">Computer setup</a>
+    </li>
+    <li>
+      <a href="00-E-git-intro.html">Git Intro</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Data Exploration
      
     <span class="caret"></span>
@@ -618,30 +634,14 @@ your probability distribution choices, choices on priors, etc.</li>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      palmerpenguins, </span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      here,</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      brms,</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## package &#39;StanHeaders&#39; successfully unpacked and MD5 sums checked
-## package &#39;inline&#39; successfully unpacked and MD5 sums checked
-## package &#39;RcppParallel&#39; successfully unpacked and MD5 sums checked
-## package &#39;pkgbuild&#39; successfully unpacked and MD5 sums checked
-## package &#39;QuickJSR&#39; successfully unpacked and MD5 sums checked
-## package &#39;desc&#39; successfully unpacked and MD5 sums checked
-## package &#39;ggridges&#39; successfully unpacked and MD5 sums checked
-## package &#39;mvtnorm&#39; successfully unpacked and MD5 sums checked
-## package &#39;Brobdingnag&#39; successfully unpacked and MD5 sums checked
-## package &#39;rstan&#39; successfully unpacked and MD5 sums checked
-## package &#39;loo&#39; successfully unpacked and MD5 sums checked
-## package &#39;rstantools&#39; successfully unpacked and MD5 sums checked
-## package &#39;bayesplot&#39; successfully unpacked and MD5 sums checked
-## package &#39;bridgesampling&#39; successfully unpacked and MD5 sums checked
-## package &#39;future.apply&#39; successfully unpacked and MD5 sums checked
-## package &#39;nleqslv&#39; successfully unpacked and MD5 sums checked
-## package &#39;brms&#39; successfully unpacked and MD5 sums checked</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Read in a data file</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&#39;palmerpenguins&#39;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Read in a data file</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&#39;palmerpenguins&#39;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 
 

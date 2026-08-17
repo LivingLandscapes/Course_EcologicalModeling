@@ -84,6 +84,7 @@ Let's load the data and join the two files:
 # List of packages necessary to run this script:
 require(librarian, quietly = TRUE)
 shelf(tidyverse, 
+      map_data,
       mgcv, # For checking model convergence
       MuMIn, # for model selection
       gratia, # for ggplot functionality with mgcv
