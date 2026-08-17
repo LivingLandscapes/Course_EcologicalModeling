@@ -8,11 +8,11 @@ navbar:
           href: 00-computer-setup.html
         - text: "Introduction to R and RStudio"
           href: 00-A-R-intro.html
-        - text: "Introduction to R and RStudio"
-          href: 00-B-Rmarkdown-intro.html
         - text: "Introduction to Rmarkdown"
+          href: 00-B-Rmarkdown-intro.html
+        - text: "Git"
           href: 00-E-git-intro.html
-        - text: "tidyr"
+        - text: "Coding crash course"
           href: 00-D-tidyr.html
     - text: "Data Exploration"
       menu:
