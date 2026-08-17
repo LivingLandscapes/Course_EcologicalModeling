@@ -477,18 +477,20 @@ href="https://www.rstudio.com/resources/cheatsheets/">cheatsheets</a> on
 data management and visualization with ggplot2 and tidyr. You may want
 to view or print one or several of them.</p>
 </blockquote>
-<div id="before-class" class="section level3">
-<h3>Before Class</h3>
+<div id="before-class" class="section level2">
+<h2>Before Class</h2>
 <p>Download <a
 href="https://github.com/LivingLandscapes/Course_EcologicalModeling/blob/master/code/00-D-tidyr-exercise-code.R">this
 R script</a> and save it in your code folder in the research project you
-created on the first day of class. You will need to click the ‘Raw’
-button and then download the text file that appears. Be sure to remove
-the .txt extension that may have been added when you saved the file to
-your computer so that the file ends in .R. You may want to run the first
-part of the script that downloads the data to be sure that there will be
-no issues with data access during class.</p>
+created. You will need to click the ‘Raw’ button and then download the
+text file that appears. Be sure to remove the .txt extension that may
+have been added when you saved the file to your computer so that the
+file ends in .R. You may want to run the first part of the script that
+downloads the data to be sure that there will be no issues with data
+access during class.</p>
 </div>
+<div id="tidyverse" class="section level2">
+<h2>tidyverse</h2>
 <div id="key-points" class="section level3">
 <h3>Key Points</h3>
 <ul>
@@ -497,14 +499,16 @@ attributes (variables) are in columns.</li>
 <li>The <code>dplyr</code> package contains functions for manipulating
 data:
 <ul>
-<li><code>spread</code> and <code>gather</code> change the format of
-data tables.</li>
+<li><code>pivot_longer</code> and <code>pivot_wider</code> change the
+format of data tables.</li>
 <li><code>separate_by_xxxx</code> and <code>unite</code> change the
 format of variables.</li>
 <li><code>filter</code> creates a subset of a data table.</li>
 <li><code>mutate</code> creates new variables.</li>
-<li><code>group_by</code> and <code>summarise</code> are used to
+<li><code>group_by</code> and <code>summarize</code> are used to
 summarize observations according to the values of their variables.</li>
+<li>joins (e.g., <code>left_join</code>) add columns from different
+tables, matching observations based on the keys.</li>
 </ul></li>
 <li>The pipe function <code>%&gt;%</code> is used to link several
 operations together (e.g. function composition).</li>
@@ -526,50 +530,96 @@ subsets.</li>
 <p>Open the R project that you created on the first day of class. Then
 when R Studio opens, open the R script file that you downloaded for
 today’s class (see above). This script downloads a data set from our
-course website and then proceeds to manipulate and summarise the data.
-These data contain three tables from the Winter 2016 BIO46 class on
-lichen microorganisms:</p>
+course website and then proceeds to do a bit of
+manipulation/summarization of the data:</p>
 <ol style="list-style-type: decimal">
-<li><strong>trees</strong> is a table where observations are trees on
-which lichens were collected. Columns describe each tree’s location,
-elevation, and species name.</li>
-<li><strong>lichens</strong> is a table where each observation is a
-lichen that was collected. Columns describe the tree on which the lichen
-was collected, the team that collected the lichen, the collection date,
-and the lichen species name.</li>
-<li><strong>algae</strong> is a table where each observation is a
-fragment of a lichen from which we attempted to amplify and sequence
-green algal ITS2 rDNA. We attempted to amplify algal DNA from four
-sections of each lichen in order to quantity algal diversity within a
-single lichen. If sequencing was successful then the DNA sequence is
-given along with a code identifying unique haplotype (GenotypeID). The
-TaxonID column indicates haplotypes that matched those reported in <a
-href="http://dw.doi.org/10.3732/ajb.0900276">Werth and Sork
-(2010)</a>.</li>
+<li><strong>PineRidge_30x30Tree_ALL</strong> is a table where
+observations are trees, with information on their size (dbh.cm),
+species, decay class (if a snag), and cavity information.</li>
+<li><strong>PineRidge_CWD_ALL</strong> is a table where each observation
+is a portion of a transect covered by coarse woody debris (i.e., “cwd”).
+Notice the plot codes match the plot codes in the <code>trees</code>
+dataset.</li>
 </ol>
-<p>The R script explores algal diversity among lichens and trees.
-Working in pairs, execute each line of code and then add a comment
-(using <code>#</code>) above each line of code with a description of
-what the code does.</p>
+<p>Working in pairs, execute each line of code under the “tidyverse”
+section in the Rscript and then add a comment (using <code>#</code>)
+above each line of code with a description of what the code does.</p>
 <p>When you have finished commenting the code, try to complete the
 following challenge:</p>
 <blockquote>
 <p><strong>Challenge:</strong></p>
-<p>How could you modify the code that creates the
-<code>lichenXgeno</code> table so that it displays the fraction of
-successful sequences belonging to each GenotypeID for each lichen.</p>
+<ol style="list-style-type: decimal">
+<li>Summarize the Tree and CWD tables such that each row corresponds
+with exactly one plot.code.</li>
+<li>Join the Tree and CWD tables, and check that you have not lost rows
+(i.e., plot.codes) or metadata.</li>
+</ol>
 </blockquote>
 </div>
 <div id="plotting-data-with-ggplot2" class="section level3">
 <h3>Plotting data with ggplot2</h3>
-<p>Working with your partner, create the following plots using
+<p>Working with your partner, use the summarize tables from the
+challenge above to create the following plots using
 <code>ggplot2</code>:</p>
+<blockquote>
+<p><strong>Challenge:</strong></p>
 <ol style="list-style-type: decimal">
-<li>A plot that maps the locations where each lichen was collected and
-colors the point by the Chao1 richness estimator.</li>
-<li>Modify the above plot so that three plots are shown, one for each
-tree species.</li>
+<li>A boxplot of mean DBH by fire severity.</li>
+<li>Modify the above plot so that two plots are shown, one for the Dawes
+(burn = “D”) and Fort Robinson (burn = “FR”).</li>
 </ol>
+</blockquote>
+</div>
+</div>
+<div id="loops" class="section level2">
+<h2>Loops</h2>
+<p>In coding, a “loop” is a workflow that repeats the same instructions
+or processes the same information, ofter with slight variations, until
+receiving the order to stop. Loops are SUPER useful for data wrangling
+and analyses. For instance, what if you had 100 different linear
+regression models using the same data? A sad way to tackle this problem
+would require a bunch of copying/pasting code. Thankfully, computers are
+very good at doing drudgery very quickly with loops! There are multiple
+kinds of loops (e.g., <code>while</code>, <code>for</code>,
+<code>repeat</code>), but we’re going to focus on <code>for</code> loops
+here.</p>
+<p>Working in pairs, execute each line of code under the “Loops” section
+in the Rscript and then add a comment (using <code>#</code>) above each
+line of code with a description of what the code does.</p>
+<blockquote>
+<p><strong>Challenge:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Using the joined Tree/CWD table, create a loop to run the ten models
+provided in the Rscript and outputs a list where each element in the
+list is a model object.</li>
+<li>This isn’t a loop, but it’s useful addendum: give each model in the
+list a descriptive name.</li>
+</ol>
+</blockquote>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p>R is full of functions that will do most of what you’ll need for data
+wrangling and modeling. But sometimes, you will find yourself in very
+specific situation for which there is no ready-made function. Or you
+could find yourself wanting to generalize a workflow such that it can
+work in more than a single situation. In these cases, it pays to be able
+to write your own functions!</p>
+<p>For example, consider the loop challenge above. That loop was super
+useful for those specific ten models, but you’re going to be running
+many models in this course. Wouldn’t it be useful to have a function
+that can take any number of models and</p>
+<p>Working in pairs, execute each line of code under the “Functions”
+section in the Rscript and then add a comment (using <code>#</code>)
+above each line of code with a description of what the code does.</p>
+<blockquote>
+<p><strong>Challenge:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Using the loop and naming code you wrote in the previous challenge,
+create a function that can run any number of linear regression models
+through a loop and then name them.</li>
+</ol>
+</blockquote>
 </div>
 
 

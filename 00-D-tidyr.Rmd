@@ -32,19 +32,22 @@ knitr::opts_chunk$set(fig.path = "images/02-A/")
 repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
 ```
 
-### Before Class
+## Before Class
 
-Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/blob/master/code/00-D-tidyr-exercise-code.R) and save it in your code folder in the research project you created on the first day of class. You will need to click the 'Raw' button and then download the text file that appears. Be sure to remove the .txt extension that may have been added when you saved the file to your computer so that the file ends in .R. You may want to run the first part of the script that downloads the data to be sure that there will be no issues with data access during class.
+Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/blob/master/code/00-D-tidyr-exercise-code.R) and save it in your code folder in the research project you created. You will need to click the 'Raw' button and then download the text file that appears. Be sure to remove the .txt extension that may have been added when you saved the file to your computer so that the file ends in .R. You may want to run the first part of the script that downloads the data to be sure that there will be no issues with data access during class.
+
+## tidyverse
 
 ### Key Points
 
 + Data should be organized so that observations are in rows and attributes (variables) are in columns.
 + The `dplyr` package contains functions for manipulating data:
-    + `spread` and `gather` change the format of data tables.
+    + `pivot_longer` and `pivot_wider` change the format of data tables.
     + `separate_by_xxxx` and `unite` change the format of variables.
     + `filter` creates a subset of a data table.
     + `mutate` creates new variables.
-    + `group_by` and `summarise` are used to summarize observations according to the values of their variables.
+    + `group_by` and `summarize` are used to summarize observations according to the values of their variables.
+    + joins (e.g., `left_join`) add columns from different tables, matching observations based on the keys.
 + The pipe function `%>%` is used to link several operations together (e.g. function composition).
 + The `ggplot2` package is set of functions for visualizing data.
     + A ggplot2 plot contains three components: (1) the data, (2) the aesthetic mappings between variables and visual properties, and (3) layers describing how to display the observations.
@@ -53,27 +56,49 @@ Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalMo
 
 ### Manipulating data with dplyr
 
-Open the R project that you created on the first day of class. Then when R Studio opens, open the R script file that you downloaded for today's class (see above). This script downloads a data set from our course website and then proceeds to manipulate and summarise the data. These data contain three tables from the Winter 2016 BIO46 class on lichen microorganisms:
+Open the R project that you created on the first day of class. Then when R Studio opens, open the R script file that you downloaded for today's class (see above). This script downloads a data set from our course website and then proceeds to do a bit of manipulation/summarization of the data:
 
-1. **trees** is a table where observations are trees on which lichens were collected. Columns describe each tree's location, elevation, and species name.
-2. **lichens** is a table where each observation is a lichen that was collected. Columns describe the tree on which the lichen was collected, the team that collected the lichen, the collection date, and the lichen species name.
-3. **algae** is a table where each observation is a fragment of a lichen from which we attempted to amplify and sequence green algal ITS2 rDNA. We attempted to amplify algal DNA from four sections of each lichen in order to quantity algal diversity within a single lichen. If sequencing was successful then the DNA sequence is given along with a code identifying unique haplotype (GenotypeID). The TaxonID column indicates haplotypes that matched those reported in [Werth and Sork (2010)](http://dw.doi.org/10.3732/ajb.0900276).
+1. **PineRidge_30x30Tree_ALL** is a table where observations are trees, with information on their size (dbh.cm), species, decay class (if a snag), and cavity information.
+2. **PineRidge_CWD_ALL** is a table where each observation is a portion of a transect covered by coarse woody debris (i.e., "cwd"). Notice the plot codes match the plot codes in the `trees` dataset.
 
-The R script explores algal diversity among lichens and trees. Working in pairs, execute each line of code and then add a comment (using `#`) above each line of code with a description of what the code does. 
+Working in pairs, execute each line of code under the "tidyverse" section in the Rscript and then add a comment (using `#`) above each line of code with a description of what the code does. 
 
 When you have finished commenting the code, try to complete the following challenge:
 
 > **Challenge:**
 >
-> How could you modify the code that creates the `lichenXgeno` table so that it displays the fraction of successful sequences belonging to each GenotypeID for each lichen.
+> 1. Summarize the Tree and CWD tables such that each row corresponds with exactly one plot.code. 
+> 2. Join the Tree and CWD tables, and check that you have not lost rows (i.e., plot.codes) or metadata.
 
 
 ### Plotting data with ggplot2
 
-Working with your partner, create the following plots using `ggplot2`:
+Working with your partner, use the summarize tables from the challenge above to create the following plots using `ggplot2`:
 
-1. A plot that maps the locations where each lichen was collected and colors the point by the Chao1 richness estimator.
-2. Modify the above plot so that three plots are shown, one for each tree species.
+> **Challenge:**
+>
+> 1. A boxplot of mean DBH by fire severity.
+> 2. Modify the above plot so that two plots are shown, one for the Dawes (burn = "D") and Fort Robinson (burn = "FR").
 
+## Loops
 
+In coding, a "loop" is a workflow that repeats the same instructions or processes the same information, ofter with slight variations, until receiving the order to stop. Loops are SUPER useful for data wrangling and analyses. For instance, what if you had 100 different linear regression models using the same data? A sad way to tackle this problem would require a bunch of copying/pasting code. Thankfully, computers are very good at doing drudgery very quickly with loops! There are multiple kinds of loops (e.g., `while`, `for`, `repeat`), but we're going to focus on `for` loops here. 
 
+Working in pairs, execute each line of code under the "Loops" section in the Rscript and then add a comment (using `#`) above each line of code with a description of what the code does. 
+
+> **Challenge:**
+>
+> 1. Using the joined Tree/CWD table, create a loop to run the ten models provided in the Rscript and outputs a list where each element in the list is a model object.
+> 2. This isn't a loop, but it's useful addendum: give each model in the list a descriptive name.
+
+## Functions
+
+R is full of functions that will do most of what you'll need for data wrangling and modeling. But sometimes, you will find yourself in very specific situation for which there is no ready-made function. Or you could find yourself wanting to generalize a workflow such that it can work in more than a single situation. In these cases, it pays to be able to write your own functions!
+
+For example, consider the loop challenge above. That loop was super useful for those specific ten models, but you're going to be running many models in this course. Wouldn't it be useful to have a function that can take any number of models and 
+
+Working in pairs, execute each line of code under the "Functions" section in the Rscript and then add a comment (using `#`) above each line of code with a description of what the code does. 
+
+> **Challenge:**
+>
+> 1. Using the loop and naming code you wrote in the previous challenge, create a function that can run any number of linear regression models through a loop and then name them. 
