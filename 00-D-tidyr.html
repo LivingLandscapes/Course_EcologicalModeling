@@ -11,7 +11,7 @@
 
 
 
-<title>Introduction to ggplot2 and dplyr</title>
+<title>Coding crash course: tidyverse, loops, and functions</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -327,7 +327,16 @@ div.tocify {
       <a href="00-computer-setup.html">Computer setup</a>
     </li>
     <li>
-      <a href="00-E-git-intro.html">Git Intro</a>
+      <a href="00-A-R-intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="00-B-Rmarkdown-intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="00-E-git-intro.html">Introduction to Rmarkdown</a>
+    </li>
+    <li>
+      <a href="00-D-tidyr.html">Coding crash course</a>
     </li>
   </ul>
 </li>
@@ -448,32 +457,26 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Introduction to ggplot2 and dplyr</h1>
+<h1 class="title toc-ignore">Coding crash course: tidyverse, loops, and
+functions</h1>
 
 </div>
 
 
-<p><strong>Assigned Reading:</strong></p>
+<p><strong>Suggested Reading:</strong></p>
 <blockquote>
-<p>Chapters 1.1, 1.2, 2, 3, 9 and 10 in: Wickham, H. 2009. <em>ggplot2:
-Elegant Graphics for Data Analysis.</em> Springer. DOI: <a
+<p>Chapters 1.1, 1.2, 2, 3, 4, 9 and 10 in: Wickham, H. 2009.
+<em>ggplot2: Elegant Graphics for Data Analysis.</em> Springer. DOI: <a
 href="https://link.springer.com/book/10.1007%2F978-0-387-98141-3">Stanford
 Full Text</a></p>
 <p>The sections on mutating and filtering joins in <a
 href="https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html">this
 vignette</a></p>
-</blockquote>
-<p><strong>Optional Reading:</strong></p>
-<blockquote>
-<p>Chapter 4 in: Wickham, H. 2009. <em>ggplot2: Elegant Graphics for
-Data Analysis.</em> Springer. DOI: <a
-href="https://link.springer.com/book/10.1007%2F978-0-387-98141-3">Stanford
-Full Text</a></p>
-</blockquote>
 <p>RStudio has produced several helpful <a
 href="https://www.rstudio.com/resources/cheatsheets/">cheatsheets</a> on
 data management and visualization with ggplot2 and tidyr. You may want
 to view or print one or several of them.</p>
+</blockquote>
 <div id="before-class" class="section level3">
 <h3>Before Class</h3>
 <p>Download <a
@@ -496,8 +499,8 @@ data:
 <ul>
 <li><code>spread</code> and <code>gather</code> change the format of
 data tables.</li>
-<li><code>separate</code> and <code>unite</code> change the format of
-variables.</li>
+<li><code>separate_by_xxxx</code> and <code>unite</code> change the
+format of variables.</li>
 <li><code>filter</code> creates a subset of a data table.</li>
 <li><code>mutate</code> creates new variables.</li>
 <li><code>group_by</code> and <code>summarise</code> are used to

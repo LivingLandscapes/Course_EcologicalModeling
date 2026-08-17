@@ -430,7 +430,16 @@ div.tocify {
       <a href="00-computer-setup.html">Computer setup</a>
     </li>
     <li>
-      <a href="00-E-git-intro.html">Git Intro</a>
+      <a href="00-A-R-intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="00-B-Rmarkdown-intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="00-E-git-intro.html">Introduction to Rmarkdown</a>
+    </li>
+    <li>
+      <a href="00-D-tidyr.html">Coding crash course</a>
     </li>
   </ul>
 </li>
@@ -701,30 +710,30 @@ length could vary by farm.</p>
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -5.8074 -0.5970  0.2500  0.4951  3.1125 
+## -5.7870 -0.5971  0.2498  0.4947  3.1101 
 ## 
 ## Random effects:
 ##  Groups Name               Variance Std.Dev. Corr              
-##  Farm   (Intercept)        2.160686 1.46993                    
-##         fSexFemale         0.225681 0.47506  -0.05             
-##         cLength            0.001651 0.04063   0.58  0.10       
-##         fSexFemale:cLength 0.001287 0.03588  -0.47  0.65 -0.69 
+##  Farm   (Intercept)        2.163852 1.47100                    
+##         fSexFemale         0.228874 0.47841  -0.06             
+##         cLength            0.001641 0.04051   0.58  0.09       
+##         fSexFemale:cLength 0.001296 0.03600  -0.48  0.66 -0.69 
 ## Number of obs: 826, groups:  Farm, 24
 ## 
 ## Fixed effects:
 ##                    Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)         1.08870    0.35077   3.104 0.001911 ** 
-## fSexFemale          0.64845    0.29631   2.188 0.028637 *  
-## cLength             0.04372    0.01273   3.436 0.000591 ***
-## fSexFemale:cLength  0.03514    0.01655   2.124 0.033667 *  
+## (Intercept)         1.08697    0.35096   3.097 0.001954 ** 
+## fSexFemale          0.65000    0.29683   2.190 0.028541 *  
+## cLength             0.04370    0.01270   3.440 0.000583 ***
+## fSexFemale:cLength  0.03521    0.01657   2.126 0.033541 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) fSxFml cLngth
-## fSexFemale  -0.219              
-## cLength      0.317  0.075       
-## fSxFml:cLng -0.167  0.482 -0.575
+## fSexFemale  -0.222              
+## cLength      0.317  0.073       
+## fSxFml:cLng -0.169  0.484 -0.574
 ## optimizer (Nelder_Mead) convergence code: 0 (OK)
 ## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <p>That model fails to converge. Asking for the sex by length

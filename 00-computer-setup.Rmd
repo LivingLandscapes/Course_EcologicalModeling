@@ -30,7 +30,7 @@ output: html_document
 * Run the `.exe` file that was just downloaded
 * Go to the [RStudio download page](https://www.rstudio.com/products/rstudio/download/#download)
 * Under *Installers* select **RStudio x.yy.zzz - Windows
-  XP/Vista/7/8** (where x, y, and z represent version numbers)
+  11 (or whatever number we're on now)** (where x, y, and z represent version numbers)
 * Double click the file to install it
 * Once it's installed, open RStudio to make sure it works and you don't get any
   error messages.
@@ -152,7 +152,7 @@ If you follow these rules then anyone should be able to render your Rmd file wit
 
 1. Download the git installer for Windows [here](https://git-for-windows.github.io/). This will install bash, which is a command-line shell program for interacting with files and programs on your computer.
 2. Run the installer that you just downloaded. Click "Next" as needed and when you get to the following options make sure that you:
-    + Select "Use Git from the Windows Command Prompt". 
+    <!-- + Select "Use Git from the Windows Command Prompt".  -->
     + Keep "Checkout Windows-style, commit Unix-style line endings" selected.
     + Select "Use Windows' default console window".
     + If you forgot to do any of these, rerun the installer and select the appropriate options.

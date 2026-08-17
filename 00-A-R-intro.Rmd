@@ -53,7 +53,6 @@ You will now have three windows displayed in RStudio:
   + **Environment/History**: This will show any *objects* that you define when running R code and (if you click the History tab) a record of previous R code that you have run. It should currently be empty.
 
 Let's make a new *R script*- a text file where you save R code that performs an analysis. Click File > New File > R Script. This will open a new window with a tab for your R script called "Untitled1". The first thing you should do when starting an analysis is to make a new R script and save it with a descriptive name (no spaces!).
-The best practice for project organization is to save all code scripts in a folder named "code". In the Files window, click "New Folder" and make a folder named "code". Then save your new script into this folder.
 Now you are ready to start an analysis!
 
 ### How R works
@@ -85,7 +84,7 @@ The most important part of you code are the *comments* that document what the co
 
 Any text in an R script that follows the `#` is interpretted as a *comment*- a piece of descriptive text that doesn't cause R to do any calculations.
 
-The best practice is to begin any R script with comments that give the title, author (with email), date, and short description of what the code does.
+The best practice is to begin any R script with comments that give the project title, a short description of what the code does, and perhaps the author name and relevant citation(s).
 
 > **Exercise**
 >
@@ -98,11 +97,11 @@ In this class we will often be working with and modifying existing R code that o
 
 Download [this R script](https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/code/00-A-r-intro-exercise-code.R) and save it in your code folder in the research project you created today. You will need to click the 'Raw' button and then download the text file that appears. Be sure to remove the .txt extension that may have been added when you saved the file to your computer so that the file ends in .R.  Then, open the downloaded script in your current RStudio session.
 
-This R script makes a new folder called 'data' and downloads a csv file from our course website into this folder. The csv file contains data on trees sampled by students in the BIO46 winter quarter class in 2017. It then reads the data into R and saves it as an object named `raw_data`. The `raw_data` object is a dataframe, which is basically a table where rows are observations and columns are attributes. It is a very useful data structure for performing statistical analyses. The code then goes on to calculate the mean value of latitude across all observations in the dataset and count the number of each species of tree sampled. Run the code so that you can see how it works.
+This R script makes a new folder called 'data' and downloads a csv file from our course website into this folder. The csv file contains data on trees and snags (i.e., dead trees) sampled in burned and unburned sites in the Pine Ridge of Nebraska. It then reads the data into R and saves it as an object named `raw_data`. The `raw_data` object is a dataframe, which is basically a table where rows are observations and columns are attributes. It is a very useful data structure for performing statistical analyses. The code then goes on to calculate the mean value of diameter at breast height (DBH) across all trees/snags in the dataset and count the number of each species of tree/snag sampled. Run the code so that you can see how it works.
 
 > **Exercise:**
 >
-> 1. Save the R script you downloaded as a new R script named "analysis_2017-09-25.R" into the code folder in this project.
+> 1. Save the R script you downloaded as a new R script named "analysis_test.R" into the code folder in this project.
 > 2. Copy a csv file from your computer containing data that you are interested in working with. If you don't have a csv file yet, go to the [Neon Data Portal](http://data.neonscience.org/browse-data) and download precipitation data from the Toolik Lake Core site in Alaska.
 > 3. Modify your R script so that it reads the data file into R and calculates the maximum value in one of the columns.
 

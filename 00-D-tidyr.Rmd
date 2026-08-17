@@ -1,21 +1,17 @@
 ---
 layout: topic
-title: "Introduction to ggplot2 and dplyr"
+title: "Coding crash course: tidyverse, loops, and functions"
 output: html_document
 ---
 
 
-**Assigned Reading:**
+**Suggested Reading:**
 
-> Chapters 1.1, 1.2, 2, 3, 9 and 10 in: Wickham, H. 2009. *ggplot2: Elegant Graphics for Data Analysis.* Springer. DOI: [Stanford Full Text](https://link.springer.com/book/10.1007%2F978-0-387-98141-3)
+> Chapters 1.1, 1.2, 2, 3, 4, 9 and 10 in: Wickham, H. 2009. *ggplot2: Elegant Graphics for Data Analysis.* Springer. DOI: [Stanford Full Text](https://link.springer.com/book/10.1007%2F978-0-387-98141-3)
 >
 > The sections on mutating and filtering joins in [this vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html)
-
-**Optional Reading:**
-
-> Chapter 4 in: Wickham, H. 2009. *ggplot2: Elegant Graphics for Data Analysis.* Springer. DOI: [Stanford Full Text](https://link.springer.com/book/10.1007%2F978-0-387-98141-3)
-
-RStudio has produced several helpful [cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on data management and visualization with ggplot2 and tidyr. You may want to view or print one or several of them.
+>
+> RStudio has produced several helpful [cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on data management and visualization with ggplot2 and tidyr. You may want to view or print one or several of them.
 
 
 ```{r include = FALSE}
@@ -45,7 +41,7 @@ Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalMo
 + Data should be organized so that observations are in rows and attributes (variables) are in columns.
 + The `dplyr` package contains functions for manipulating data:
     + `spread` and `gather` change the format of data tables.
-    + `separate` and `unite` change the format of variables.
+    + `separate_by_xxxx` and `unite` change the format of variables.
     + `filter` creates a subset of a data table.
     + `mutate` creates new variables.
     + `group_by` and `summarise` are used to summarize observations according to the values of their variables.

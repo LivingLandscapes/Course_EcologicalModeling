@@ -1,56 +1,47 @@
-# Code for the Introduction to tidyverse, loops, and functions
-# Author: Dr. Roberts
-# Date: Aug 17, 2026
+# Code for the Introduction to ggplot2 and dplyr exercise
+# Author: Jes Coyle
+# Date: Sept. 13, 2017
 # Description: Downloads an example data file from the course website and reads it into R.
 #              Manipulates the data using dplyr functions.
 #              Comments are intentionally missing and should be filled in by student as a part of the exercise.
 
-#=============================================================================
-## Preparations
-
-# If librarian package not installed, install it.
-list.of.packages <- c("librarian")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-
-# Load librarian and then load tidyverse
-require(librarian, 
-        quietly = TRUE)
-shelf(tidyverse,
-      quiet = TRUE)
-
 ######################################
 ## Download data and read into R    ##
 
-# # Check whether a folder named data exists in the current working directory
-# if(dir.exists("data")) {
-#   
-#   # If it already exists, do nothing.
-# 
-# } else {
-#   
-#   # If it doesn't exits, make a new folder named data
-#   dir.create("data")
-#   
-# }
-# 
-# # Download file from course website to the data folder
-# # This file contains data on course woody debris sampled at the Pine Ridge in Nebraska.
-# download.file(url = "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_CWD_ALL.csv",
-#               destfile = "data/PineRidge_CWD.csv",
-#               method = "auto"
-# )
-# # This file contains data on tree stands sampled at the Pine Ridge in Nebraska.
-# download.file(url = "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_30x30Tree_All.csv",
-#               destfile = "data/PineRidge_Tree.csv",
-#               method = "auto"
-# )
+# Check whether a folder named data exists in the current working directory
+if(dir.exists("data")) {
+  
+  # If it already exists, do nothing.
+
+} else {
+  
+  # If it doesn't exits, make a new folder named data
+  dir.create("data")
+  
+}
+
+# Download file from course website to the data folder
+# This file contains data on trees sampled by the winter 2017 BIO46 class.
+download.file(url = "https://raw.githubusercontent.com/FukamiLab/BIO202/master/data/BIO46_W2017_trees.csv",
+              destfile = "data/BIO46_W2017_trees.csv",
+              method = "auto"
+)
+# This file contains data on lichen sampled by the winter 2017 BIO46 class.
+download.file(url = "https://raw.githubusercontent.com/FukamiLab/BIO202/master/data/BIO46_W2017_lichens.csv",
+              destfile = "data/BIO46_W2017_lichens.csv",
+              method = "auto"
+)
+# This file contains data on algal haplpotypes sampled by the winter 2017 BIO46 class.
+download.file(url = "https://raw.githubusercontent.com/FukamiLab/BIO202/master/data/BIO46_W2017_algae.csv",
+              destfile = "data/BIO46_W2017_algae.csv",
+              method = "auto"
+)
+
 
 # Read downloaded file into dataframes
-trees_raw <- 
-  read_csv("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_30x30Tree_All.csv")
-cwd_raw <- 
-  read_csv("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_CWD_All.csv")
+trees_raw <- read.csv("data/BIO46_W2017_trees.csv")
+lichens_raw <- read.csv("data/BIO46_W2017_lichens.csv")
+algae_raw <- read.csv("data/BIO46_W2017_algae.csv")
 
 
 
@@ -58,12 +49,18 @@ cwd_raw <-
 ## Examine data with dplyr          ##
 
 
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
 # Open vingnette on join functions that merge two tables
 vignette("two-table", package = "dplyr")
 
-# Summarize tree DBH by plot.code
-trees_raw <- 
-  
+# Add LichenID and TreeID columns to algae data
+
+algae <- lichens_raw %>% 
+  select(LichenID, TreeID) %>%
+  right_join(algae_raw)
 
 # Add column that tells if sequencing was a success or failure and give NA if not sequenced.
 

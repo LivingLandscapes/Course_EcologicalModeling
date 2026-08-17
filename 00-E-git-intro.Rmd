@@ -102,7 +102,8 @@ First we need to clone your version of the course website from your GitHub repos
         + Select Path > Edit
         + In the next window, add a line containing the path to the git executable (see above) and click OK. 
         + If those instructions don't work try Googling "Windows edit PATH".
-3. Copy the url of your fork of the class website repository into the line marked "Repository URL". This should look like: https://github.com/your-username/Course_EcologicalModeling.
+<!-- 3. Copy the url of your fork of the class website repository into the line marked "Repository URL". This should look like: https://github.com/your-username/Course_EcologicalModeling. -->
+3. In RStudio, go to your project drop down (should be top right of RStudio) and select "Project Options" and then go to "Git/SVN" and then change "Version Control System" to "Git".
 4. Name the project directory whatever you like (no spaces!). Course_EcologicalModeling_website would be a good name.
 5. Choose the folder where you want to save the project folder by clicking Browse. Finish by clicking "Create Project". 
 

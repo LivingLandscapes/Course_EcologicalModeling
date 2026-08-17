@@ -42,26 +42,19 @@ rinline <- function(code) {
 
 Our course website is a set of R markdown files that have been rendered to html files and are hosted on [GitHub Pages](https://pages.github.com/). You can find all of the pages that comprise our course website in [this GitHub repository](https://github.com/LivingLandscapes/Course_EcologicalModeling). The main landing page is found in the file `index.html` which has been generated from the file `index.Rmd`. 
 
-We are requiring you to interact with the course website in this way because being able to document reproducible analyses is a valuable skill that is becoming nearly required for today's ecologists. As analyses become more complex and specialized, code review, in addition to open access to data, is likely to become a regular aspect of formal and informal scientific review. Documenting your analyses in R markdown with RStudio is a (relatively) painless way to ensure that you (and your reviewers) understand how you obtained and analyzed your data even after months of putting a project "on the back burner". Therefore, we hope that you will find this additional class requirement useful even as it introduces a bit more cognitive burden.
+We are requiring you to interact with the course website in this way because being able to document reproducible analyses is a valuable skill that is becoming nearly required for today's ecologists. As analyses become more complex and specialized, code review, in addition to open access to data, is becoming a regular aspect of formal and informal scientific review. Documenting your analyses in R markdown with RStudio is a (relatively) painless way to ensure that you (and your reviewers) understand how you obtained and analyzed your data even after months of putting a project "on the back burner". Therefore, we hope that you will find this additional class requirement useful even as it introduces a bit more cognitive burden.
 
-You have two options for editing the content of the course webpage:
+You have three options for editing the content of the course webpage:
 
 1. Use git on your computer to interface with the files on GitHub.
-2. Download the .Rmd files from GitHub, edit them on your computer and email them to Jes.
+2. Edit files on GitHub online.
+2. (Worst option) Download the .Rmd files from GitHub, edit them on your computer and email them to Dr. Roberts.
 
-<!-- Today we will learn option 2 and there will be an optional session on Wednesday of Week 2 for anyone who wishes to learn how to use git for option 1. These two options are summarized on the [Editing the Course Website](file:///C:/Users/jrcoyle/Documents/Stanford/BIO202/GitHub/00-computer-setup.html#editing_the_course_website) section of the Computer Setup page on the course website. -->
+Here, we will learn option 3, and you can learn about options 1 and 2 on the [Computer Setup page](https://livinglandscapes.github.io/Course_EcologicalModeling/00-computer-setup.html) on the course website.
 
 #### Downloading files from GitHub
 
 Go to the [course website GitHub repository](https://github.com/LivingLandscapes/Course_EcologicalModeling). Notice that you can choose to download all of the files as a zip file by clicking the green "Clone or download" button in the upper right. You will only need to edit one (or a few) pages, so let's just download one file rather than the whole website. Click on the R markdown file corresponding to the example lesson template: `00-example-lesson.Rmd`, then click the 'Raw' button that appears at the top right corner of the document viewer on the page that loads. This will take you to a page that displays the text in the file. Download the page as a .Rmd file (remove the .txt extension that your browser will attempt to append) and save it somewhere useful on your computer (e.g. the folder you have made for this class, not Downloads or Desktop). Find the file on your computer and open it. It should open in RStudio.
-
-> **Exercise:**
->
-> Compare the contents of the .Rmd file to what you see on the course website: http://fukamilab.github.io/BIO202/00-example-lesson.html .
->
-> + What is the same?
-> + What is different?
-
 
 ### Structure of a Rmd document
 
@@ -158,7 +151,7 @@ Look at the first code chunk in the example lesson Rmd document where the global
 
 Any figure that you make in a code chunk will by default be saved as separate files in your working directory and then imported into the final document created by `pandoc`. In our class webpages, the first code chunk specifies: `knitr::opts_chunk$set(fig.path = "images/")`, which tells `knitr` that it should save any figures generated with code chunks to a folder named "images" within the working directory. The image files will be named according to the name of the code chunk from which they are generated. Hence, it is a good idea to separate analyses into separate code chunks and give them somewhat descriptive names. R markdown can also automatically number and caption your figures and tables. The [`captioner`](https://cran.r-project.org/web/packages/captioner/vignettes/using_captioner.html) package is particularly useful for this.
 
-> **Exercise:**
->
-> 1. Add a new section to the example lesson Rmd document with markdown-formatted text and a new R code chunk. Render the document again.
-> 2. Open the html file with your web browser to see what your changes would look like online. How does what you see differ from what is shown at https://fukamilab.github.io/BIO202/00-example-lesson.html ?
+<!-- > **Exercise:** -->
+<!-- > -->
+<!-- > 1. Add a new section to the example lesson Rmd document with markdown-formatted text and a new R code chunk. Render the document again. -->
+<!-- > 2. Open the html file with your web browser to see what your changes would look like online. How does what you see differ from what is shown at https://fukamilab.github.io/BIO202/00-example-lesson.html ? -->

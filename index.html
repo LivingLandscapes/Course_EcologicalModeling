@@ -327,7 +327,16 @@ div.tocify {
       <a href="00-computer-setup.html">Computer setup</a>
     </li>
     <li>
-      <a href="00-E-git-intro.html">Git Intro</a>
+      <a href="00-A-R-intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="00-B-Rmarkdown-intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="00-E-git-intro.html">Introduction to Rmarkdown</a>
+    </li>
+    <li>
+      <a href="00-D-tidyr.html">Coding crash course</a>
     </li>
   </ul>
 </li>
@@ -461,315 +470,73 @@ div.tocify {
 </style>
 <!-- ## Syllabus -->
 <p><strong>Instructor:</strong> Caleb Roberts</p>
-<div id="tentative-schedule" class="section level2">
-<h2>Tentative Schedule</h2>
-<table>
-<colgroup>
-<col width="4%" />
-<col width="4%" />
-<col width="8%" />
-<col width="64%" />
-<col width="9%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Week</th>
-<th>Day</th>
-<th>Date</th>
-<th>Topic</th>
-<th>Discussion</th>
-<th>Discussion</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Tue</td>
-<td>Aug. 20</td>
-<td>What is “modeling?”</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Aug. 22</td>
-<td><em>Why</em> are you modeling?</td>
-<td>Emerson</td>
-<td>Katy</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>Tue</td>
-<td>Aug. 27</td>
-<td>Data exploration</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Aug. 29</td>
-<td>Data exploration</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Tue</td>
-<td>Sep. 3</td>
-<td>Review of linear models, probability distributions</td>
-<td>Michael</td>
-<td>Elizabeth</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Sep. 5</td>
-<td>Review of linear models, probability distributions</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>Tue</td>
-<td>Sep. 10</td>
-<td>No class</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Sep. 12</td>
-<td>No class</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Tue</td>
-<td>Sep. 17</td>
-<td>Model selection</td>
-<td>Maria</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Sep. 19</td>
-<td>Model selection</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>Tue</td>
-<td>Sep. 24</td>
-<td>Autocorrelation</td>
-<td>Jack</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Sep. 26</td>
-<td>Mixed models: what, why, how?</td>
-<td>Vini</td>
-<td>Annika</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Tue</td>
-<td>Oct. 1</td>
-<td>Mixed models: LMM lab</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Oct. 3</td>
-<td>Mixed models: GLMM</td>
-<td>Alex</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>Tue</td>
-<td>Oct. 8</td>
-<td>Mixed models: GLMM lab</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Oct. 10</td>
-<td>Generalized additive models</td>
-<td>Carter</td>
-<td>Paul</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Tue</td>
-<td>Oct. 15</td>
-<td>No class: Fall Break</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Oct. 17</td>
-<td>Generalized additive models</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>Tue</td>
-<td>Oct. 22</td>
-<td>No class</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Oct. 24</td>
-<td>Hierarchical generalized additive models</td>
-<td>Emily</td>
-<td>Tristan</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>Tue</td>
-<td>Oct. 29</td>
-<td>Hierarchical generalized additive models</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Oct. 31</td>
-<td>Guest lecture: Brandon Edwards</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>12</td>
-<td>Tue</td>
-<td>Nov. 5</td>
-<td>Hello, Bayes!</td>
-<td>Lindsey</td>
-<td>Isaac</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Nov. 7</td>
-<td>Bayesian models: Linear models lab</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>Tue</td>
-<td>Nov. 12</td>
-<td>Bayesian models: Stan language lab</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Nov. 14</td>
-<td>Bayesian models: Mixed models lab</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>14</td>
-<td>Tue</td>
-<td>Nov. 19</td>
-<td>Loose ends day</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Nov. 21</td>
-<td>Writing methods and results</td>
-<td>Isabella</td>
-<td>————</td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>Tue</td>
-<td>Nov. 26</td>
-<td>Writing methods and results</td>
-<td>————</td>
-<td>————</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Thu</td>
-<td>Nov. 28</td>
-<td>No class: Thanksgiving</td>
-<td>————</td>
-<td>————</td>
-</tr>
-</tbody>
-</table>
-<!-- **Course Goals:** -->
-<!-- Students will be able to: -->
-<!--   * Design statistically sound data collection strategies to answer a given research questions. -->
-<!--   * Choose among modern statistical tools and analyze data using R. -->
-<!--   * Present results effectively using R for peer-reviewed papers. -->
-<!--   * Advise colleagues about statistical analyses. -->
+<!-- ## Tentative Schedule -->
+<!-- | Week | Day | Date     |   Topic                                                                        | Notes      | ...        | -->
+<!-- |------|-----|----------|--------------------------------------------------------------------------------|------------|------------| -->
+<!-- | 1    | Tue | Aug. 18  |   What is “modeling?” and WHY model?                                           |------------|------------| -->
+<!-- |      | Thu | Aug. 20  |   Coding crash course: loops, functions, tidyverse                             |------------|------------| -->
+<!-- | 2    | Tue | Aug. 27  |   Data exploration                                                             |------------|------------| -->
+<!-- |      | Thu | Aug. 29  |   Data exploration                                                             |------------|------------| -->
+<!-- | 3    | Tue | Sep. 3   |   Review of linear models, probability distributions                           |------------|------------| -->
+<!-- |      | Thu | Sep. 5   |   Review of linear models, probability distributions                           |------------|------------| -->
+<!-- | 4    | Tue | Sep. 10  |   No class                                                                     |------------|------------| -->
+<!-- |      | Thu | Sep. 12  |   No class                                                                     |------------|------------| -->
+<!-- | 5    | Tue | Sep. 17  |   Model selection                                                              |------------|------------| -->
+<!-- |      | Thu | Sep. 19  |   Model selection                                                              |------------|------------| -->
+<!-- | 6    | Tue | Sep. 24  |   Autocorrelation                                                              |------------|------------| -->
+<!-- |      | Thu | Sep. 26  |   Mixed models: what, why, how?                                                |------------|------------| -->
+<!-- | 7    | Tue | Oct. 1   |   Mixed models: LMM lab                                                        |------------|------------| -->
+<!-- |      | Thu | Oct. 3   |   Mixed models: GLMM                                                           |------------|------------| -->
+<!-- | 8    | Tue | Oct. 8   |   Mixed models: GLMM lab                                                       |------------|------------| -->
+<!-- |      | Thu | Oct. 10  |   Generalized additive models                                                  |------------|------------| -->
+<!-- | 9    | Tue | Oct. 15  |   No class: Fall Break                                                         |------------|------------| -->
+<!-- |      | Thu | Oct. 17  |   Generalized additive models                                                  |------------|------------| -->
+<!-- | 10   | Tue | Oct. 22  |   No class                                                                     |------------|------------| -->
+<!-- |      | Thu | Oct. 24  |   Hierarchical generalized additive models                                     |------------|------------| -->
+<!-- | 11   | Tue | Oct. 29  |   Hierarchical generalized additive models                                     |------------|------------| -->
+<!-- |      | Thu | Oct. 31  |   Guest lecture: Brandon Edwards                                               |------------|------------| -->
+<!-- | 12   | Tue | Nov. 5   |   Hello, Bayes!                                                                |------------|------------| -->
+<!-- |      | Thu | Nov. 7   |   Bayesian models: Linear models lab                                           |------------|------------| -->
+<!-- | 13   | Tue | Nov. 12  |   Bayesian models: Stan language lab                                           |------------|------------| -->
+<!-- |      | Thu | Nov. 14  |   Bayesian models: Mixed models lab                                            |------------|------------| -->
+<!-- | 14   | Tue | Nov. 19  |   Loose ends day                                                               |------------|------------| -->
+<!-- |      | Thu | Nov. 21  |   Writing methods and results                                                  |------------|------------| -->
+<!-- | 15   | Tue | Nov. 26  |   Writing methods and results                                                  |------------|------------| -->
+<!-- |      | Thu | Nov. 28  |   No class: Thanksgiving                                                       |------------|------------| -->
+<div id="welcome" class="section level1">
+<h1>Welcome!</h1>
+<p>This is the course website for Ecological Modeling. Navigate through
+the tabs above to find the lab exercises and homeworks for the
+course.</p>
+</div>
+<div id="course-goals" class="section level1">
+<h1>Course Goals</h1>
+<p>Students will be able to:</p>
+<ul>
+<li>Identify and summarize statistical results as presented in peer
+reviewed articles<br />
+</li>
+<li>Use R to conduct model-based analyses of ecological data</li>
+<li>Combine statistical results and ecological knowledge to support a
+conclusion</li>
+<li>Evaluate the presentation of statistical results as written</li>
+</ul>
+</div>
+<div id="texts" class="section level1">
+<h1>Texts</h1>
+<p><em>(all texts are freely-available in electronic format)</em> -</p>
+<ul>
+<li>Zuur et al. 2009: Mixed effects models and extensions in ecology
+with R</li>
+<li>Hobbs and Hooten 2015: Bayesian Models: A Statistical Primer for
+Ecologists</li>
+<li>Additional outside readings will be assigned in class and made
+available via Blackboard.</li>
+</ul>
 <!-- **Class Format:** -->
 <!-- During the first few weeks, each student will briefly introduce their research question and data and we will go over basics of how to use R and interact with the course content on this website using R markdown files and GitHub. From then on, one selected topic will be covered during each class. First the instructor will briefly summarize the assigned reading (~15 min) and go over key concepts and analyses, R packages and how they should be used, how to differentiate among them, including time for questions and clarification. Then, a student will present an example of the topic (~15 min). This could be (1) going over an example presented in the text by walking through the procedure and details of the code that they think are important; or (2) applying these techniques to the student's own data and walking others through the analysis, and present on their results/challenges faced, etc. Each class concludes with a ~20-min discussion led by the student (who will come prepared with questions to facilitate discussion and will share novel/important/interesting functions and pieces of R code). Each student will lead 1 or 2 topics during the quarter. We will also have a mid-term and final presentation and discussion on student projects. Students will prepare their lesson content ahead of time by modifying the Rmarkdown webpage on this site. -->
 <!-- **Final product:** -->
 <!-- Each student will complete the results section to include in a paper to submit for publication or data collection plans for a research proposal. -->
-<!-- ## Tentative Schedule -->
-<!-- | Week | Day | Date     | Topic & Reading                                                                   | Summary   | Discussion | -->
-<!-- |------|-----|----------|-----------------------------------------------------------------------------------|-----------|------------| -->
-<!-- | 1    | Mon | Sept. 25 | [Intro to R & RStudio](01-A-R-intro.html)                                         | Tad & Jes |------------| -->
-<!-- |      | Wed | Sept. 27 | Topic selection, [Intro to R markdown](01-B-Rmarkdown-intro.html) & class website | Tad & Jes |------------| -->
-<!-- |      | Fri | Sept. 29 | [R workshop](01-C-R-workshop.html) (optional)                                     | Jes       |------------| -->
-<!-- | 2    | Mon | Oct. 2   | [Intro to ggplot2 and tidyr](02-A-tidyr.html)                                     | Jes       |------------| -->
-<!-- |      | Wed | Oct. 4   | [Intro to GitHub & git](02-B-git-intro.html)                                      | Jes       |------------| -->
-<!-- |      | Fri | Oct. 6   | Each person introduces their questions & data                                     | Tad & Jes |------------| -->
-<!-- | 3    | Mon | Oct. 9   | Topic 1. [Data exploration](03-A-data-exploration.html)                           | Tad       | Priscilla  | -->
-<!-- |      | Wed | Oct. 11  | Topic 2. [Linear models](03-B-linear-models.html)                                 | Tad       | Sandra     | -->
-<!-- |      | Fri | Oct. 13  | Topic 3. [Dealing with heterogeneity](03-C-heterogeneity.html)                    | Tad       | Anna       | -->
-<!-- | 4    | Mon | Oct. 16  | Topic 4. [Mixed-effects models with nested data](04-A-mixed-models.html)          | Tad       | Beth       | -->
-<!-- |      | Wed | Oct. 18  | Topic 5. [GLM with binary & proportional data](04-B-binary-data.html)             | Tad       | Meghan     | -->
-<!-- |      | Fri | Oct. 20  | Topic 6. [GLM with zero-inflated data](04-C-zero-data.html)                       | Tad       | Nick       | -->
-<!-- | 5    | Mon | Oct. 23  | Topic 7. [Bayesian linear models](05-A-Bayesian-linear-models.html)               | Jes       | Jamie      | -->
-<!-- |      | Wed | Oct. 25  | Topic 8. [Bayesian inference with prior information](05-B-Bayesian-priors.html)   | Jes       | Nicole     | -->
-<!-- |      | Fri | Oct. 27  | Topic 9. [Advanced Bayesian model example](05-C-Advanced-bayesian-example.html)   | Jes       | Lizzie     | -->
-<!-- | 6    | Mon | Oct. 30  | Topic 10. [Unconstrained ordination](06-A-unconstrained-ordination.html)          | Tad       | Anna       | -->
-<!-- |      | Wed | Nov. 1   | Topic 11. [Constrained ordination](06-B-constrained-ordination.html)              | Tad       | Jamie     | -->
-<!-- |      | Fri | Nov. 3   | Topic 12. [Comparing multivariate data](06-C-matrix-comparison.html) (symmetric methods)| Jes       | Priscilla  | -->
-<!-- | 7    | Mon | Nov. 6   | Mid-term project presentation & discussion                                        |           |            | -->
-<!-- |      | Wed | Nov. 8   | Mid-term project presentation & discussion                                        |           |            | -->
-<!-- |      | Fri | Nov. 10  | Mid-term project presentation & discussion                                        |           |            | -->
-<!-- | 8    | Mon | Nov. 13  | Topic 13. [Visualization of spatial data](08-A-mapping.html)                    | Tad       | Tyler    | -->
-<!-- |      | Wed | Nov. 15  | Topic 14. [Spatial regression](08-B-spatial-regression.html)  | Jes       | Marissa     | -->
-<!-- |      | Fri | Nov. 17  | Topic 15. [Ordination approach to spatial analysis](08-C-spatial-ordination.html)                       | Jes       | Sandra      | -->
-<!-- |RECESS|     |          | Thanksgiving                                                                      |           |            | -->
-<!-- | 9    | Mon | Nov. 27  | Topic 16. Selected by class: [time-series analysis](09-A-time-series.html)        | Lizzie    |       | -->
-<!-- |      | Wed | Nov. 29  | Topic 17. Selected by class: [network analysis](09-B-networks.html)               | Beth      | Nicole     | -->
-<!-- |      | Fri | Dec. 1   | Topic 18. Selected by class: [occupancy models](09-C-occupancy-models.html)       | Nick      |            | -->
-<!-- | 10   | Mon | Dec. 4   | Final project presentations                                                       |           |            | -->
-<!-- |      | Wed | Dec. 6   | Final project presentations                                                       |           |            | -->
-<!-- |      | Fri | Dec. 8   | Final project presentations                                                       |           |            | -->
-<!-- Some possible additional topics: Cluster analysis, Series analysis, structural equation models, occupancy models, phylogenetic contrasts, rarefaction, null models for community analysis, multi-model inference and averaging -->
 <!-- ## Before Class  -->
 <!-- Before the first class please read through the [computer setup instructions](00-computer-setup.html) that walk you through how to set up your computer to run R and Rstudio. Even if you have these programs already installed, make sure to check that you are running the latest versions of R and RStudio (which the instructions will tell you how to do).  -->
 <!-- Our course website runs from a repository on GitHub. You can view this repository [here](https://github.com/fukamilab/BIO202). Notice that the repository has 2 files for each lesson webpage (named 00-lesson-topic), one is an html file (.html) that is displayed as a webpage while the other is a R markdown (.Rmd) file that will allow us to write R code and explanatory text in the same file. The html file is created by R Studio from the R markdown file. The repository also has a folder called "data". This is where we will put data files used by our example code. Note that this repository can be downloaded by anyone on the internet. If you have data that you wish to use in class but do not wish to share with the entire WWW, you are welcome to email the data files to the rest of the class prior to your lesson. -->
