@@ -55,6 +55,8 @@ In order to contribute to the class website you will need to make a copy of the 
 
 Any changes you make to this fork will not show up on the class website because the website looks at the version of the files owned by LivingLandscapes. You will make changes to your fork and then propose these changes (as a *pull request*) to the LivingLandscapes fork. The instructors will then accept your changes to make them show up on the class website. We will get to this later in the lesson.
 
+**IMPORTANT**: You will need to fully download the forked repository and make sure it's in the correct path.
+
 
 #### Editing files online
 
