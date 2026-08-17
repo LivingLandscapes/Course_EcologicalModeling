@@ -12,7 +12,7 @@ navbar:
           href: 00-B-Rmarkdown-intro.html
         - text: "Introduction to Rmarkdown"
           href: 00-E-git-intro.html
-        - text: "Coding crash course"
+        - text: "tidyr"
           href: 00-D-tidyr.html
     - text: "Data Exploration"
       menu:

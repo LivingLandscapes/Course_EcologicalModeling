@@ -336,7 +336,7 @@ div.tocify {
       <a href="00-E-git-intro.html">Introduction to Rmarkdown</a>
     </li>
     <li>
-      <a href="00-D-tidyr.html">Coding crash course</a>
+      <a href="00-D-tidyr.html">tidyr</a>
     </li>
   </ul>
 </li>
@@ -530,6 +530,8 @@ LivingLandscapes. You will make changes to your fork and then propose
 these changes (as a <em>pull request</em>) to the LivingLandscapes fork.
 The instructors will then accept your changes to make them show up on
 the class website. We will get to this later in the lesson.</p>
+<p><strong>IMPORTANT</strong>: You will need to fully download the
+forked repository and make sure it’s in the correct path.</p>
 </div>
 <div id="editing-files-online" class="section level4">
 <h4>Editing files online</h4>
@@ -622,7 +624,8 @@ command line.</p>
 <div id="using-rstudio" class="section level5">
 <h5>Using RStudio</h5>
 <ol style="list-style-type: decimal">
-<li>Open RStudio and click File &gt; New Project.</li>
+<li>Open RStudio and click File &gt; New Project. <em>Note: Make the
+file path as short as possible.</em></li>
 <li>Click Version Control and then Git.
 <ul>
 <li>If you don’t see this option and have installed git according to the
@@ -644,17 +647,14 @@ Environment Variables</li>
 <li>Select Path &gt; Edit</li>
 <li>In the next window, add a line containing the path to the git
 executable (see above) and click OK.</li>
-<li>If those instructions don’t work try Googling “Windows edit PATH”.
-<!-- 3. Copy the url of your fork of the class website repository into the line marked "Repository URL". This should look like: https://github.com/your-username/Course_EcologicalModeling. --></li>
+<li>If those instructions don’t work try Googling “Windows edit
+PATH”.</li>
 </ul></li>
 </ul></li>
-<li>In RStudio, go to your project drop down (should be top right of
-RStudio) and select “Project Options” and then go to “Git/SVN” and then
-change “Version Control System” to “Git”.</li>
-<li>Name the project directory whatever you like (no spaces!).
-Course_EcologicalModeling_website would be a good name.</li>
-<li>Choose the folder where you want to save the project folder by
-clicking Browse. Finish by clicking “Create Project”.</li>
+<li>Copy the url of your fork of the class website repository into the
+line marked “Repository URL”. This should look like: <a
+href="https://github.com/your-username/Course_EcologicalModeling"
+class="uri">https://github.com/your-username/Course_EcologicalModeling</a>.</li>
 </ol>
 </div>
 <div id="using-the-command-line" class="section level5">
@@ -664,7 +664,7 @@ clicking Browse. Finish by clicking “Create Project”.</li>
 website files and create a new folder to hold them (no spaces in the
 name!). A good project folder name would be
 Course_EcologicalModeling_website.</li>
-<li>Open a shell program lile GitBash (Windows) or Terminal (Mac). This
+<li>Open a shell program like GitBash (Windows) or Terminal (Mac). This
 will open an empty window with a blinking cursor.</li>
 <li>Navigate to the project folder that you just created using the
 <code>cd</code> command: <code>cd ~/path/to/folder/folder_name</code>.
@@ -696,6 +696,13 @@ href="https://github.com/your-username/Course_EcologicalModeling"
 class="uri">https://github.com/your-username/Course_EcologicalModeling</a>.</li>
 <li>Click the green “Clone or download” button in the upper right. This
 will display a url. Copy this url.</li>
+<li>In RStudio, go to your project drop down (should be top right of
+RStudio) and select “Project Options” and then go to “Git/SVN” and then
+change “Version Control System” to “Git”.</li>
+<li>Name the project directory whatever you like (no spaces!).
+Course_EcologicalModeling_website would be a good name.</li>
+<li>Choose the folder where you want to save the project folder by
+clicking Browse. Finish by clicking “Create Project”.</li>
 <li>At the command line (in the shell program) type
 <code>git clone</code>, then paste the url you copied from GitHub, then
 type the name of your project folder. If you named the folder
