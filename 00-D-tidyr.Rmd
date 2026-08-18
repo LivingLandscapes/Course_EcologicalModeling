@@ -65,40 +65,42 @@ Working in pairs, execute each line of code under the "tidyverse" section in the
 
 When you have finished commenting the code, try to complete the following challenge:
 
-> **Challenge:**
+> **Challenge 1:**
 >
-> 1. Summarize the CWD table such that we get the total line cover per plot.code and each row corresponds with exactly one plot.code.
-> 2. Join the Tree and CWD tables, and check that you have not lost rows (i.e., plot.codes) or metadata.
+> 1. Summarize the CWD table such that we get the total coarse woody debris volume (line cover x width x height) per plot.code and each row corresponds with exactly one plot.code. Name the total volume column "CWD_volume".
+> 2. Join the Tree and CWD tables, and name the result "allData". Check that you have not lost rows (i.e., plot.codes) or metadata.
 
 
 ### Plotting data with ggplot2
 
 Working with your partner, use the summarize tables from the challenge above to create the following plots using `ggplot2`:
 
-> **Challenge:**
+> **Challenge 2:**
 >
 > 1. A boxplot of mean DBH by fire severity.
 > 2. Modify the above plot so that two plots are shown, one for the Dawes (burn = "D") and Fort Robinson (burn = "FR").
 
 ## Loops
 
-In coding, a "loop" is a workflow that repeats the same instructions or processes the same information, ofter with slight variations, until receiving the order to stop. Loops are SUPER useful for data wrangling and analyses. For instance, what if you had 100 different linear regression models using the same data? A sad way to tackle this problem would require a bunch of copying/pasting code. Thankfully, computers are very good at doing drudgery very quickly with loops! There are multiple kinds of loops (e.g., `while`, `for`, `repeat`), but we're going to focus on `for` loops here. 
+In coding, a "loop" is a workflow that repeats the same instructions or processes the same information, often with slight variations, until receiving the order to stop. Loops are SUPER useful for data wrangling and analyses. For instance, what if you had 100 different linear regression models using the same data? A sad way to tackle this problem would require a bunch of copying/pasting code. Thankfully, computers are very good at doing drudgery very quickly with loops! There are multiple kinds of loops (e.g., `while`, `for`, `repeat`), but we're going to focus on `for` loops here. 
 
 Working in pairs, execute each line of code under the "Loops" section in the Rscript and then add a comment (using `#`) above each line of code with a description of what the code does. 
 
-> **Challenge:**
+> **Challenge 3:**
 >
-> 1. Using the joined Tree/CWD table, create a loop to run the ten models provided in the Rscript and outputs a list where each element in the list is a model object.
+> 1. Using the joined Tree/CWD table, create a loop to run the models provided in the Rscript and outputs a list where each element in the list is a model object.
 > 2. This isn't a loop, but it's useful addendum: give each model in the list a descriptive name.
 
 ## Functions
 
 R is full of functions that will do most of what you'll need for data wrangling and modeling. But sometimes, you will find yourself in very specific situation for which there is no ready-made function. Or you could find yourself wanting to generalize a workflow such that it can work in more than a single situation. In these cases, it pays to be able to write your own functions!
 
-For example, consider the loop challenge above. That loop was super useful for those specific ten models, but you're going to be running many models in this course. Wouldn't it be useful to have a function that can take any number of models and 
+For example, consider the loop challenge above. That loop was super useful for those specific ten models, but you're going to be running many models in this course. Wouldn't it be useful to have a function that can take any number of models, run them, and name them?
+
+Also, there's a best practice for writing functions: annotate, annotate, annotate. Annotate to make every part of the function as clear as possible and provide a clear description of the function. For example, pick your favorite function and look up the documentation. The documentation provides a description, the syntax, the arguments, any relevant details, and output values.
 
 Working in pairs, execute each line of code under the "Functions" section in the Rscript and then add a comment (using `#`) above each line of code with a description of what the code does. 
 
-> **Challenge:**
+> **Challenge 4:**
 >
 > 1. Using the loop and naming code you wrote in the previous challenge, create a function that can run any number of linear regression models through a loop and then name them. 

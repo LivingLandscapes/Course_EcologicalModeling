@@ -547,12 +547,14 @@ above each line of code with a description of what the code does.</p>
 <p>When you have finished commenting the code, try to complete the
 following challenge:</p>
 <blockquote>
-<p><strong>Challenge:</strong></p>
+<p><strong>Challenge 1:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Summarize the CWD table such that we get the total line cover per
-plot.code and each row corresponds with exactly one plot.code.</li>
-<li>Join the Tree and CWD tables, and check that you have not lost rows
-(i.e., plot.codes) or metadata.</li>
+<li>Summarize the CWD table such that we get the total coarse woody
+debris volume (line cover x width x height) per plot.code and each row
+corresponds with exactly one plot.code. Name the total volume column
+“CWD_volume”.</li>
+<li>Join the Tree and CWD tables, and name the result “allData”. Check
+that you have not lost rows (i.e., plot.codes) or metadata.</li>
 </ol>
 </blockquote>
 </div>
@@ -562,7 +564,7 @@ plot.code and each row corresponds with exactly one plot.code.</li>
 challenge above to create the following plots using
 <code>ggplot2</code>:</p>
 <blockquote>
-<p><strong>Challenge:</strong></p>
+<p><strong>Challenge 2:</strong></p>
 <ol style="list-style-type: decimal">
 <li>A boxplot of mean DBH by fire severity.</li>
 <li>Modify the above plot so that two plots are shown, one for the Dawes
@@ -574,7 +576,7 @@ challenge above to create the following plots using
 <div id="loops" class="section level2">
 <h2>Loops</h2>
 <p>In coding, a “loop” is a workflow that repeats the same instructions
-or processes the same information, ofter with slight variations, until
+or processes the same information, often with slight variations, until
 receiving the order to stop. Loops are SUPER useful for data wrangling
 and analyses. For instance, what if you had 100 different linear
 regression models using the same data? A sad way to tackle this problem
@@ -587,9 +589,9 @@ here.</p>
 in the Rscript and then add a comment (using <code>#</code>) above each
 line of code with a description of what the code does.</p>
 <blockquote>
-<p><strong>Challenge:</strong></p>
+<p><strong>Challenge 3:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Using the joined Tree/CWD table, create a loop to run the ten models
+<li>Using the joined Tree/CWD table, create a loop to run the models
 provided in the Rscript and outputs a list where each element in the
 list is a model object.</li>
 <li>This isn’t a loop, but it’s useful addendum: give each model in the
@@ -613,7 +615,7 @@ that can take any number of models and</p>
 section in the Rscript and then add a comment (using <code>#</code>)
 above each line of code with a description of what the code does.</p>
 <blockquote>
-<p><strong>Challenge:</strong></p>
+<p><strong>Challenge 4:</strong></p>
 <ol style="list-style-type: decimal">
 <li>Using the loop and naming code you wrote in the previous challenge,
 create a function that can run any number of linear regression models

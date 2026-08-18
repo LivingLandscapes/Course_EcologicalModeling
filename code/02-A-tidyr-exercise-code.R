@@ -109,43 +109,221 @@ trees_summarized <-
 #=============================================================================
 ## Challenge 1: Joining tables
 
-# 1. Summarize the CWD table such that we get the total line cover per plot.code
-# and each row corresponds with exactly one plot.code.
+# 1. Summarize the CWD table such that we get the total coarse woody debris
+# volume (line cover x width x height) per plot.code and each row corresponds
+# with exactly one plot.code. Name the total volume column "CWD_volume".
 
-# 2. Join the Tree and CWD tables, and check that you have not lost rows (i.e.,
-# plot.codes) or metadata.
+# 2. Join the Tree and CWD tables, and name the result "allData". Check that you
+# have not lost rows (i.e., plot.codes) or metadata.
 
 # Open vingnette on join functions that merge two tables. Read through this to
 # get a roadmap for joining the tree and cwd tables.
 vignette("two-table", package = "dplyr")
 
-##########################################################################################
-#      Doing the "Plotting data with ggplot2" exercise from the class web site           #
+#=============================================================================
+## tidyverse continued: ggplot
 
-# Exercise 1
+# 
+dbhVScwd_plot <- 
+  ggplot(data = allData, 
+         mapping = aes(x = DBH_mean, 
+                       y = CWD_volume, 
+                       color = BurnSeverity)) + 
+  geom_point()
 
-qplot(Lon, Lat, colour = Chao1, data = lichen)
+# 
+dbhVScwd_plot
 
-ggplot(lichen, aes(Lon, Lat, colour = Chao1)) +
- geom_point() 
+# 
+dbhVScwd_plot + 
+  #
+  scale_color_viridis() + 
+  #
+  #
+  theme_bw() + 
+  #
+  theme(axis.title = element_text(size = 14),
+        axis.text = element_text(size = 9),
+        legend.title = element_blank()) + 
+  #
+  xlab("Mean DBH (cm)") + 
+  ylab("Total CWD (cm^3)")
 
-# Exercise 2 (plot for each of the three tree species)
-
-ggplot(lichen, aes(Lon, Lat, colour = Chao1)) +
-  geom_point() +
-  facet_grid(~ Genus_species.tree)
-
-ggplot(lichen, aes(Lon, Lat, colour = Chao1)) +
-  geom_point() +
-  facet_wrap(~ Genus_species.tree)
+# 
+ggplot(data = allData, 
+       mapping = aes(x = DBH_mean, 
+                     y = CWD_volume)) + 
+  geom_point() + 
+  #
+  facet_wrap(~ BurnSeverity)
 
 
+#=============================================================================
+## Challenge 2: boxplots and facets
+
+# 1. A boxplot of mean DBH by fire severity.
+
+# 2. Modify the above plot so that two plots are shown, one for each value of
+# the "burn" column.
+
+#=============================================================================
+## Loops
+
+# 
+sillyVector <- 1:100
+
+# 
+sillyVector_out <- c()
+
+# 
+for (i in 1:length(sillyVector)) {
+  
+  # 
+  sillyVector_out[i] <- sillyVector[i] * 3
+  
+}
+
+# 
+sillyVector_out
+
+# 
+sillyVector_outNew <- 
+  vector("numeric", 
+         # 
+         length = length(sillyVector))
+
+# 
+for (i in 1:length(sillyVector)) {
+  
+  # 
+  sillyVector_outNew[i] <- sillyVector[i] * 3
+  
+}
+
+# 
+sillyVector_outNew
+
+# 
+sillyDataframe <- 
+  data.frame(ID = sillyVector,
+             Group = rep(1:10, each = 10))
+
+# 
+sillyList <- 
+  vector("list", 
+         #
+         length = length(unique(sillyDataframe$Group)))
+
+# 
+for (i in 1:length(unique(sillyDataframe$Group))) {
+  
+  #
+  groups <- sort(unique(sillyDataframe$Group))
+  
+  #
+  temp <- 
+    sillyDataframe %>%
+    filter(Group == groups[i])
+  
+  #
+  temp$LetterCol <- NA
+  
+  for (j in 1:nrow(temp)) {
+    
+    #
+    temp[j , "LetterCol"] <- LETTERS[j]
+    
+  }
+  
+  #
+  sillyList[[i]] <- temp
+  
+}
+
+#
+names(sillyList) <- fruit[1:length(sillyList)]
+
+# 
+sillyList
+
+#=============================================================================
+## Challenge 3: Looping through models
+
+# List of models
+modList <- 
+  list(Global = "DBH_mean ~ BurnSeverity + YearsSinceFire + CWD_Volume",
+       Severity = "DBH_mean ~ BurnSeverity",
+       YSF = "DBH_mean ~ YearsSinceFire",
+       CWD = "DBH_mean ~ CWD_Volume",
+       Null = "DBH_mean ~ 1")
+
+# Examples of running one linear regression. These two lines will output the
+# same model.
+lm(DBH_mean ~ BurnSeverity + YearsSinceFire + CWD_Volume, data = allData)
+lm("DBH_mean ~ BurnSeverity + YearsSinceFire + CWD_Volume", data = allData)
+
+# 1. Using the joined Tree/CWD table, create a loop to run the models provided
+# in the Rscript and outputs a list where each element in the list is a model
+# object.
+
+# 2. This isn't a loop, but it's useful addendum: give each model in the list a
+# descriptive name.
+
+#=============================================================================
+## Functions
+
+# 
+?lm
+
+# 
+sillyFunction <- 
+  function(mod, myData) {
+    
+    #
+    fit <- lm(mod, data = myData)
+    
+    #
+    fitSummary <- summary(fit)
+    
+    # 
+    return(list(ModelFit = fit,
+                ModelSummary = fitSummary))
+    
+  }
+
+# 
+sillyFunction(mod = "DBH_mean ~ 1",
+              myData = allData)
+
+# 
+badFunction <- 
+  function(mod, myData) {
+    
+    #
+    fit <- lm(mod, data = myData)
+    
+    #
+    fitSummary <- summary(FIT)
+    
+    # 
+    return(list(ModelFit = fit,
+                ModelSummary = fitSummary))
+    
+  }
+
+# 
+badFunction(mod = "DBH_mean ~ 1",
+            myData = allData)
+
+# 
+debug(badFunction)
+badFunction(mod = "DBH_mean ~ 1",
+            myData = allData)
 
 
+#=============================================================================
+## Challenge 4: Custom function for running lists of models
 
-
-
-
-
-
-
+# 1. Using the loop and naming code you wrote in the previous challenge, create
+# a function that can run any number of linear regression models through a loop
+# and then name them.
