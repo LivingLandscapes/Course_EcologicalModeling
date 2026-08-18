@@ -5,6 +5,20 @@
 #              Manipulates the data using dplyr functions.
 #              Comments are intentionally missing and should be filled in by student as a part of the exercise.
 
+### Citations:
+
+# # Manuscript:
+# Roberts, C. P., Donovan, V. M., Nodskov, S. M., Keele, E. B., Allen, C. R.,
+# Wedin, D. A., & Twidwell, D. (2020). Fire legacies, heterogeneity, and the
+# importance of mixed-severity fire in ponderosa pine savannas. Forest Ecology
+# and Management, 459, 117853.
+
+# # Data:
+# Roberts, Caleb; Allen, Craig; Keele, Emma; Nodskov, Sarah; Donovan, Victoria;
+# Twidwell, Dirac; Wedin, David (2020), “Data for: Fire legacies, heterogeneity,
+# and the importance of mixed-severity fire in ponderosa pine savannas”,
+# Mendeley Data, V1, doi: 10.17632/s78xwkxyrb.1
+
 #=============================================================================
 ## Preparations
 
@@ -13,94 +27,97 @@ list.of.packages <- c("librarian")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
-# Load librarian and then load tidyverse
+# Load librarian ...
 require(librarian, 
         quietly = TRUE)
+
+# .. and then install tidyverse in a temporary directory
 shelf(tidyverse,
+      lib = tempdir(),
       quiet = TRUE)
 
-######################################
-## Download data and read into R    ##
+#=============================================================================
+## Load data
 
-# # Check whether a folder named data exists in the current working directory
-# if(dir.exists("data")) {
-#   
-#   # If it already exists, do nothing.
-# 
-# } else {
-#   
-#   # If it doesn't exits, make a new folder named data
-#   dir.create("data")
-#   
-# }
-# 
-# # Download file from course website to the data folder
-# # This file contains data on course woody debris sampled at the Pine Ridge in Nebraska.
-# download.file(url = "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_CWD_ALL.csv",
-#               destfile = "data/PineRidge_CWD.csv",
-#               method = "auto"
-# )
-# # This file contains data on tree stands sampled at the Pine Ridge in Nebraska.
-# download.file(url = "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_30x30Tree_All.csv",
-#               destfile = "data/PineRidge_Tree.csv",
-#               method = "auto"
-# )
-
-# Read downloaded file into dataframes
+# Pine Ridge tree data
 trees_raw <- 
-  read_csv("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_30x30Tree_All.csv")
+  read_csv("https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/data/PineRidge_30x30Tree_ALL.csv")
+
+# Pine Ridge coarse woody debris data
 cwd_raw <- 
-  read_csv("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_CWD_All.csv")
+  read_csv("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_CWD_ALL.csv")
+
+### NOTES: 
+
+# # plot.code: unique identifier for a sampling location. These are the sampling
+# units.
+
+# # burn: burn = "D" is the Dawes Fire that burnt 10 years prior to data
+# collection. burn = "FR" is the Fort Robinson Fire that burnt 27 years prior
+# to data collection.
+
+# # severity: first letter = cover type (forest = F, grassland = G); second letter
+# = burn severity (U = unburned, L = low severity, M = moderate severity, H =
+# high severity, B = burned grassland)
+
+# # decay.class: L = live tree; numbers = ascending decay stages with 1 being
+# still intact and 5 being near collapse.
+
+# # species: PP = Ponderosa Pine
+
+#=============================================================================
+## Data wrangling with tidyverse!      
+
+# 
+str(trees_raw)
+
+# 
+trees_selected <- 
+  trees_raw %>%
+  select(plot.code:severity, species, decay.class, dbh.cm)
+
+#
+trees_selected <-
+  trees_selected %>%
+  #
+  mutate(YearsSinceFire = case_when(burn == "D" ~ 10,
+                                    burn == "FR" ~ 27,
+                                    .default = 100),
+         #
+         CoverType = str_sub(severity, 1, 1),
+         #
+         BurnSeverity = str_sub(severity, 2, 2))
 
 
+# 
+trees_selected <- 
+  trees_selected %>%
+  filter(decay.class == "L" & species == "PP") %>%
+  # 
+  select(-severity, - decay.class, -species)
 
-######################################
-## Examine data with dplyr          ##
+# 
+trees_summarized <- 
+  trees_selected %>%
+  # 
+  group_by(plot.code, burn, CoverType, BurnSeverity, YearsSinceFire) %>%
+  #
+  summarize(DBH_mean = mean(dbh.cm)) %>%
+  # 
+  ungroup()
 
+#=============================================================================
+## Challenge 1: Joining tables
 
-# Open vingnette on join functions that merge two tables
+# 1. Summarize the CWD table such that we get the total line cover per plot.code
+# and each row corresponds with exactly one plot.code.
+
+# 2. Join the Tree and CWD tables, and check that you have not lost rows (i.e.,
+# plot.codes) or metadata.
+
+# Open vingnette on join functions that merge two tables. Read through this to
+# get a roadmap for joining the tree and cwd tables.
 vignette("two-table", package = "dplyr")
-
-# Summarize tree DBH by plot.code
-trees_raw <- 
-  
-
-# Add column that tells if sequencing was a success or failure and give NA if not sequenced.
-
-algae <- algae %>%
-  mutate(Seq_success = GenotypeID != '',
-         GenotypeID = ifelse(Seq_success, as.character(GenotypeID), NA))
-
-# make a table about algal data for each lichen sampled, including no. of successful sequences,
-# no. of genotypes, find no. of singletons and doubletons so chao1 can be caluculated, and chao 1 index
-
-# try table(algae$GenotypeID)
-
-lichen <- algae %>%
-  group_by(LichenID) %>%
-  summarise(Num_seqs = sum(Seq_success),
-            Num_genotypes = n_distinct(GenotypeID, na.rm = TRUE),
-            f1 = sum(table(GenotypeID) == 1),
-            f2 = sum(table(GenotypeID) == 2),
-            Chao1 = Num_genotypes + f1*(f1-1)/(2*(f2+1)))
-
-# Add all tree info to lichen data
-
-lichen <- lichen %>%
-  left_join(lichens_raw) %>%
-  left_join(trees_raw, by = 'TreeID', suffix = c(".lichen", ".tree"))
-
-# make a data table that shows how many of which algal genotype was found in which lichen
-
-lichenXgeno_long <- algae %>%
-  filter(Seq_success == TRUE) %>%
-  group_by(LichenID) %>%
-  count(GenotypeID) 
-
-# Use lichenXgeno_long to make a lichen x algal genotype matrix
-
-lichenXgeno <- lichenXgeno_long %>%
-  spread(key = GenotypeID, value = n)
 
 ##########################################################################################
 #      Doing the "Plotting data with ggplot2" exercise from the class web site           #
@@ -121,7 +138,6 @@ ggplot(lichen, aes(Lon, Lat, colour = Chao1)) +
 ggplot(lichen, aes(Lon, Lat, colour = Chao1)) +
   geom_point() +
   facet_wrap(~ Genus_species.tree)
-
 
 
 

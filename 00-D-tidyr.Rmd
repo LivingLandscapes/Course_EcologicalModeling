@@ -67,7 +67,7 @@ When you have finished commenting the code, try to complete the following challe
 
 > **Challenge:**
 >
-> 1. Summarize the Tree and CWD tables such that each row corresponds with exactly one plot.code. 
+> 1. Summarize the CWD table such that we get the total line cover per plot.code and each row corresponds with exactly one plot.code.
 > 2. Join the Tree and CWD tables, and check that you have not lost rows (i.e., plot.codes) or metadata.
 
 
