@@ -480,14 +480,13 @@ to view or print one or several of them.</p>
 <div id="before-class" class="section level2">
 <h2>Before Class</h2>
 <p>Download <a
-href="https://github.com/LivingLandscapes/Course_EcologicalModeling/blob/master/code/00-D-tidyr-exercise-code.R">this
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/02-A-tidyr-exercise-code.R">this
 R script</a> and save it in your code folder in the research project you
-created. You will need to click the ‘Raw’ button and then download the
-text file that appears. Be sure to remove the .txt extension that may
-have been added when you saved the file to your computer so that the
-file ends in .R. You may want to run the first part of the script that
-downloads the data to be sure that there will be no issues with data
-access during class.</p>
+created. Be sure to remove the .txt extension that may have been added
+when you saved the file to your computer so that the file ends in .R.
+You may want to run the first part of the script that downloads the data
+to be sure that there will be no issues with data access during
+class.</p>
 </div>
 <div id="tidyverse" class="section level2">
 <h2>tidyverse</h2>
@@ -501,8 +500,8 @@ data:
 <ul>
 <li><code>pivot_longer</code> and <code>pivot_wider</code> change the
 format of data tables.</li>
-<li><code>separate_by_xxxx</code> and <code>unite</code> change the
-format of variables.</li>
+<li><code>separate</code> and <code>unite</code> change the format of
+variables.</li>
 <li><code>filter</code> creates a subset of a data table.</li>
 <li><code>mutate</code> creates new variables.</li>
 <li><code>group_by</code> and <code>summarize</code> are used to
@@ -610,7 +609,13 @@ to write your own functions!</p>
 <p>For example, consider the loop challenge above. That loop was super
 useful for those specific ten models, but you’re going to be running
 many models in this course. Wouldn’t it be useful to have a function
-that can take any number of models and</p>
+that can take any number of models, run them, and name them?</p>
+<p>Also, there’s a best practice for writing functions: annotate,
+annotate, annotate. Annotate to make every part of the function as clear
+as possible and provide a clear description of the function. For
+example, pick your favorite function and look up the documentation. The
+documentation provides a description, the syntax, the arguments, any
+relevant details, and output values.</p>
 <p>Working in pairs, execute each line of code under the “Functions”
 section in the Rscript and then add a comment (using <code>#</code>)
 above each line of code with a description of what the code does.</p>

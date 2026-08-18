@@ -34,7 +34,7 @@ repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_Ecologica
 
 ## Before Class
 
-Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/blob/master/code/00-D-tidyr-exercise-code.R) and save it in your code folder in the research project you created. You will need to click the 'Raw' button and then download the text file that appears. Be sure to remove the .txt extension that may have been added when you saved the file to your computer so that the file ends in .R. You may want to run the first part of the script that downloads the data to be sure that there will be no issues with data access during class.
+Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/02-A-tidyr-exercise-code.R) and save it in your code folder in the research project you created. Be sure to remove the .txt extension that may have been added when you saved the file to your computer so that the file ends in .R. You may want to run the first part of the script that downloads the data to be sure that there will be no issues with data access during class.
 
 ## tidyverse
 
@@ -43,7 +43,7 @@ Download [this R script](https://github.com/LivingLandscapes/Course_EcologicalMo
 + Data should be organized so that observations are in rows and attributes (variables) are in columns.
 + The `dplyr` package contains functions for manipulating data:
     + `pivot_longer` and `pivot_wider` change the format of data tables.
-    + `separate_by_xxxx` and `unite` change the format of variables.
+    + `separate` and `unite` change the format of variables.
     + `filter` creates a subset of a data table.
     + `mutate` creates new variables.
     + `group_by` and `summarize` are used to summarize observations according to the values of their variables.
