@@ -71,7 +71,7 @@ You will not need to create new branches when working on our class website becau
 
 #### Merging changes with a pull request
 
-You have added your name to the lesson Rmd file in your fork of the class website. Next we will transfer these changes to the LivingLandscapes version. We will do this using a "pull request" which is a fancy name for proposing changes. You will propose to change LivingLandscapes/Course_EcologicalModeling based on the changes you made in your-username/Course_EcologicalModeling.
+You have added your name to the `TestingTesting.Rmd` file in your fork of the class website. Next we will transfer these changes to the LivingLandscapes version. We will do this using a "pull request" which is a fancy name for proposing changes. You will propose to change LivingLandscapes/Course_EcologicalModeling based on the changes you made in your-username/Course_EcologicalModeling.
 
 Return to the main page of your fork at `https://github.com/your-username/Course_EcologicalModeling` and click the "New pull request" button. The *base* is what you are proposing to change and the *head* is where the changes are coming from. What should the base and head be if you want to propose the changes you just made?
 
