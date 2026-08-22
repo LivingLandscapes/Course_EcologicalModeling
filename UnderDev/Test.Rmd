@@ -74,9 +74,11 @@ Things we should explore and check per Zuur et al. (2010). Note: we don't have t
 
 ## Data exploration examples:
 
-The code below is built on data from Roberts et al. (2022) in *Ecological Solutions and Evidence*.
+For today's lab exercise, please download this [R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/01-A-data-exploration-exercise-code.R). We will work through it as we go through the examples and challenges below. The data comes from:
 
-```{r, include = TRUE, eval = TRUE, warning=FALSE}
+Roberts, C. P., Scholtz, R., Fogarty, D. T., Twidwell, D., & Walker Jr, T. L. (2022). Large‐scale fire management restores grassland bird richness for a private lands ecoregion. Ecological Solutions and Evidence, 3(1), e12119.
+
+```{r, include = FALSE, eval = TRUE, warning=FALSE}
 
 # List of packages necessary to run this script:
 require(librarian, quietly = TRUE)
@@ -144,7 +146,7 @@ ggplot(data = dat_grass,
 
 Histograms show frequency of values and the shape or distribution of the values. Here's a histogram of our response variable:
 
-```{r, eval = TRUE, include = TRUE}
+```{r, eval = TRUE, echo=FALSE}
 
 ggplot() +
     geom_histogram(data = dat_grass,
@@ -174,7 +176,7 @@ ggplot() +
 
 Some statistical tests assume your response variable conforms to a normal distribution. We will learn about probability/error distributions in our Probability Distributions Topic. But for now, let's forge ahead and make a Q-Q plot (quantile-quantile plot):
 
-```{r, eval = TRUE, include = TRUE}
+```{r, eval = TRUE, echo = FALSE}
 
 ggplot(data = dat_grass,
        mapping = aes(sample = Rich_Grass)) +
@@ -211,7 +213,7 @@ We will talk about Zuur's preference of "variance inflation factors" to check fo
 
 Let's also plot the response/dependent variable (grassland bird richness) against potential predictor/independent variables. Here, I use quick-and-dirty generalized additive models per ggplot2::geom_smooth and then combine the plots with cowplot::plot_grid
 
-```{r, eval = TRUE, include = TRUE}
+```{r, eval = TRUE, echo = FALSE}
 
 # Making individual plots
 rich_treeMean <-
@@ -248,17 +250,22 @@ Two-way interactions are what we're looking for here. There is (technically) no 
 
 ### Bonus Round: Spatial Patterns
 
+When we collect ecological data, unless we're doing it in a lab, it's never collected without spatial context. Whenever there's spatial context, it's critical to look for spatial patterns in data. Recall that the data we're working with has a sampling unit of: stops along roadside surveys by year. The stops have spatial coordinates (easting and northing from UTM Zone 14). What could we learn if we simply mapped out some of the variables over time?
+
 > **Bonus Challenge** 
 >
 > Map grassland bird species richness by year. Do you see any spatial patterns? Use the `ggplot` and `sf` packages to do this!
 
-``` {r, include = TRUE, eval = TRUE}
+``` {r, echo = FALSE, eval = TRUE}
 
 # To get you started, run this code to transform our data.frame into an `sf` object:
 dat_sf <- 
   st_as_sf(dat_grass,
            coords = c("easting", "northing"),
            crs = st_crs(32614)) # This is the code for UTM Zone 14
+
+# Map the routes/stops
+plot(dat_sf["Route"])
 
 ```
 

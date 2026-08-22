@@ -45,15 +45,15 @@ Things we should explore and check per Zuur et al. (2010). Note: we don't have t
     + Example of importance of biological intuition and graphical investigation
         + Transformation to get normality may not be desirable--will learn more when we discuss generalized linear models.
 4. Zero trouble Y
-    + Zero-inflated GLM
-    + Double zeros, or joint absences - what do they mean? e.g., spatial clumping
+    + Possibility of complete separation--which is problematic for binary response variables.
+    + Can (sometimes) be dealt with by using a zero-inflated error distribution.
     + We will not be covering multivariate analyses in this course! (but they're super cool, so go check them out)
 5. Collinearity X
-    + VIF of 10, 3, or 2 - reason for these values?
     + VIFs, or common sense or biological knowledge
     + Also... are pairwise comparisons worthwhile?
 6. Relationships Y & X
-    + Multi-panel scatter plots for checking for outliers
+    + Multi-panel scatter plots useful here.
+    + But nonlinearities can obfuscate relationships.
 7. Interactions
     + Are data balanced?
     + coplots (i.e., ggplot2::facet_wrap)
@@ -74,13 +74,15 @@ Things we should explore and check per Zuur et al. (2010). Note: we don't have t
 
 ## Data exploration examples:
 
-The code below is built on data from Roberts et al. (2022) in *Ecological Solutions and Evidence*.
+For today's lab exercise, please download this [R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/01-A-data-exploration-exercise-code.R). We will work through it as we go through the examples and challenges below. The data comes from:
 
-```{r, include = TRUE, eval = TRUE}
+Roberts, C. P., Scholtz, R., Fogarty, D. T., Twidwell, D., & Walker Jr, T. L. (2022). Large‐scale fire management restores grassland bird richness for a private lands ecoregion. Ecological Solutions and Evidence, 3(1), e12119.
+
+```{r, include = FALSE, eval = TRUE, warning=FALSE}
 
 # List of packages necessary to run this script:
 require(librarian, quietly = TRUE)
-shelf(tidyverse, cowplot, quiet = TRUE)
+shelf(tidyverse, cowplot, sf, quiet = TRUE)
 
 # Load Roberts et al. (2022) data:
 dat_grass <- 
@@ -107,26 +109,30 @@ dat_grass <-
 
 ```
 
-### Checking for outliers
+### Outliers, zero trouble, balance
 
-Zuur et al. recommends plotting your data using boxplots and dotcharts to detect outliers. Violin plots are also great options. Before removing suspected outliers, make sure they are actually outliers!
+Zuur et al. recommends plotting your data using boxplots and dotcharts to detect outliers. Violin plots and histograms are also great options. I don't personally use dotcharts... because I see the point of them.
 
-**Boxplot**
+*Important*: If you have outliers, removing them is likely not the first thing you should do. There may be other error distribution options you could use or transformations. It also could be a hint that you haven't gotten a sufficiently large sample size to flesh out your population's distribution
 
-```{r, eval = TRUE, include = TRUE}
+#### Boxplot
+
+```{r, eval = TRUE, render= TRUE, echo = FALSE}
 
 ggplot(data = dat_grass,
        mapping = aes(y = Rich_Grass)) + 
   geom_boxplot() +
-  ylab("Grassland Bird Richness")
+  ylab("Grassland Bird Richness") + 
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())
 
 ```
 
-**Violin plots**
+#### Violin plot
 
-Violin plots show more data distribution details, but they can be messy. These are conditional (by year) and display the 10th, 50th (i.e., median), and 90th quantiles as horizontal lines.
+Violin plots show more data distribution details, but they can be busy and tough to interpret. These are conditional (by year) and display the 10th, 50th (i.e., median), and 90th quantiles as horizontal lines.
 
-```{r, eval = TRUE, include = TRUE}
+```{r, eval = TRUE, render= TRUE, echo = FALSE}
 
 ggplot(data = dat_grass,
        mapping = aes(x = as.factor(Year), y = Rich_Grass, group = Year)) + 
@@ -136,76 +142,95 @@ ggplot(data = dat_grass,
 
 ```
 
-**Dotchart for multiple variables**
+#### Histogram
 
-I personally don't use these as much, but they can be useful.
+Histograms show frequency of values and the shape or distribution of the values. Here's a histogram of our response variable:
 
-```{r, eval = TRUE, include = TRUE}
-
-dat_grass %>% 
-  arrange(Rich_Grass) %>%
-  mutate(rowID = 1:n()) %>%
-  ggplot() + 
-    facet_wrap(~ Year) + 
-    geom_point(mapping = aes(x = Rich_Grass, y = rowID, group = Year)) + 
-    xlab("Grassland Bird Richness")
-
-```
-
-
-
-### What's your data's distribution?
-
-Some statistical tests assume normal distributions, making it important to check the shape of your data. We will learn about probability distributions in our Probability Distributions Topic.
-
-```{r, eval = TRUE, include = TRUE}
+```{r, eval = TRUE, echo=FALSE}
 
 ggplot() +
     geom_histogram(data = dat_grass,
                    mapping = aes(x = Rich_Grass),
+  # Notice we're specifying the binwidth. Why should (or shouldn't) we do this?
                    binwidth = 1) + 
   ylab("Frequency") +
-  xlab("Grassland Bird Richness")
+  xlab("Grassland Bird Richness") + 
+  # Making it prettier 
+  theme_bw() + 
+  theme(axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10))
 
 ```
 
-### Collinearity? 
+> **Challenge 1:** 
+>
+> 1. Check the minimum and maximum values (i.e., the 'range') for the response variable and each predictor variable. What do you notice about the ranges? Are we going to run into "zero trouble" with the response variable?
+>
+> 2. Create histograms for i) mean tree cover, ii) TSF, iii) and standard deviation in tree cover. **BONUS:** Make them all in a single ggplot call.
+>
+> 3. Check for outliers in the response variable (grassland bird species richness) and predictor variables.
+>
+> 4. Are the data 'balanced' in terms of sampling? Create figure(s) or table(s) to answer this. Some of the figures you've already created may also help...
 
-It's absolutely important to check for pairwise correlations, which we can do with the "cor()" function as below. I typically use the default "Pearson" method, but you should read the R Documentation for other options (kendall, spearman). However, pairwise correlations should be taken with a grain of salt. See this quote from the R Documentation for the "performance::check_collinearity()" function:
+### Normality and Homogeneity in Y 
+
+Some statistical tests assume your response variable conforms to a normal distribution. We will learn about probability/error distributions in our Probability Distributions Topic. But for now, let's forge ahead and make a Q-Q plot (quantile-quantile plot):
+
+```{r, eval = TRUE, echo = FALSE}
+
+ggplot(data = dat_grass,
+       mapping = aes(sample = Rich_Grass)) +
+  geom_qq() +
+  geom_qq_line(color = "red") + 
+  ylab("Grassland Bird Richness") +
+  xlab("Theoretical Quantiles")
+
+```
+
+> **Challenge 2:** 
+>
+> Does the response variable fit the "normality" assumption?
+>
+
+### Collinearity, relationships between X and Y
+
+It's absolutely important to check for pairwise correlations, which we can do quickly with the `pairs` and `cor` functions. For the `cor` function, I typically use the default "Pearson" method, but you should read the R Documentation for other options (kendall, spearman). However, pairwise correlations should be taken with a grain of salt. See this quote from the R Documentation for the "performance::check_collinearity()" function:
 
 "*Multicollinearity should not be confused with a raw strong correlation between predictors... Remember: "Pairwise correlations are not the problem. It is the conditional associations - not correlations - that matter." (McElreath 2020, p. 169)*"
 
 We will talk about Zuur's preference of "variance inflation factors" to check for collinearity in the linear models review Topic.
 
-```{r, eval = TRUE, include = TRUE}
-
-cor(dat_grass[ , c("Year", "Burned", "mean", "stdDev", "TSF")])
-
-```
+> **Challenge 3:** 
+>
+> 1. Check for pairwise correlations between predictor variables graphically using the `pairs` function.
+> 
+> 2. Check for pairwise correlations between predictor variables statistically using the `cor` function.
+> 
+> 3. Are there "linear" relationships between the response variable and predictor variables? How can you use output from the `pairs` function to tell?
 
 
 ### Is there actually a relationship between X and Y?!
 
-For this, we want to plot the response/dependent variable (grassland bird richness) against potential predictor/independent variables. Here, I use quick-and-dirty generalized additive models per ggplot2::geom_smooth and then combine the plots with cowplot::plot_grid
+Let's also plot the response/dependent variable (grassland bird richness) against potential predictor/independent variables. Here, I use quick-and-dirty generalized additive models per ggplot2::geom_smooth and then combine the plots with cowplot::plot_grid
 
-```{r, eval = TRUE, include = TRUE}
+```{r, eval = TRUE, echo = FALSE}
 
 # Making individual plots
-rich_treeMean <- 
+rich_treeMean <-
   dat_grass %>%
-  ggplot(aes(x = mean, y = Rich_Grass)) + 
-  geom_point() + 
+  ggplot(aes(x = mean, y = Rich_Grass)) +
+  geom_point() +
   geom_smooth(method = "gam", formula = y ~ s(x)) + # a simple generalized additive model!
-  ylab("Grassland Bird Richness") + 
-  xlab("Mean % Tree Cover") + 
+  ylab("Grassland Bird Richness") +
+  xlab("Mean % Tree Cover") +
   theme_classic() # FYI: there are lots of fun pre-made themes in ggplot2
-rich_TSF <- 
+rich_TSF <-
   dat_grass %>%
-  ggplot(aes(x = TSF, y = Rich_Grass)) + 
-  geom_point() + 
+  ggplot(aes(x = TSF, y = Rich_Grass)) +
+  geom_point() +
   geom_smooth(method = "gam", formula = y ~ s(x)) +
-  ylab("Grassland Bird Richness") + 
-  xlab("Years-since-fire") + 
+  ylab("Grassland Bird Richness") +
+  xlab("Years-since-fire") +
   theme_bw() # Another theme
 
 # Combine plots
@@ -213,54 +238,33 @@ cowplot::plot_grid(rich_treeMean, rich_TSF, ncol = 2)
 
 ```
 
-Also, we can use the "pairs()" function to create a bunch of scatterplots:
 
-```{r, eval = TRUE, include = TRUE}
+### Interactions between predictor variables
 
-pairs(dat_grass[ , c("Year", "Burned", "mean", "stdDev", "TSF")],
-      lower.panel = NULL)
+Two-way interactions are what we're looking for here. There is (technically) no limit to how many interactions you can have, but I find it gets super confusing to interpret interactions past three-way interactions--and even those are crazy for me.
+
+> **Challenge 4:** 
+>
+> 1. Are there interactions between predictor variables that we should consider? Recreate some ggplot2::facet_wrap plots to check.
+
+
+### Bonus Round: Spatial Patterns
+
+When we collect ecological data, unless we're doing it in a lab, it's never collected without spatial context. Whenever there's spatial context, it's critical to look for spatial patterns in data. Recall that the data we're working with has a sampling unit of: stops along roadside surveys by year. The stops have spatial coordinates (easting and northing from UTM Zone 14). What could we learn if we simply mapped out some of the variables over time?
+
+> **Bonus Challenge** 
+>
+> Map grassland bird species richness by year. Do you see any spatial patterns? Use the `ggplot` and `sf` packages to do this!
+
+``` {r, echo = FALSE, eval = TRUE}
+
+# To get you started, run this code to transform our data.frame into an `sf` object:
+dat_sf <- 
+  st_as_sf(dat_grass,
+           coords = c("easting", "northing"),
+           crs = st_crs(32614)) # This is the code for UTM Zone 14
+
+# Map the routes/stops
+plot(dat_sf["Route"])
 
 ```
-
-### Should we consider interactions between predictor variables?
-
-Use ggplot2::facet_wrap alongside ggplot2::stat_smooth to check for potential interactions between mean tree cover and Year:
-
-```{r, eval = TRUE, include = TRUE}
-
-# Making individual plots
-dat_grass %>%
-  ggplot(aes(x = mean, y = Rich_Grass)) + 
-  facet_wrap(~ Year) + # Make facet plots by Years-since-fire
-  geom_point() + 
-  stat_smooth(method = "lm", formula = y ~ x) + 
-  ylab("Grassland Bird Richness") +
-  xlab("Mean % Tree Cover") +
-  theme_minimal()
-
-```
-
----
-
-
-## Lab questions and exercises:
-
-
-**Q1:** When should you let go of an outlier? Are there outliers in the example data?
-
-
-**Q2:** What are the minimum and maximum values (i.e., the 'range') for each predictor variable? What do you notice about the ranges?
-
-
-**Q3:** Are there other potential interactions we should consider in the example data? Recreate some ggplot2::facet_wrap plots to see for yourself.
-
-
-**Q4:** When is it appropriate to transform the response variable?
-
-<!-- > "There are three main reasons for a transformation: **to reduce the effect of outliers** (especially in covariates), **to stabilize the variance** and **to linearize relationships**. However, using more advanced techniques like GLS and GAMs, heterogenity and nonlinearity problems can be solved, making transformation less important." -->
-
-
-**Q5:** Create some more plots or data summaries exploring the response variable, grassland bird richness (Rich_Grass). What do you notice about the distribution, the spread (i.e., standard deviation and variance), the central tendencies, etc.? Does this variable fit the "normality" assumption?
-
-
-**Q6:** Are the data 'balanced' in terms of sampling? Create figure(s) or table(s) to answer this.

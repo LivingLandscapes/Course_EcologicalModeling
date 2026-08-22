@@ -45,109 +45,6 @@
 
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -597,21 +494,22 @@ when we discuss generalized linear models.</li>
 </ul></li>
 <li>Zero trouble Y
 <ul>
-<li>Zero-inflated GLM</li>
-<li>Double zeros, or joint absences - what do they mean? e.g., spatial
-clumping</li>
+<li>Possibility of complete separation–which is problematic for binary
+response variables.</li>
+<li>Can (sometimes) be dealt with by using a zero-inflated error
+distribution.</li>
 <li>We will not be covering multivariate analyses in this course! (but
 they’re super cool, so go check them out)</li>
 </ul></li>
 <li>Collinearity X
 <ul>
-<li>VIF of 10, 3, or 2 - reason for these values?</li>
 <li>VIFs, or common sense or biological knowledge</li>
 <li>Also… are pairwise comparisons worthwhile?</li>
 </ul></li>
 <li>Relationships Y &amp; X
 <ul>
-<li>Multi-panel scatter plots for checking for outliers</li>
+<li>Multi-panel scatter plots useful here.</li>
+<li>But nonlinearities can obfuscate relationships.</li>
 </ul></li>
 <li>Interactions
 <ul>
@@ -646,84 +544,79 @@ also very powerful:
 </div>
 <div id="data-exploration-examples" class="section level2">
 <h2>Data exploration examples:</h2>
-<p>The code below is built on data from Roberts et al. (2022) in
-<em>Ecological Solutions and Evidence</em>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, cowplot, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Load Roberts et al. (2022) data:</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>dat_grass <span class="ot">&lt;-</span> </span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/LargeScaleFireRestoresGrasslandBirdRichness/LargeScaleFireRestoresGrasslandBirdRichness/LargeScaleFireRestoresGrasslandBirdRichness_RProj/LoessCanyons_BBS_Data/LoessCanyonsBBS_DataRaw.csv&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">##### Data column descriptions: </span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># - Route: name of breeding bird survey route. </span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># - Stop: ID for each stop along survey route+</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># - Year: year of survey</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># - Rich_Grass: grassland bird species richness </span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># - Route_factor: name of breeding bird survey route. </span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># - Year_Num: survey years re-numbered from 1 (2010) to 7 (2016)</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co"># - Burned: if this stop was burned on or after the given year, 1, else 0</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># - Year_Burned: the year that a given stop was burned</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># - easting/northing: easting/northing coordinates in UTM </span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co"># - count: number of 30x30m pixels within 400m of each stop. Number of pixels</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#          vary because some are masked because they were not &#39;rangeland&#39; </span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#          pixels. See Methods/Data Collection/Tree Cover for details.</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co"># - mean: mean percent tree cover across all 30x30m pixels within 400m of</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#         each stop</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co"># - stdDev: standard deviation of percent tree cover across all 30x30m pixels </span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#           within 400m of each stop</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co"># - TSF: years-since-fire</span></span></code></pre></div>
-<div id="checking-for-outliers" class="section level3">
-<h3>Checking for outliers</h3>
+<p>For today’s lab exercise, please download this <a
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/01-A-data-exploration-exercise-code.R">R
+script</a>. We will work through it as we go through the examples and
+challenges below. The data comes from:</p>
+<p>Roberts, C. P., Scholtz, R., Fogarty, D. T., Twidwell, D., &amp;
+Walker Jr, T. L. (2022). Large‐scale fire management restores grassland
+bird richness for a private lands ecoregion. Ecological Solutions and
+Evidence, 3(1), e12119.</p>
+<div id="outliers-zero-trouble-balance" class="section level3">
+<h3>Outliers, zero trouble, balance</h3>
 <p>Zuur et al. recommends plotting your data using boxplots and
-dotcharts to detect outliers. Violin plots are also great options.
-Before removing suspected outliers, make sure they are actually
-outliers!</p>
-<p><strong>Boxplot</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat_grass,</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> Rich_Grass)) <span class="sc">+</span> </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>)</span></code></pre></div>
+dotcharts to detect outliers. Violin plots and histograms are also great
+options. I don’t personally use dotcharts… because I see the point of
+them.</p>
+<p><em>Important</em>: If you have outliers, removing them is likely not
+the first thing you should do. There may be other error distribution
+options you could use or transformations. It also could be a hint that
+you haven’t gotten a sufficiently large sample size to flesh out your
+population’s distribution</p>
+<div id="boxplot" class="section level4">
+<h4>Boxplot</h4>
 <p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
-<p><strong>Violin plots</strong></p>
+</div>
+<div id="violin-plot" class="section level4">
+<h4>Violin plot</h4>
 <p>Violin plots show more data distribution details, but they can be
-messy. These are conditional (by year) and display the 10th, 50th (i.e.,
-median), and 90th quantiles as horizontal lines.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat_grass,</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(Year), <span class="at">y =</span> Rich_Grass, <span class="at">group =</span> Year)) <span class="sc">+</span> </span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+busy and tough to interpret. These are conditional (by year) and display
+the 10th, 50th (i.e., median), and 90th quantiles as horizontal
+lines.</p>
 <p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
-<p><strong>Dotchart for multiple variables</strong></p>
-<p>I personally don’t use these as much, but they can be useful.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>dat_grass <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">arrange</span>(Rich_Grass) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rowID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Year) <span class="sc">+</span> </span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Rich_Grass, <span class="at">y =</span> rowID, <span class="at">group =</span> Year)) <span class="sc">+</span> </span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>)</span></code></pre></div>
+</div>
+<div id="histogram" class="section level4">
+<h4>Histogram</h4>
+<p>Histograms show frequency of values and the shape or distribution of
+the values. Here’s a histogram of our response variable:</p>
 <p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+<blockquote>
+<p><strong>Challenge 1:</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Check the minimum and maximum values (i.e., the ‘range’) for the
+response variable and each predictor variable. What do you notice about
+the ranges? Are we going to run into “zero trouble” with the response
+variable?</p></li>
+<li><p>Create histograms for i) mean tree cover, ii) TSF, iii) and
+standard deviation in tree cover. <strong>BONUS:</strong> Make them all
+in a single ggplot call.</p></li>
+<li><p>Check for outliers in the response variable (grassland bird
+species richness) and predictor variables.</p></li>
+<li><p>Are the data ‘balanced’ in terms of sampling? Create figure(s) or
+table(s) to answer this. Some of the figures you’ve already created may
+also help…</p></li>
+</ol>
+</blockquote>
 </div>
-<div id="whats-your-datas-distribution" class="section level3">
-<h3>What’s your data’s distribution?</h3>
-<p>Some statistical tests assume normal distributions, making it
-important to check the shape of your data. We will learn about
-probability distributions in our Probability Distributions Topic.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">data =</span> dat_grass,</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                   <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Rich_Grass),</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                   <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frequency&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>)</span></code></pre></div>
+</div>
+<div id="normality-and-homogeneity-in-y" class="section level3">
+<h3>Normality and Homogeneity in Y</h3>
+<p>Some statistical tests assume your response variable conforms to a
+normal distribution. We will learn about probability/error distributions
+in our Probability Distributions Topic. But for now, let’s forge ahead
+and make a Q-Q plot (quantile-quantile plot):</p>
 <p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+<blockquote>
+<p><strong>Challenge 2:</strong></p>
+<p>Does the response variable fit the “normality” assumption?</p>
+</blockquote>
 </div>
-<div id="collinearity" class="section level3">
-<h3>Collinearity?</h3>
+<div id="collinearity-relationships-between-x-and-y"
+class="section level3">
+<h3>Collinearity, relationships between X and Y</h3>
 <p>It’s absolutely important to check for pairwise correlations, which
-we can do with the “cor()” function as below. I typically use the
+we can do quickly with the <code>pairs</code> and <code>cor</code>
+functions. For the <code>cor</code> function, I typically use the
 default “Pearson” method, but you should read the R Documentation for
 other options (kendall, spearman). However, pairwise correlations should
 be taken with a grain of salt. See this quote from the R Documentation
@@ -734,87 +627,60 @@ the problem. It is the conditional associations - not correlations -
 that matter.” (McElreath 2020, p. 169)</em>”</p>
 <p>We will talk about Zuur’s preference of “variance inflation factors”
 to check for collinearity in the linear models review Topic.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">cor</span>(dat_grass[ , <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;Burned&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;stdDev&quot;</span>, <span class="st">&quot;TSF&quot;</span>)])</span></code></pre></div>
-<pre><code>##              Year      Burned        mean      stdDev          TSF
-## Year   1.00000000  0.08962018  0.07545786 0.142219843  0.091743735
-## Burned 0.08962018  1.00000000 -0.03778454 0.014892473  0.834689600
-## mean   0.07545786 -0.03778454  1.00000000 0.908534920 -0.040105035
-## stdDev 0.14221984  0.01489247  0.90853492 1.000000000  0.004607301
-## TSF    0.09174374  0.83468960 -0.04010504 0.004607301  1.000000000</code></pre>
+<blockquote>
+<p><strong>Challenge 3:</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Check for pairwise correlations between predictor variables
+graphically using the <code>pairs</code> function.</p></li>
+<li><p>Check for pairwise correlations between predictor variables
+statistically using the <code>cor</code> function.</p></li>
+<li><p>Are there “linear” relationships between the response variable
+and predictor variables? How can you use output from the
+<code>pairs</code> function to tell?</p></li>
+</ol>
+</blockquote>
 </div>
 <div id="is-there-actually-a-relationship-between-x-and-y"
 class="section level3">
 <h3>Is there actually a relationship between X and Y?!</h3>
-<p>For this, we want to plot the response/dependent variable (grassland
-bird richness) against potential predictor/independent variables. Here,
-I use quick-and-dirty generalized additive models per
-ggplot2::geom_smooth and then combine the plots with
-cowplot::plot_grid</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Making individual plots</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>rich_treeMean <span class="ot">&lt;-</span> </span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  dat_grass <span class="sc">%&gt;%</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mean, <span class="at">y =</span> Rich_Grass)) <span class="sc">+</span> </span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;gam&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">s</span>(x)) <span class="sc">+</span> <span class="co"># a simple generalized additive model!</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Mean % Tree Cover&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="co"># FYI: there are lots of fun pre-made themes in ggplot2</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>rich_TSF <span class="ot">&lt;-</span> </span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  dat_grass <span class="sc">%&gt;%</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> TSF, <span class="at">y =</span> Rich_Grass)) <span class="sc">+</span> </span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;gam&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">s</span>(x)) <span class="sc">+</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Years-since-fire&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="co"># Another theme</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co"># Combine plots</span></span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">plot_grid</span>(rich_treeMean, rich_TSF, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
-<p>Also, we can use the “pairs()” function to create a bunch of
-scatterplots:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">pairs</span>(dat_grass[ , <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;Burned&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;stdDev&quot;</span>, <span class="st">&quot;TSF&quot;</span>)],</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>      <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span></code></pre></div>
-<p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-9-1.png" alt="" width="672" /></p>
+<p>Let’s also plot the response/dependent variable (grassland bird
+richness) against potential predictor/independent variables. Here, I use
+quick-and-dirty generalized additive models per ggplot2::geom_smooth and
+then combine the plots with cowplot::plot_grid</p>
+<p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
 </div>
-<div id="should-we-consider-interactions-between-predictor-variables"
+<div id="interactions-between-predictor-variables"
 class="section level3">
-<h3>Should we consider interactions between predictor variables?</h3>
-<p>Use ggplot2::facet_wrap alongside ggplot2::stat_smooth to check for
-potential interactions between mean tree cover and Year:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Making individual plots</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>dat_grass <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mean, <span class="at">y =</span> Rich_Grass)) <span class="sc">+</span> </span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Year) <span class="sc">+</span> <span class="co"># Make facet plots by Years-since-fire</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Grassland Bird Richness&quot;</span>) <span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Mean % Tree Cover&quot;</span>) <span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
-<hr />
+<h3>Interactions between predictor variables</h3>
+<p>Two-way interactions are what we’re looking for here. There is
+(technically) no limit to how many interactions you can have, but I find
+it gets super confusing to interpret interactions past three-way
+interactions–and even those are crazy for me.</p>
+<blockquote>
+<p><strong>Challenge 4:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Are there interactions between predictor variables that we should
+consider? Recreate some ggplot2::facet_wrap plots to check.</li>
+</ol>
+</blockquote>
 </div>
+<div id="bonus-round-spatial-patterns" class="section level3">
+<h3>Bonus Round: Spatial Patterns</h3>
+<p>When we collect ecological data, unless we’re doing it in a lab, it’s
+never collected without spatial context. Whenever there’s spatial
+context, it’s critical to look for spatial patterns in data. Recall that
+the data we’re working with has a sampling unit of: stops along roadside
+surveys by year. The stops have spatial coordinates (easting and
+northing from UTM Zone 14). What could we learn if we simply mapped out
+some of the variables over time?</p>
+<blockquote>
+<p><strong>Bonus Challenge</strong></p>
+<p>Map grassland bird species richness by year. Do you see any spatial
+patterns? Use the <code>ggplot</code> and <code>sf</code> packages to do
+this!</p>
+</blockquote>
+<p><img src="01-A-data-exploration_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
 </div>
-<div id="lab-questions-and-exercises" class="section level2">
-<h2>Lab questions and exercises:</h2>
-<p><strong>Q1:</strong> When should you let go of an outlier? Are there
-outliers in the example data?</p>
-<p><strong>Q2:</strong> What are the minimum and maximum values (i.e.,
-the ‘range’) for each predictor variable? What do you notice about the
-ranges?</p>
-<p><strong>Q3:</strong> Are there other potential interactions we should
-consider in the example data? Recreate some ggplot2::facet_wrap plots to
-see for yourself.</p>
-<p><strong>Q4:</strong> When is it appropriate to transform the response
-variable?</p>
-<!-- > "There are three main reasons for a transformation: **to reduce the effect of outliers** (especially in covariates), **to stabilize the variance** and **to linearize relationships**. However, using more advanced techniques like GLS and GAMs, heterogenity and nonlinearity problems can be solved, making transformation less important." -->
-<p><strong>Q5:</strong> Create some more plots or data summaries
-exploring the response variable, grassland bird richness (Rich_Grass).
-What do you notice about the distribution, the spread (i.e., standard
-deviation and variance), the central tendencies, etc.? Does this
-variable fit the “normality” assumption?</p>
-<p><strong>Q6:</strong> Are the data ‘balanced’ in terms of sampling?
-Create figure(s) or table(s) to answer this.</p>
 </div>
 
 
