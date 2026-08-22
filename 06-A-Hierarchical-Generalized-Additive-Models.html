@@ -46,118 +46,6 @@
 
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-.sourceCode .row {
-  width: 100%;
-}
-.sourceCode {
-  overflow-x: auto;
-}
-.code-folding-btn {
-  margin-right: -30px;
-}
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -466,6 +354,9 @@ div.tocify {
     <li>
       <a href="01-A-data-exploration.html">Lab</a>
     </li>
+    <li>
+      <a href="01-B-Homework-01.html">Homework 1</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -479,7 +370,7 @@ div.tocify {
       <a href="02-A-linear-models-and-probability-distributions.html">Lab</a>
     </li>
     <li>
-      <a href="02-B-Homework-01.html">Homework 1</a>
+      <a href="02-B-Homework-02.html">Homework 2</a>
     </li>
   </ul>
 </li>
@@ -648,607 +539,382 @@ invasive species cover data from the Eastern U.S. from 2001 - 2020. I
 also extracted growth habits and orders of each plant species from the
 <a href="https://plants.usda.gov/">USDA Plants Database</a>. Below is a
 table with descriptions of columns in each dataset:</p>
-<table>
-<colgroup>
-<col width="21%" />
-<col width="21%" />
-<col width="57%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Data File Name</th>
-<th align="left"><strong>Column Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">FIA_Invasives_GrowthTaxonomy.csv</td>
-<td align="left">SCIENTIFIC_NAME</td>
-<td align="left">Genus and species</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">GrowthHabit1</td>
-<td align="left">Primary growth habit</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">GrowthHabit2</td>
-<td align="left">Secondary growth habit, if applicable</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">GrowthHabit3</td>
-<td align="left">Tertiary growth habit, if applicable</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">GrowthHabit_Number</td>
-<td align="left">Number of growth habits</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">Order</td>
-<td align="left">Order of the species</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">COMMON_NAME</td>
-<td align="left">Species’ common name</td>
-</tr>
-<tr class="even">
-<td align="left">FIA_Invasives_Cover.csv</td>
-<td align="left">Year</td>
-<td align="left">years 2001 - 2020</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">pltID</td>
-<td align="left">Unique identifier for each FIA plot</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">SCIENTIFIC_NAME</td>
-<td align="left">Genus and species</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">COMMON_NAME</td>
-<td align="left">Species’ common name</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">cover</td>
-<td align="left">areal cover of invasive species (acres)</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">Longitude</td>
-<td align="left">decimal degrees longitude</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">Latitude</td>
-<td align="left">decimal degrees latitude</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p>Let’s load the data and join the two files:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, </span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      map_data,</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      mgcv, <span class="co"># For checking model convergence</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      MuMIn, <span class="co"># for model selection</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      gratia, <span class="co"># for ggplot functionality with mgcv</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>      modelr, <span class="co"># for cross-validation</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>      vroom, <span class="co"># for loading data FAST</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>      sf, <span class="co"># making spatial objects and maps</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>(),</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Set random number</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9903</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Set the web address where R will look for files from this repository</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># Do not change this address</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/&quot;</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co"># Load invasive species cover data</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>fia <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;data/FIA_Invasives_Cover.csv&quot;</span>))</span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co"># Load invasive species metadata </span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>spp_info <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;data/FIA_Invasives_GrowthTaxonomy.csv&quot;</span>))</span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co"># Join the cover and metadata</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>fia <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fia, spp_info) </span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co"># Some preparations for mgcv</span></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>fia <span class="ot">&lt;-</span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  fia <span class="sc">%&gt;%</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(Order, GrowthHabit1, GrowthHabit2, GrowthHabit3, SCIENTIFIC_NAME, pltID),</span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>                as.factor), <span class="co"># mgcv wants factors for random effects</span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>         <span class="at">cover_0.001 =</span> cover <span class="sc">+</span> <span class="fl">0.001</span>, <span class="co"># for log link</span></span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">c</span>(Year, Latitude, Longitude),</span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>                <span class="sc">~</span> (.x <span class="sc">-</span> <span class="fu">mean</span>(.x)) <span class="sc">/</span> <span class="fu">sd</span>(.x),</span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>                <span class="at">.names =</span> <span class="st">&quot;{.col}_scaled&quot;</span>)) <span class="co"># scale covariates</span></span></code></pre></div>
-</div>
-<div id="data-exploration" class="section level2">
-<h2>Data Exploration</h2>
-<p><strong>On your own, familiarize yourself with the data.</strong>
-Below, you can see that we’re dealing with &gt;100k rows and a few
-potential grouping variables.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Number of columns and rows?</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">dim</span>(fia) <span class="co"># &gt; 100k rows!</span></span></code></pre></div>
-<pre><code>## [1] 101979     16</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># How many unique values in each column?</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>fia <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">length</span>(<span class="fu">unique</span>(.x))))</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 16
-##    Year pltID SCIENTIFIC_NAME COMMON_NAME cover Longitude Latitude GrowthHabit1
-##   &lt;int&gt; &lt;int&gt;           &lt;int&gt;       &lt;int&gt; &lt;int&gt;     &lt;int&gt;    &lt;int&gt;        &lt;int&gt;
-## 1    21 29994              74          74 16069     29955    29916            6
-## # ℹ 8 more variables: GrowthHabit2 &lt;int&gt;, GrowthHabit3 &lt;int&gt;,
-## #   GrowthHabit_Number &lt;int&gt;, Order &lt;int&gt;, cover_0.001 &lt;int&gt;,
-## #   Year_scaled &lt;int&gt;, Latitude_scaled &lt;int&gt;, Longitude_scaled &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># What&#39;s the max, min, mean, and median of the &quot;cover&quot; column?</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>fia <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Mean =</span> <span class="fu">mean</span>(cover),</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>            <span class="at">Median =</span> <span class="fu">median</span>(cover),</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>            <span class="at">Min =</span> <span class="fu">min</span>(cover),</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>            <span class="at">Max =</span> <span class="fu">max</span>(cover))</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 4
-##    Mean Median   Min   Max
-##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 0.118   0.05     0     1</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># How many cover values = 0?</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">sum</span>(fia<span class="sc">$</span>cover <span class="sc">==</span> <span class="dv">0</span>)</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## **QUESTION**: Given there is only a single zero in the cover data, how does that affect the scope of our inference?</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># Let&#39;s make a map! First, convert to an sf object for mapping</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>fia_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(fia,</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>                   <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>                   <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Latitude&quot;</span>))</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># Get a US states map</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">map_data</span>(<span class="st">&quot;state&quot;</span>) <span class="co"># Map of US states</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># # Make a map to show where the weather stations are:</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># ggplot() +</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#   geom_polygon(data = states %&gt;%</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#                  filter(region %in% c(&quot;kentucky&quot;,&quot;tennessee&quot;, &quot;mississippi&quot;, &quot;texas&quot;,</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#                                       &quot;alabama&quot;, &quot;georgia&quot;, &quot;florida&quot;, &quot;oklahoma&quot;,</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#                                       &quot;arkansas&quot;, &quot;south carolina&quot;, &quot;virginia&quot;,</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#                                       &quot;louisiana&quot;, &quot;north carolina&quot;, &quot;maryland&quot;)</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#                         ),</span></span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#                mapping = aes(x = long, y = lat, group = group),</span></span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#                fill = &quot;white&quot;,</span></span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#                color = &quot;black&quot;) +</span></span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#   geom_sf(data = fia_sf,</span></span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#           shape = 15,</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#           alpha = 0.5,</span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#           mapping = aes(color = Year)) +</span></span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#   theme_bw() +</span></span>
-<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#   theme(panel.grid.minor = element_blank(),</span></span>
-<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#         axis.text.x = element_text(angle = 330),</span></span>
-<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#         axis.text = element_text(size = 6,</span></span>
-<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#                                  hjust = 0.1)) +</span></span>
-<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#   xlab(&quot;Longitude&quot;) +</span></span>
-<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#   ylab(&quot;Latitude&quot;)</span></span></code></pre></div>
-<div id="sidenote-should-you-gam-or-bam" class="section level3">
-<h3>Sidenote: Should you ‘gam’ or ‘bam’?</h3>
-<p>This is a logistic issue relevant to using (H)GAMs with large
-datasets. The ‘gam’ function is the main mgcv way to run a
-(hierarchical) generalized additive model, but if you’re analyzing a lot
-of data (e.g., &gt;100k rows), you may consider switching to the ‘bam’
-function. The outputs are very similar, but there are some differences
-due to some shortcuts the ‘bam’ function uses behind the curtains. If
-you’re interested, read about that <a
-href="https://www.rdocumentation.org/packages/mgcv/versions/1.9-0/topics/bam">here</a>
-and <a
-href="https://stackoverflow.com/questions/71926851/different-estimates-between-bam-and-gam-model-mgcv-and-interaction-term-estima">also
-here</a>.</p>
-<p>Also, to prove the difference in runtimes, check this out:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># # runtime for &#39;bam&#39;</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># system.time(</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#   bam(cover_0.001 ~ </span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#               te(Longitude_scaled, Latitude_scaled) +</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#               s(Year_scaled) +</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#               s(Year_scaled, GrowthHabit1, bs = &quot;fs&quot;),</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#       family = Gamma(&quot;log&quot;),</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#       data = fia,</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#       discrete = TRUE,</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#       method = &quot;fREML&quot;)</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># # runtime for &#39;gam&#39; </span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># system.time(</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#   gam(cover_0.001 ~ </span></span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#               te(Longitude_scaled, Latitude_scaled) +</span></span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#               s(Year_scaled) +</span></span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#               s(Year_scaled, GrowthHabit1, bs = &quot;fs&quot;),</span></span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#       family = Gamma(&quot;log&quot;),</span></span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#       data = fia,</span></span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#       method = &quot;REML&quot;)</span></span>
-<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co">#   )</span></span></code></pre></div>
-</div>
-</div>
-<div id="abundance-changes-growth-habit-or-taxonomy"
-class="section level2">
-<h2>Abundance changes: Growth habit or taxonomy?</h2>
-<div id="random-slope-model-gs" class="section level3">
-<h3>“Random Slope”: Model GS</h3>
-<p>Let’s try our first HGAM: estimate a global function for our main
-covariate of interest (Year) plus a individual-level random slope for
-Year per growth habitat/order. We’ll also throw latitude and longitude
-into a tensor smooth to account for spatial autocorrelation.</p>
-<p><strong>On your own, investigate each model diagnostic call
-(commented out in the chunk below) and interpret.</strong> Look at the R
-help for more information, and ask Caleb if you have more questions.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Create model GS using bam()</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>growth_modGS <span class="ot">&lt;-</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">bam</span>(cover_0<span class="fl">.001</span> <span class="sc">~</span> </span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>              <span class="fu">te</span>(Longitude_scaled, Latitude_scaled) <span class="sc">+</span> <span class="co"># tensor smooth lets latitude/longitude &#39;interact&#39;</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, GrowthHabit1, <span class="at">bs =</span> <span class="st">&quot;fs&quot;</span>),</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="st">&quot;log&quot;</span>), <span class="co"># Why this link?!</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>      <span class="at">data =</span> fia,</span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>      <span class="at">discrete =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">&quot;fREML&quot;</span>) <span class="co"># need to use fREML for fast fitting.</span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># # Some basic model diagnostics</span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># summary(growth_modGS)</span></span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co"># gam.check(growth_modGS)</span></span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># gratia::appraise(growth_modGS)</span></span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>order_modGS <span class="ot">&lt;-</span></span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>  <span class="fu">bam</span>(cover_0<span class="fl">.001</span> <span class="sc">~</span> </span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>              <span class="fu">te</span>(Longitude_scaled, Latitude_scaled) <span class="sc">+</span> <span class="co"># tensor smooth lets latitude/longitude &#39;interact&#39;</span></span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled) <span class="sc">+</span></span>
-<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, Order, <span class="at">bs =</span> <span class="st">&quot;fs&quot;</span>),</span>
-<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="st">&quot;log&quot;</span>), <span class="co"># Why this link?!</span></span>
-<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a>      <span class="at">data =</span> fia,</span>
-<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a>      <span class="at">discrete =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">&quot;fREML&quot;</span>) <span class="co"># need to use fREML for fast fitting.</span></span>
-<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a></span>
-<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a><span class="co"># # Some basic model diagnostics</span></span>
-<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="co"># summary(order_modGS)</span></span>
-<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a><span class="co"># gam.check(order_modGS)</span></span>
-<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a><span class="co"># gratia::appraise(order_modGS)</span></span></code></pre></div>
-<p>Okay, so the models aren’t the greatest for a few reasons. <strong>On
-your own, check out the gratia::appraise calls that are commented out,
-and list some issues with these models.</strong></p>
-</div>
-<div
-id="group-smoothers-with-differing-wiggliness-no-global-smoother-model-i"
-class="section level3">
-<h3>“Group smoothers with differing wiggliness (no global smoother)”:
-Model I</h3>
-<p>Okay, now let’s create models for our other hypothesis (order or
-growth habit alone best explain changes in invasive species abundance,
-and abundance changes occur idiosyncratically based on growth
-habit/order). To do this, we’ll use model “I” per Pederson et
-al. (2019).</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Growth habit</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>growth_modI <span class="ot">&lt;-</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">bam</span>(cover_0<span class="fl">.001</span> <span class="sc">~</span> </span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>              <span class="fu">te</span>(Longitude_scaled, Latitude_scaled) <span class="sc">+</span> </span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, <span class="at">by =</span> GrowthHabit1) <span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, <span class="at">bs =</span> <span class="st">&quot;re&quot;</span>), <span class="co"># Why include this??</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="st">&quot;log&quot;</span>),</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>      <span class="at">data =</span> fia,</span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>      <span class="at">discrete =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">&quot;fREML&quot;</span>) </span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co"># Order</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>order_modI <span class="ot">&lt;-</span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>  <span class="fu">bam</span>(cover_0<span class="fl">.001</span> <span class="sc">~</span> </span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>              <span class="fu">te</span>(Longitude_scaled, Latitude_scaled) <span class="sc">+</span> </span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, <span class="at">by =</span> Order) <span class="sc">+</span></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, <span class="at">bs =</span> <span class="st">&quot;re&quot;</span>), </span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="st">&quot;log&quot;</span>),</span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>      <span class="at">data =</span> fia,</span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>      <span class="at">discrete =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">&quot;fREML&quot;</span>)</span></code></pre></div>
-<p><strong>On your own, run the model diagnostics and compare to
-diagnostics from Model I.</strong> Are there improvements, and if so,
-where do you see them? Should we consider increasing “k” for any of the
-smoothers?</p>
-</div>
-<div id="model-selection" class="section level3">
-<h3>Model selection</h3>
-<p>We learned from the Pedersen et al. (2019) paper that we can use AIC
-to compare HGAMs, which is awesome! But–model selection via AIC should
-not be our stopping point. In this section, we’re going to dip our toes
-into cross validation to compare the <em>predictive power</em> of
-HGAMs.</p>
-<p>But first, let’s just see what AIC(c) has to say about our two
-HGAMs:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">model.sel</span>(<span class="fu">list</span>(<span class="at">growth_modGS =</span> growth_modGS, </span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>               <span class="at">order_modGS =</span> order_modGS,</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>               <span class="at">growth_modI =</span> growth_modI,</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>               <span class="at">order_modI =</span> order_modI))</span></code></pre></div>
-<pre><code>## Model selection table 
-##               (Int) s(Yer_scl) s(Yer_scl,GH1,&quot;fs&quot;) te(Lng_scl,Ltt_scl)
-## order_modGS  -2.116          +                                       +
-## growth_modGS -1.873          +                   +                   +
-## order_modI   -1.679                                                  +
-## growth_modI  -1.644                                                  +
-##              s(Yer_scl,Ord,&quot;fs&quot;) s(Yer_scl,&quot;re&quot;) s(Yer_scl,GH1) s(Yer_scl,Ord)
-## order_modGS                    +                                              
-## growth_modGS                                                                  
-## order_modI                                     +                             +
-## growth_modI                                    +              +               
-##               df   logLik      AICc   delta weight
-## order_modGS   98 125833.3 -251468.9    0.00      1
-## growth_modGS  61 125463.2 -250803.0  665.93      0
-## order_modI   130 125517.7 -250773.6  695.33      0
-## growth_modI   76 124972.1 -249790.8 1678.15      0
-## Models ranked by AICc(x)</code></pre>
-<p>We have a <em>very</em> clear winner per AICc rankings: the order
-random slope (GS) model. <strong>In your own words, articulate what that
-means ecologically.</strong></p>
-</div>
-<div id="cross-validation" class="section level3">
-<h3>Cross validation</h3>
-<p>Model selection is not the only way to check for model performance.
-Here, we’ll do a “quick and dirty” cross validation exercise to see how
-our models perform relative to the observations–and in comparison with
-each other. For brevity’s sake, we’ll just look at the top two models
-from our model selection.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Create training and testing data.frames</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>train_df <span class="ot">&lt;-</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">sample_n</span>(fia <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()),</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>           <span class="fu">ceiling</span>(<span class="fu">nrow</span>(fia)<span class="sc">/</span><span class="dv">10</span>)) <span class="co"># Using 90% of the data for training</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>test_df <span class="ot">&lt;-</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="fu">anti_join</span>(fia <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()),</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>            train_df, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>) <span class="co"># Use the remaining 10% of the data to test</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co"># train models</span></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>order_modGS_train <span class="ot">&lt;-</span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>  <span class="fu">bam</span>(cover_0<span class="fl">.001</span> <span class="sc">~</span> </span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>              <span class="fu">te</span>(Longitude_scaled, Latitude_scaled) <span class="sc">+</span> </span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled) <span class="sc">+</span></span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, Order, <span class="at">bs =</span> <span class="st">&quot;fs&quot;</span>),</span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="st">&quot;log&quot;</span>), </span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>      <span class="at">data =</span> fia,</span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>      <span class="at">discrete =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">&quot;fREML&quot;</span>)</span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a>growth_modGS_train <span class="ot">&lt;-</span></span>
-<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a>  <span class="fu">bam</span>(cover_0<span class="fl">.001</span> <span class="sc">~</span> </span>
-<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a>              <span class="fu">te</span>(Longitude_scaled, Latitude_scaled) <span class="sc">+</span> </span>
-<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled) <span class="sc">+</span></span>
-<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a>              <span class="fu">s</span>(Year_scaled, GrowthHabit1, <span class="at">bs =</span> <span class="st">&quot;fs&quot;</span>),</span>
-<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="st">&quot;log&quot;</span>), </span>
-<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a>      <span class="at">data =</span> fia,</span>
-<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a>      <span class="at">discrete =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">&quot;fREML&quot;</span>)</span>
-<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a><span class="co"># Root mean square error and mean absolute error to test models</span></span>
-<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Model =</span> <span class="fu">c</span>(<span class="st">&quot;order_modGS&quot;</span>, <span class="st">&quot;growth_modGS&quot;</span>),</span>
-<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a>           <span class="at">RMSE =</span> <span class="fu">c</span>(<span class="fu">rmse</span>(order_modGS_train, test_df),</span>
-<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a>                    <span class="fu">rmse</span>(growth_modGS_train, test_df)),</span>
-<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a>           <span class="at">MAE =</span> <span class="fu">c</span>(<span class="fu">mae</span>(order_modGS_train, test_df),</span>
-<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a>                    <span class="fu">mae</span>(growth_modGS_train, test_df)))</span></code></pre></div>
-<pre><code>##          Model     RMSE      MAE
-## 1  order_modGS 2.451044 2.394720
-## 2 growth_modGS 2.443929 2.390163</code></pre>
-<p>Oof! Looks like both our quick and dirty cross-validation tests show
-the models have negligible differences in predictive ability. Also, the
-values of MAE and RMSE suggest that our models are pretty crumby at
-predictions!! Just goes to show that we need to assess models from
-multiple angles. <strong>On your own, consider what would make these
-models better predictors.</strong></p>
-</div>
-<div id="visualize-hgam-smooth-estimates" class="section level3">
-<h3>Visualize HGAM smooth estimates</h3>
-<p>Now, let’s plot the smooth estimates from our top model. Recall what
-a “smooth estimate” is in a generalized additive model. How does it
-differ from a “prediction?”</p>
-<p>There are multiple ways to visualize the smooth estimates, but here,
-we’ll take the easy way out and use functions from the “gratia”
-package.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Luckily, the gratia package has some nice functions for creating customized model prediction plots:</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># See the exact names of the smooths in the model object</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="fu">smooths</span>(order_modGS)</span></code></pre></div>
-<pre><code>## [1] &quot;te(Longitude_scaled,Latitude_scaled)&quot;
-## [2] &quot;s(Year_scaled)&quot;                      
-## [3] &quot;s(Year_scaled,Order)&quot;</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># Save smooth estimates.</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">smooth_estimates</span>(order_modGS)</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co"># Plot the global &quot;s(Year_scaled)&quot; estimate</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>sm <span class="sc">%&gt;%</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">filter</span>(.smooth <span class="sc">==</span> <span class="st">&quot;s(Year_scaled)&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">add_confint</span>(<span class="at">coverage =</span> <span class="fl">0.80</span>) <span class="sc">|&gt;</span> <span class="co"># 80% confidence intervals</span></span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> .estimate,</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>             <span class="at">x =</span> Year_scaled)) <span class="sc">+</span></span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> .lower_ci,</span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>                  <span class="at">ymax =</span> .upper_ci),</span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.3</span>,</span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">&quot;gray70&quot;</span>) <span class="sc">+</span></span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">yintercept =</span> <span class="dv">0</span>),</span>
-<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">yintercept =</span> yintercept),</span>
-<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>,</span>
-<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span> <span class="co"># Adding to make it clear where confidence intervals encompass zero.</span></span>
-<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Estimate&quot;</span>)</span></code></pre></div>
-<p><img src="06-A-Hierarchical-Generalized-Additive-Models_files/figure-html/unnamed-chunk-9-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># Plot the factor smooths for each growth habit</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>sm <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">filter</span>(.smooth <span class="sc">==</span> <span class="st">&quot;s(Year_scaled,Order)&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="fu">add_confint</span>(<span class="at">coverage =</span> <span class="fl">0.80</span>) <span class="sc">|&gt;</span> <span class="co"># 80% confidence intervals</span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> .estimate,</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>             <span class="at">x =</span> Year_scaled,</span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>             <span class="at">group =</span> Order)) <span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> .lower_ci,</span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>                  <span class="at">ymax =</span> .upper_ci),</span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.3</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">&quot;gray70&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>,</span>
-<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">color =</span> Order)) <span class="sc">+</span></span>
-<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">yintercept =</span> <span class="dv">0</span>),</span>
-<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">yintercept =</span> yintercept),</span>
-<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>,</span>
-<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>) <span class="sc">+</span> <span class="co"># Adding to make it clear where confidence intervals encompass zero.</span></span>
-<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>  <span class="co"># facet_wrap(~ Order) +</span></span>
-<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Estimate&quot;</span>)</span></code></pre></div>
-<p><img src="06-A-Hierarchical-Generalized-Additive-Models_files/figure-html/unnamed-chunk-9-2.png" alt="" width="672" /></p>
-<p><strong>On your own, interpret the prediction plots.</strong> How
-does the global smoother ( “s(Year_scaled)” ) estimate compare to the
-individual factor smooths ( “s(Year_scaled,Order)” )? What does it mean
-for the estimate to be above the zero line, encompassing the zero line,
-and below the zero line?</p>
-<p><strong>IMPORTANT</strong>: Circle back to a question from the
-beginning of the lab. Given the trend you’re seeing in the
-“s(Year_scaled)” plot, what does it mean for our inferece that there are
-no zeroes in this dataset???</p>
-</div>
-</div>
-<div id="spatial-predictions" class="section level2">
-<h2>Spatial predictions</h2>
-<p>In this final section, we’re going to deviate from our hypotheses a
-bit in order to show you how to do some spatial predictions–and then
-create maps with your spatial predictions. There are MANY resources that
-show how to do this–particularly for raster data. So to be additive and
-not repetitive, here, we will predict an HGAM’s outputs across a vector
-dataset.</p>
-<p>To be even more fun, we’ll make a “honeycomb” (hexagonal) map. There
-are some actual reasons to use a honeycomb instead of a “fishnet”
-(square grid), some of which are listed in this <a
-href="https://link.springer.com/article/10.1007/s10980-015-0295-0">paper</a>.
-Also, the nature of the FIA data lends itself to being re-aggregated
-into large polygons.</p>
-<p>As a first step, let’s make the honeycomb!</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># First, convert the FIA data to an sf object</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>fia_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(fia,</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>                   <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>), <span class="co"># This number is the code for the Lat/Long Coordinate Reference System. You can look other codes up (e.g., UTM zone 14 = 32614)</span></span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>                   <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Latitude&quot;</span>))</span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co"># Read in a shapefile with all extensions of the US states of interest</span></span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>states <span class="ot">&lt;-</span> </span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="fu">st_read</span>(<span class="fu">paste0</span>(<span class="st">&quot;/vsicurl/&quot;</span>, <span class="co"># need to add this to get all shapefile extensions</span></span>
-<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>                 repo_url, </span>
-<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>                 <span class="st">&quot;data/US_States/cb_2018_us_state_5m.shp&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>  <span class="fu">filter</span>(NAME <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Kentucky&quot;</span>,<span class="st">&quot;Tennessee&quot;</span>, <span class="st">&quot;Mississippi&quot;</span>,</span>
-<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>                     <span class="st">&quot;Alabama&quot;</span>, <span class="st">&quot;Georgia&quot;</span>, <span class="st">&quot;Florida&quot;</span>, </span>
-<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>                     <span class="st">&quot;Arkansas&quot;</span>, <span class="st">&quot;South Carolina&quot;</span>, <span class="st">&quot;Virginia&quot;</span>,</span>
-<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>                     <span class="st">&quot;Louisiana&quot;</span>, <span class="st">&quot;North Carolina&quot;</span>))</span></code></pre></div>
-<pre><code>## Reading layer `cb_2018_us_state_5m&#39; from data source 
-##   `/vsicurl/https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/US_States/cb_2018_us_state_5m.shp&#39; 
-##   using driver `ESRI Shapefile&#39;
-## Simple feature collection with 56 features and 9 fields
-## Geometry type: MULTIPOLYGON
-## Dimension:     XY
-## Bounding box:  xmin: -179.1473 ymin: -14.55255 xmax: 179.7785 ymax: 71.35256
-## Geodetic CRS:  NAD83</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Create hexagonal grid...</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>honeycomb_grid <span class="ot">&lt;-</span> </span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">st_make_grid</span>(<span class="fu">st_union</span>(states),  <span class="co"># Need to combine all state polygons</span></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>               <span class="at">cellsize =</span> <span class="fl">0.5</span>, </span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>               <span class="at">what =</span> <span class="st">&quot;polygons&quot;</span>, </span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>               <span class="at">square =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>  <span class="fu">st_sf</span>() <span class="sc">%&gt;%</span> <span class="co"># Force geometry into a sf &quot;data.frame&quot; like object </span></span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>  <span class="fu">rowid_to_column</span>(<span class="st">&#39;hex_id&#39;</span>)  <span class="sc">%&gt;%</span> <span class="co"># Make an ID column for the hex polygons</span></span>
-<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  <span class="fu">st_make_valid</span>() <span class="co"># Not sure why we need this, but it was necessary for the intersection to work haha</span></span>
-<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a><span class="co"># ... and clip to our study extent (states)</span></span>
-<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>honeycomb_grid <span class="ot">&lt;-</span> </span>
-<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a>  <span class="fu">st_intersection</span>(honeycomb_grid, </span>
-<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a>                  <span class="fu">st_union</span>(states))</span></code></pre></div>
-<p>Now that we’ve made the honeycomb polygons, let’s make the data to
-predict onto. To do that, we’ll need coordinates (latitude and
-longitude, scaled). But… which coordinates do we choose? For raster
-cells, it’s pretty easy as every pixel has an associated coordinate. But
-for vector data, there are an infinite number of coordinates we could
-choose from.</p>
-<p><strong>On your own, think of a solution to this problem!</strong>
-Once you’ve got an idea, reveal the code below.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># (One) solution: get hexagonal centroids!</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>honeycomb_centroids <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(honeycomb_grid)</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># Scale prediction covariates--on the same scale as the covariates used for fitting the model!</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>nd_0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Latitude_scaled =</span> <span class="fu">rep</span>((<span class="fu">st_coordinates</span>(honeycomb_centroids)[,<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">mean</span>(fia<span class="sc">$</span>Latitude)) <span class="sc">/</span> <span class="fu">sd</span>(fia<span class="sc">$</span>Latitude), <span class="dv">2</span>),</span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>                   <span class="at">Longitude_scaled =</span> <span class="fu">rep</span>((<span class="fu">st_coordinates</span>(honeycomb_centroids)[,<span class="dv">1</span>] <span class="sc">-</span> <span class="fu">mean</span>(fia<span class="sc">$</span>Longitude)) <span class="sc">/</span> <span class="fu">sd</span>(fia<span class="sc">$</span>Longitude), <span class="dv">2</span>),</span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>                   <span class="at">Year_scaled =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">min</span>(fia<span class="sc">$</span>Year_scaled),</span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>                                       <span class="fu">max</span>(fia<span class="sc">$</span>Year_scaled)), </span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>                                     <span class="at">each =</span> <span class="fu">nrow</span>(honeycomb_centroids)), <span class="co"># Since we&#39;re not interested in time, pick most recent year.</span></span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>                   <span class="at">hex_id =</span> <span class="fu">rep</span>(honeycomb_centroids<span class="sc">$</span>hex_id, <span class="dv">2</span>)) </span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co"># Make a data.frame for prediction</span></span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>nd <span class="ot">&lt;-</span> </span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind,</span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>          <span class="fu">lapply</span>(<span class="fu">unique</span>(fia<span class="sc">$</span>Order),</span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>                 <span class="cf">function</span>(X) {</span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>                   <span class="co"># We need to get latitudes and longitudes for each grid cell </span></span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a>                   <span class="co"># for each growth habit. We&#39;ll use a lapply function to do this</span></span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>                   <span class="co"># quickly.</span></span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>                   df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Order =</span> X,</span>
-<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a>                                    nd_0) </span>
-<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a>                   <span class="fu">return</span>(df)</span>
-<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>                 }))</span></code></pre></div>
-<p>Final step: make the prediction and the map! You should be familiar
-with all this from previous labs. The only new parts are the color ramp
-and the “geom_sf” code. Thankfully, the folks who created the “sf”
-package made it compatable with ggplot, so all you need is an sf object
-(e.g., our “fia_sf” object). The rest takes care of itself!</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Prediction. We won&#39;t worry about the standard error/confidence here. However, it&#39;s best practice to create maps of uncertainty whenever you create a predictive map.</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>spFit_pred <span class="ot">&lt;-</span> </span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="fu">predict</span>(order_modGS, </span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>          <span class="at">newdata =</span> nd, </span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>          <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a><span class="co"># Create prediction data.frame</span></span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>spFit_pred_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fit =</span> spFit_pred, nd)</span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a><span class="co"># Join prediction with the honeycomb grid</span></span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>pred_sf <span class="ot">&lt;-</span> </span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>  <span class="fu">left_join</span>(honeycomb_grid, </span>
-<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a>            spFit_pred_df)</span>
-<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a></span>
-<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="co"># Create a custom color ramp. We&#39;ll need this because the predictions are CRAZY skewed. So if we allowed R to generate a color ramp for us, we wouldn&#39;t be able to see the nuance in the predictions.</span></span>
-<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a>colorBreaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(pred_sf<span class="sc">$</span>fit), </span>
-<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a>                 <span class="fu">max</span>(pred_sf<span class="sc">$</span>fit), </span>
-<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a>                 <span class="fl">0.01</span>)</span>
-<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a>colorRamp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">colorRampPalette</span>(<span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">&quot;#fde725&quot;</span>, <span class="co"># these are viridis color-blind friendly colors</span></span>
-<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a>                              <span class="st">&quot;#5ec962&quot;</span>, </span>
-<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a>                              <span class="st">&quot;#21918c&quot;</span>, </span>
-<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a>                              <span class="st">&quot;#3b528b&quot;</span>, </span>
-<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>                              <span class="st">&quot;#440154&quot;</span>)),</span>
-<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a>                            <span class="at">bias =</span> <span class="fl">1.5</span>)(<span class="fu">length</span>(colorBreaks[colorBreaks <span class="sc">&lt;</span> <span class="fu">quantile</span>(pred_sf<span class="sc">$</span>fit, <span class="fl">0.99</span>)])), <span class="co"># Cutoff at 99th quantile</span></span>
-<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>               <span class="fu">rep</span>(<span class="st">&quot;#fde725&quot;</span>, <span class="fu">length</span>(colorBreaks) <span class="sc">-</span> <span class="fu">length</span>(colorBreaks[colorBreaks <span class="sc">&lt;</span> <span class="fu">quantile</span>(pred_sf<span class="sc">$</span>fit, <span class="fl">0.99</span>)])))</span>
-<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a></span>
-<span id="cb26-27"><a href="#cb26-27" tabindex="-1"></a><span class="co"># Make the map! Let&#39;s just use the first year (2001)</span></span>
-<span id="cb26-28"><a href="#cb26-28" tabindex="-1"></a><span class="fu">ggplot</span>(pred_sf <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Year_scaled <span class="sc">==</span> <span class="fu">min</span>(Year_scaled)), </span>
-<span id="cb26-29"><a href="#cb26-29" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">fill =</span> fit)) <span class="sc">+</span></span>
-<span id="cb26-30"><a href="#cb26-30" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Order, <span class="at">ncol =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb26-31"><a href="#cb26-31" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> colorRamp,</span>
-<span id="cb26-32"><a href="#cb26-32" tabindex="-1"></a>                       <span class="at">name =</span> <span class="st">&quot;Cover&quot;</span>) <span class="sc">+</span></span>
-<span id="cb26-33"><a href="#cb26-33" tabindex="-1"></a>  <span class="fu">geom_sf</span>()</span></code></pre></div>
-<p><img src="06-A-Hierarchical-Generalized-Additive-Models_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
-<p>We did it!</p>
-</div>
-<div id="discussion-questions" class="section level2">
-<h2>Discussion questions</h2>
-<ol style="list-style-type: decimal">
-<li><p>Given the global time smooth estimate ( “s(Year_scaled)” ), what
-would the prediction maps look like in the final year of our FIA
-data?</p></li>
-<li><p>What are similarities and differences in the prediction maps?
-What aspects of the HGAM we used makes them similar/different?</p></li>
-<li><p>What kind(s) of HGAM would create very different predictive
-maps/smooth estimates for the different order?</p></li>
-<li><p>Given there were no zeroes in our response variable (cover), what
-can these models actually tell us? What can they <strong>not</strong>
-tell us? What would be a way to add zeroes to the data?</p></li>
-</ol>
+<!-- | Data File Name | **Column Name**| **Description**                            | -->
+<!-- |:---------------|:---------------|:-------------------------------------------| -->
+<!-- | FIA_Invasives_GrowthTaxonomy.csv | SCIENTIFIC_NAME | Genus and species | -->
+<!-- | | GrowthHabit1 | Primary growth habit | -->
+<!-- | | GrowthHabit2 | Secondary growth habit, if applicable |  -->
+<!-- | | GrowthHabit3 | Tertiary growth habit, if applicable | -->
+<!-- | | GrowthHabit_Number | Number of growth habits |  -->
+<!-- | | Order | Order of the species |  -->
+<!-- | | COMMON_NAME | Species' common name |  -->
+<!-- | FIA_Invasives_Cover.csv | Year       | years 2001 - 2020                   | -->
+<!-- | | pltID   | Unique identifier for each FIA plot                            | -->
+<!-- | | SCIENTIFIC_NAME | Genus and species                                      | -->
+<!-- | | COMMON_NAME | Species' common name                                       | -->
+<!-- | | cover       | areal cover of invasive species (acres)                    | -->
+<!-- | | Longitude   | decimal degrees longitude                       | -->
+<!-- | | Latitude    | decimal degrees latitude -->
+<!-- --- -->
+<!-- Let's load the data and join the two files: -->
+<!-- ```{r, include = TRUE, eval = TRUE, message = FALSE, echo = TRUE} -->
+<!-- # List of packages necessary to run this script: -->
+<!-- require(librarian, quietly = TRUE) -->
+<!-- shelf(tidyverse,  -->
+<!--       map_data, -->
+<!--       mgcv, # For checking model convergence -->
+<!--       MuMIn, # for model selection -->
+<!--       gratia, # for ggplot functionality with mgcv -->
+<!--       modelr, # for cross-validation -->
+<!--       vroom, # for loading data FAST -->
+<!--       sf, # making spatial objects and maps -->
+<!--       lib = tempdir(), -->
+<!--       quiet = TRUE) -->
+<!-- # Set random number -->
+<!-- set.seed(9903) -->
+<!-- # Set the web address where R will look for files from this repository -->
+<!-- # Do not change this address -->
+<!-- repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/" -->
+<!-- # Load invasive species cover data -->
+<!-- fia <- read_csv(paste0(repo_url, "data/FIA_Invasives_Cover.csv")) -->
+<!-- # Load invasive species metadata  -->
+<!-- spp_info <- read_csv(paste0(repo_url, "data/FIA_Invasives_GrowthTaxonomy.csv")) -->
+<!-- # Join the cover and metadata -->
+<!-- fia <- left_join(fia, spp_info)  -->
+<!-- # Some preparations for mgcv -->
+<!-- fia <- -->
+<!--   fia %>% -->
+<!--   mutate(across(c(Order, GrowthHabit1, GrowthHabit2, GrowthHabit3, SCIENTIFIC_NAME, pltID), -->
+<!--                 as.factor), # mgcv wants factors for random effects -->
+<!--          cover_0.001 = cover + 0.001, # for log link -->
+<!--          across(c(Year, Latitude, Longitude), -->
+<!--                 ~ (.x - mean(.x)) / sd(.x), -->
+<!--                 .names = "{.col}_scaled")) # scale covariates -->
+<!-- ``` -->
+<!-- ## Data Exploration -->
+<!-- **On your own, familiarize yourself with the data.** Below, you can see that we're dealing with >100k rows and a few potential grouping variables. -->
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE} -->
+<!-- # Number of columns and rows? -->
+<!-- dim(fia) # > 100k rows! -->
+<!-- # How many unique values in each column? -->
+<!-- fia %>% -->
+<!--   summarize(across(everything(), ~ length(unique(.x)))) -->
+<!-- # What's the max, min, mean, and median of the "cover" column? -->
+<!-- fia %>% -->
+<!--   summarize(Mean = mean(cover), -->
+<!--             Median = median(cover), -->
+<!--             Min = min(cover), -->
+<!--             Max = max(cover)) -->
+<!-- # How many cover values = 0? -->
+<!-- sum(fia$cover == 0) -->
+<!-- ## **QUESTION**: Given there is only a single zero in the cover data, how does that affect the scope of our inference? -->
+<!-- # Let's make a map! First, convert to an sf object for mapping -->
+<!-- fia_sf <- st_as_sf(fia, -->
+<!--                    crs = st_crs(4326), -->
+<!--                    coords = c("Longitude", "Latitude")) -->
+<!-- # Get a US states map -->
+<!-- states <- map_data("state") # Map of US states -->
+<!-- # # Make a map to show where the weather stations are: -->
+<!-- # ggplot() + -->
+<!-- #   geom_polygon(data = states %>% -->
+<!-- #                  filter(region %in% c("kentucky","tennessee", "mississippi", "texas", -->
+<!-- #                                       "alabama", "georgia", "florida", "oklahoma", -->
+<!-- #                                       "arkansas", "south carolina", "virginia", -->
+<!-- #                                       "louisiana", "north carolina", "maryland") -->
+<!-- #                         ), -->
+<!-- #                mapping = aes(x = long, y = lat, group = group), -->
+<!-- #                fill = "white", -->
+<!-- #                color = "black") + -->
+<!-- #   geom_sf(data = fia_sf, -->
+<!-- #           shape = 15, -->
+<!-- #           alpha = 0.5, -->
+<!-- #           mapping = aes(color = Year)) + -->
+<!-- #   theme_bw() + -->
+<!-- #   theme(panel.grid.minor = element_blank(), -->
+<!-- #         axis.text.x = element_text(angle = 330), -->
+<!-- #         axis.text = element_text(size = 6, -->
+<!-- #                                  hjust = 0.1)) + -->
+<!-- #   xlab("Longitude") + -->
+<!-- #   ylab("Latitude") -->
+<!-- ``` -->
+<!-- ### Sidenote: Should you 'gam' or 'bam'? -->
+<!-- This is a logistic issue relevant to using (H)GAMs with large datasets. The 'gam' function is the main mgcv way to run a (hierarchical) generalized additive model, but if you're analyzing a lot of data (e.g., >100k rows), you may consider switching to the 'bam' function. The outputs are very similar, but there are some differences due to some shortcuts the 'bam' function uses behind the curtains. If you're interested, read about that [here](https://www.rdocumentation.org/packages/mgcv/versions/1.9-0/topics/bam) and [also here](https://stackoverflow.com/questions/71926851/different-estimates-between-bam-and-gam-model-mgcv-and-interaction-term-estima). -->
+<!-- Also, to prove the difference in runtimes, check this out: -->
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE} -->
+<!-- # # runtime for 'bam' -->
+<!-- # system.time( -->
+<!-- #   bam(cover_0.001 ~  -->
+<!-- #               te(Longitude_scaled, Latitude_scaled) + -->
+<!-- #               s(Year_scaled) + -->
+<!-- #               s(Year_scaled, GrowthHabit1, bs = "fs"), -->
+<!-- #       family = Gamma("log"), -->
+<!-- #       data = fia, -->
+<!-- #       discrete = TRUE, -->
+<!-- #       method = "fREML") -->
+<!-- #   ) -->
+<!-- #  -->
+<!-- # # runtime for 'gam'  -->
+<!-- # system.time( -->
+<!-- #   gam(cover_0.001 ~  -->
+<!-- #               te(Longitude_scaled, Latitude_scaled) + -->
+<!-- #               s(Year_scaled) + -->
+<!-- #               s(Year_scaled, GrowthHabit1, bs = "fs"), -->
+<!-- #       family = Gamma("log"), -->
+<!-- #       data = fia, -->
+<!-- #       method = "REML") -->
+<!-- #   ) -->
+<!-- ``` -->
+<!-- ## Abundance changes: Growth habit or taxonomy? -->
+<!-- ### "Random Slope": Model GS -->
+<!-- Let's try our first HGAM: estimate a global function for our main covariate of interest (Year) plus a individual-level random slope for Year per growth habitat/order. We'll also throw latitude and longitude into a tensor smooth to account for spatial autocorrelation. -->
+<!-- **On your own, investigate each model diagnostic call (commented out in the chunk below) and interpret.** Look at the R help for more information, and ask Caleb if you have more questions. -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # Create model GS using bam() -->
+<!-- growth_modGS <- -->
+<!--   bam(cover_0.001 ~  -->
+<!--               te(Longitude_scaled, Latitude_scaled) + # tensor smooth lets latitude/longitude 'interact' -->
+<!--               s(Year_scaled) + -->
+<!--               s(Year_scaled, GrowthHabit1, bs = "fs"), -->
+<!--       family = Gamma("log"), # Why this link?! -->
+<!--       data = fia, -->
+<!--       discrete = TRUE, -->
+<!--       method = "fREML") # need to use fREML for fast fitting. -->
+<!-- # # Some basic model diagnostics -->
+<!-- # summary(growth_modGS) -->
+<!-- # gam.check(growth_modGS) -->
+<!-- # gratia::appraise(growth_modGS) -->
+<!-- order_modGS <- -->
+<!--   bam(cover_0.001 ~  -->
+<!--               te(Longitude_scaled, Latitude_scaled) + # tensor smooth lets latitude/longitude 'interact' -->
+<!--               s(Year_scaled) + -->
+<!--               s(Year_scaled, Order, bs = "fs"), -->
+<!--       family = Gamma("log"), # Why this link?! -->
+<!--       data = fia, -->
+<!--       discrete = TRUE, -->
+<!--       method = "fREML") # need to use fREML for fast fitting. -->
+<!-- # # Some basic model diagnostics -->
+<!-- # summary(order_modGS) -->
+<!-- # gam.check(order_modGS) -->
+<!-- # gratia::appraise(order_modGS) -->
+<!-- ``` -->
+<!-- Okay, so the models aren't the greatest for a few reasons. **On your own, check out the gratia::appraise calls that are commented out, and list some issues with these models.** -->
+<!-- ### "Group smoothers with differing wiggliness (no global smoother)": Model I -->
+<!-- Okay, now let's create models for our other hypothesis (order or growth habit alone best explain changes in invasive species abundance, and abundance changes occur idiosyncratically based on growth habit/order). To do this, we'll use model "I" per Pederson et al. (2019). -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # Growth habit -->
+<!-- growth_modI <- -->
+<!--   bam(cover_0.001 ~  -->
+<!--               te(Longitude_scaled, Latitude_scaled) +  -->
+<!--               s(Year_scaled, by = GrowthHabit1) + -->
+<!--               s(Year_scaled, bs = "re"), # Why include this?? -->
+<!--       family = Gamma("log"), -->
+<!--       data = fia, -->
+<!--       discrete = TRUE, -->
+<!--       method = "fREML")  -->
+<!-- # Order -->
+<!-- order_modI <- -->
+<!--   bam(cover_0.001 ~  -->
+<!--               te(Longitude_scaled, Latitude_scaled) +  -->
+<!--               s(Year_scaled, by = Order) + -->
+<!--               s(Year_scaled, bs = "re"),  -->
+<!--       family = Gamma("log"), -->
+<!--       data = fia, -->
+<!--       discrete = TRUE, -->
+<!--       method = "fREML") -->
+<!-- ``` -->
+<!-- **On your own, run the model diagnostics and compare to diagnostics from Model I.** Are there improvements, and if so, where do you see them? Should we consider increasing "k" for any of the smoothers? -->
+<!-- ### Model selection -->
+<!-- We learned from the Pedersen et al. (2019) paper that we can use AIC to compare HGAMs, which is awesome! But--model selection via AIC should not be our stopping point. In this section, we're going to dip our toes into cross validation to compare the *predictive power* of HGAMs. -->
+<!-- But first, let's just see what AIC(c) has to say about our two HGAMs: -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- model.sel(list(growth_modGS = growth_modGS,  -->
+<!--                order_modGS = order_modGS, -->
+<!--                growth_modI = growth_modI, -->
+<!--                order_modI = order_modI)) -->
+<!-- ``` -->
+<!-- We have a *very* clear winner per AICc rankings: the order random slope (GS) model. **In your own words, articulate what that means ecologically.** -->
+<!-- ### Cross validation -->
+<!-- Model selection is not the only way to check for model performance. Here, we'll do a "quick and dirty" cross validation exercise to see how our models perform relative to the observations--and in comparison with each other. For brevity's sake, we'll just look at the top two models from our model selection. -->
+<!-- ``` {r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # Create training and testing data.frames -->
+<!-- train_df <- -->
+<!--   sample_n(fia %>% mutate(id = 1:n()), -->
+<!--            ceiling(nrow(fia)/10)) # Using 90% of the data for training -->
+<!-- test_df <- -->
+<!--   anti_join(fia %>% mutate(id = 1:n()), -->
+<!--             train_df, by = "id") # Use the remaining 10% of the data to test -->
+<!-- # train models -->
+<!-- order_modGS_train <- -->
+<!--   bam(cover_0.001 ~  -->
+<!--               te(Longitude_scaled, Latitude_scaled) +  -->
+<!--               s(Year_scaled) + -->
+<!--               s(Year_scaled, Order, bs = "fs"), -->
+<!--       family = Gamma("log"),  -->
+<!--       data = fia, -->
+<!--       discrete = TRUE, -->
+<!--       method = "fREML") -->
+<!-- growth_modGS_train <- -->
+<!--   bam(cover_0.001 ~  -->
+<!--               te(Longitude_scaled, Latitude_scaled) +  -->
+<!--               s(Year_scaled) + -->
+<!--               s(Year_scaled, GrowthHabit1, bs = "fs"), -->
+<!--       family = Gamma("log"),  -->
+<!--       data = fia, -->
+<!--       discrete = TRUE, -->
+<!--       method = "fREML") -->
+<!-- # Root mean square error and mean absolute error to test models -->
+<!-- data.frame(Model = c("order_modGS", "growth_modGS"), -->
+<!--            RMSE = c(rmse(order_modGS_train, test_df), -->
+<!--                     rmse(growth_modGS_train, test_df)), -->
+<!--            MAE = c(mae(order_modGS_train, test_df), -->
+<!--                     mae(growth_modGS_train, test_df))) -->
+<!-- ``` -->
+<!-- Oof! Looks like both our quick and dirty cross-validation tests show the models have negligible differences in predictive ability. Also, the values of MAE and RMSE suggest that our models are pretty crumby at predictions!! Just goes to show that we need to assess models from multiple angles. **On your own, consider what would make these models better predictors.**  -->
+<!-- ### Visualize HGAM smooth estimates -->
+<!-- Now, let's plot the smooth estimates from our top model. Recall what a "smooth estimate" is in a generalized additive model. How does it differ from a "prediction?" -->
+<!-- There are multiple ways to visualize the smooth estimates, but here, we'll take the easy way out and use functions from the "gratia" package. -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # Luckily, the gratia package has some nice functions for creating customized model prediction plots: -->
+<!-- # See the exact names of the smooths in the model object -->
+<!-- smooths(order_modGS) -->
+<!-- # Save smooth estimates. -->
+<!-- sm <- smooth_estimates(order_modGS) -->
+<!-- # Plot the global "s(Year_scaled)" estimate -->
+<!-- sm %>% -->
+<!--   filter(.smooth == "s(Year_scaled)") |> -->
+<!--   add_confint(coverage = 0.80) |> # 80% confidence intervals -->
+<!--   ggplot(aes(y = .estimate, -->
+<!--              x = Year_scaled)) + -->
+<!--   geom_ribbon(aes(ymin = .lower_ci, -->
+<!--                   ymax = .upper_ci), -->
+<!--               alpha = 0.3, -->
+<!--               fill = "gray70") + -->
+<!--   geom_line(linewidth = 1) + -->
+<!--   geom_hline(data = data.frame(yintercept = 0), -->
+<!--              mapping = aes(yintercept = yintercept), -->
+<!--              linetype = 2, -->
+<!--              color = "darkred") + # Adding to make it clear where confidence intervals encompass zero. -->
+<!--   theme_bw() + -->
+<!--   ylab("Estimate") -->
+<!-- # Plot the factor smooths for each growth habit -->
+<!-- sm %>% -->
+<!--   filter(.smooth == "s(Year_scaled,Order)") |> -->
+<!--   add_confint(coverage = 0.80) |> # 80% confidence intervals -->
+<!--   ggplot(aes(y = .estimate, -->
+<!--              x = Year_scaled, -->
+<!--              group = Order)) + -->
+<!--   geom_ribbon(aes(ymin = .lower_ci, -->
+<!--                   ymax = .upper_ci), -->
+<!--               alpha = 0.3, -->
+<!--               fill = "gray70") + -->
+<!--   scale_color_viridis_d() + -->
+<!--   geom_line(linewidth = 1, -->
+<!--             mapping = aes(color = Order)) + -->
+<!--   geom_hline(data = data.frame(yintercept = 0), -->
+<!--              mapping = aes(yintercept = yintercept), -->
+<!--              linetype = 2, -->
+<!--              color = "darkred") + # Adding to make it clear where confidence intervals encompass zero. -->
+<!--   theme_bw() + -->
+<!--   # facet_wrap(~ Order) + -->
+<!--   ylab("Estimate") -->
+<!-- ``` -->
+<!-- **On your own, interpret the prediction plots.** How does the global smoother ( "s(Year_scaled)" ) estimate compare to the individual factor smooths ( "s(Year_scaled,Order)" )? What does it mean for the estimate to be above the zero line, encompassing the zero line, and below the zero line? -->
+<!-- **IMPORTANT**: Circle back to a question from the beginning of the lab. Given the trend you're seeing in the "s(Year_scaled)" plot, what does it mean for our inferece that there are no zeroes in this dataset??? -->
+<!-- ## Spatial predictions -->
+<!-- In this final section, we're going to deviate from our hypotheses a bit in order to show you how to do some spatial predictions--and then create maps with your spatial predictions. There are MANY resources that show how to do this--particularly for raster data. So to be additive and not repetitive, here, we will predict an HGAM's outputs across a vector dataset. -->
+<!-- To be even more fun, we'll make a "honeycomb" (hexagonal) map. There are some actual reasons to use a honeycomb instead of a "fishnet" (square grid), some of which are listed in this [paper](https://link.springer.com/article/10.1007/s10980-015-0295-0). Also, the nature of the FIA data lends itself to being re-aggregated into large polygons.  -->
+<!-- As a first step, let's make the honeycomb!  -->
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # First, convert the FIA data to an sf object -->
+<!-- fia_sf <- st_as_sf(fia, -->
+<!--                    crs = st_crs(4326), # This number is the code for the Lat/Long Coordinate Reference System. You can look other codes up (e.g., UTM zone 14 = 32614) -->
+<!--                    coords = c("Longitude", "Latitude")) -->
+<!-- # Read in a shapefile with all extensions of the US states of interest -->
+<!-- states <-  -->
+<!--   st_read(paste0("/vsicurl/", # need to add this to get all shapefile extensions -->
+<!--                  repo_url,  -->
+<!--                  "data/US_States/cb_2018_us_state_5m.shp")) %>% -->
+<!--   filter(NAME %in% c("Kentucky","Tennessee", "Mississippi", -->
+<!--                      "Alabama", "Georgia", "Florida",  -->
+<!--                      "Arkansas", "South Carolina", "Virginia", -->
+<!--                      "Louisiana", "North Carolina")) -->
+<!-- # Create hexagonal grid... -->
+<!-- honeycomb_grid <-  -->
+<!--   st_make_grid(st_union(states),  # Need to combine all state polygons -->
+<!--                cellsize = 0.5,  -->
+<!--                what = "polygons",  -->
+<!--                square = FALSE) %>% -->
+<!--   st_sf() %>% # Force geometry into a sf "data.frame" like object  -->
+<!--   rowid_to_column('hex_id')  %>% # Make an ID column for the hex polygons -->
+<!--   st_make_valid() # Not sure why we need this, but it was necessary for the intersection to work haha -->
+<!-- # ... and clip to our study extent (states) -->
+<!-- honeycomb_grid <-  -->
+<!--   st_intersection(honeycomb_grid,  -->
+<!--                   st_union(states)) -->
+<!-- ``` -->
+<!-- Now that we've made the honeycomb polygons, let's make the data to predict onto. To do that, we'll need coordinates (latitude and longitude, scaled). But... which coordinates do we choose? For raster cells, it's pretty easy as every pixel has an associated coordinate. But for vector data, there are an infinite number of coordinates we could choose from.  -->
+<!-- **On your own, think of a solution to this problem!** Once you've got an idea, reveal the code below. -->
+<!-- ``` {r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # (One) solution: get hexagonal centroids! -->
+<!-- honeycomb_centroids <- st_centroid(honeycomb_grid) -->
+<!-- # Scale prediction covariates--on the same scale as the covariates used for fitting the model! -->
+<!-- nd_0 <- data.frame(Latitude_scaled = rep((st_coordinates(honeycomb_centroids)[,2] - mean(fia$Latitude)) / sd(fia$Latitude), 2), -->
+<!--                    Longitude_scaled = rep((st_coordinates(honeycomb_centroids)[,1] - mean(fia$Longitude)) / sd(fia$Longitude), 2), -->
+<!--                    Year_scaled = rep(c(min(fia$Year_scaled), -->
+<!--                                        max(fia$Year_scaled)),  -->
+<!--                                      each = nrow(honeycomb_centroids)), # Since we're not interested in time, pick most recent year. -->
+<!--                    hex_id = rep(honeycomb_centroids$hex_id, 2))  -->
+<!-- # Make a data.frame for prediction -->
+<!-- nd <-  -->
+<!--   do.call(rbind, -->
+<!--           lapply(unique(fia$Order), -->
+<!--                  function(X) { -->
+<!--                    # We need to get latitudes and longitudes for each grid cell  -->
+<!--                    # for each growth habit. We'll use a lapply function to do this -->
+<!--                    # quickly. -->
+<!--                    df <- data.frame(Order = X, -->
+<!--                                     nd_0)  -->
+<!--                    return(df) -->
+<!--                  })) -->
+<!-- ``` -->
+<!-- Final step: make the prediction and the map! You should be familiar with all this from previous labs. The only new parts are the color ramp and the "geom_sf" code. Thankfully, the folks who created the "sf" package made it compatable with ggplot, so all you need is an sf object (e.g., our "fia_sf" object). The rest takes care of itself! -->
+<!-- ``` {r eval = TRUE, message = FALSE, include = TRUE} -->
+<!-- # Prediction. We won't worry about the standard error/confidence here. However, it's best practice to create maps of uncertainty whenever you create a predictive map. -->
+<!-- spFit_pred <-  -->
+<!--   predict(order_modGS,  -->
+<!--           newdata = nd,  -->
+<!--           type = "response") -->
+<!-- # Create prediction data.frame -->
+<!-- spFit_pred_df <- data.frame(fit = spFit_pred, nd) -->
+<!-- # Join prediction with the honeycomb grid -->
+<!-- pred_sf <-  -->
+<!--   left_join(honeycomb_grid,  -->
+<!--             spFit_pred_df) -->
+<!-- # Create a custom color ramp. We'll need this because the predictions are CRAZY skewed. So if we allowed R to generate a color ramp for us, we wouldn't be able to see the nuance in the predictions. -->
+<!-- colorBreaks <- seq(min(pred_sf$fit),  -->
+<!--                  max(pred_sf$fit),  -->
+<!--                  0.01) -->
+<!-- colorRamp <- c(colorRampPalette(rev(c("#fde725", # these are viridis color-blind friendly colors -->
+<!--                               "#5ec962",  -->
+<!--                               "#21918c",  -->
+<!--                               "#3b528b",  -->
+<!--                               "#440154")), -->
+<!--                             bias = 1.5)(length(colorBreaks[colorBreaks < quantile(pred_sf$fit, 0.99)])), # Cutoff at 99th quantile -->
+<!--                rep("#fde725", length(colorBreaks) - length(colorBreaks[colorBreaks < quantile(pred_sf$fit, 0.99)]))) -->
+<!-- # Make the map! Let's just use the first year (2001) -->
+<!-- ggplot(pred_sf %>% filter(Year_scaled == min(Year_scaled)),  -->
+<!--        aes(fill = fit)) + -->
+<!--   facet_wrap(~ Order, ncol = 6) + -->
+<!--   scale_fill_gradientn(colors = colorRamp, -->
+<!--                        name = "Cover") + -->
+<!--   geom_sf() -->
+<!-- ``` -->
+<!-- We did it!  -->
+<!-- ## Discussion questions -->
+<!-- 1. Given the global time smooth estimate ( "s(Year_scaled)" ), what would the prediction maps look like in the final year of our FIA data?  -->
+<!-- 2. What are similarities and differences in the prediction maps? What aspects of the HGAM we used makes them similar/different? -->
+<!-- 3. What kind(s) of HGAM would create very different predictive maps/smooth estimates for the different order? -->
+<!-- 4. Given there were no zeroes in our response variable (cover), what can these models actually tell us? What can they **not** tell us? What would be a way to add zeroes to the data? -->
 </div>
 
 
