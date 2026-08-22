@@ -18,12 +18,14 @@ navbar:
       menu:
         - text: "Lab"
           href: 01-A-data-exploration.html
+        - text: "Homework 1"
+          href: 01-B-Homework-01.html
     - text: "Linear Models"
       menu:
         - text: "Lab"
           href: 02-A-linear-models-and-probability-distributions.html
-        - text: "Homework 1"
-          href: 02-B-Homework-01.html
+        - text: "Homework 2"
+          href: 02-B-Homework-02.html
     - text: "Model Selection"
       menu:
         - text: "Lab"
