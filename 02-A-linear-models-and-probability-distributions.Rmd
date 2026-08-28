@@ -3,7 +3,6 @@ layout: topic
 title: "Review of linear models, probability distributions"
 output: 
   html_document:
-    code_folding: hide
 ---
 
 **Assigned Reading:**
@@ -36,21 +35,19 @@ repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_Ecologica
 
 # Overview
 
-We will be reviewing linear models (linear regression) using the [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/) dataset and R Package. We will start with generating hypotheses, then move on to data exploration, fitting our first model, checking that our model fits linear regression assumptions, and finally interpreting our model. Meet the penguin species that we'll be working with:
+We will be reviewing linear models (linear regression) using the [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/) dataset and R Package. We will start with generating hypotheses, then move on to data exploration, fitting our first model, checking that our model fits linear regression assumptions, and finally interpreting our model. Please download this [R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/02-A-linear-model-exercise-code.R). We will work through it as we go through the examples and challenges below.
+
+Meet the penguin species that we'll be working with:
 
 <p>
 ![Artwork by @allison_horst](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/penguins.png){width=300px}
 <p>
 
-Let's get started!
-
 ---
 
-# Linear modeling example
+## Here's the packages and data
 
-## Data exploration
-
-```{r include = TRUE, eval = TRUE}
+```{r include = TRUE, eval = TRUE, warning=FALSE}
 
 # List of packages necessary to run this script:
 require(librarian, quietly = TRUE)
@@ -62,11 +59,12 @@ shelf(tidyverse, cowplot, palmerpenguins, performance, bslib, shiny,
 # https://allisonhorst.github.io/palmerpenguins/
 
 # Read in a data file
-data(package = 'palmerpenguins', verbose = FALSE)
+data(package = 'palmerpenguins',
+     verbose = FALSE)
 
 ```
 
-Take a look at the data. The head() function is good for this. On your own, try the str() function on the entire data.frame, the range() function on individual *numeric* columns, and the unique() function on *character* columns. 
+Take a look at the data. The head() function is good for this. On your own, try the str() function on the entire data.frame, the range() function on individual *numeric* columns, and the unique() function on *character* columns.
 
 Note: there are two datasets included in the "palmerpenguins" package. We will use the cleaned 'penguins' dataset.
 
@@ -99,7 +97,7 @@ To test this hypothesis, let's create a 'global' model containing all the variab
 ```{r include = TRUE, eval = TRUE}
 
 # fit the global linear regression
-fit_global <- 
+fit_global <-
   lm(body_mass_g ~ sex + bill_length_mm * bill_depth_mm + species,
      data = penguins)
 
@@ -108,7 +106,7 @@ summary(fit_global)
 
 ```
 
-We did it! On your own, please go line-by-line through the summary table and--in words--communicate to yourself and/or your neighbors if each hypothesis is supported and why.
+We did it! Go line-by-line through the summary table and--in words--communicate if each hypothesis is supported and why.
 
 Additionally, you may be asking a common question for folks using categorical variables in regression. In this case, it's probably "why are there no coefficient estimates for sex:female or species:Adelie?" On your own, search Google and/or StackOverflow for an answer.
 
@@ -129,15 +127,15 @@ Before we get too morose, let's try a few things to double-check these VIFs are 
 
 ```{r include = TRUE, eval = TRUE}
 
-# Create a new data.frame with 
-penguins <- 
+# Create a new data.frame with
+penguins <-
   penguins %>%
   mutate(across(c(bill_length_mm, bill_depth_mm),
                 .fns = function(X) as.numeric(scale(X)),
                 .names = "{.col}_scaled"))
 
 # fit the global linear regression
-fit_global_scaled <- 
+fit_global_scaled <-
   lm(body_mass_g ~ sex + bill_length_mm_scaled * bill_depth_mm_scaled + species,
      data = penguins)
 
@@ -167,7 +165,7 @@ However, we still need to deal with the > 10 VIF for species, which does appear 
 ```{r include = TRUE, eval = TRUE}
 
 # fit the global linear regression
-fit_global_scaled_noSpecies <- 
+fit_global_scaled_noSpecies <-
   lm(body_mass_g ~ sex + bill_length_mm_scaled * bill_depth_mm_scaled,
      data = penguins)
 
@@ -196,18 +194,18 @@ We will wait until our Autocorrelation topic to check for independence, but we l
 ```{r include = TRUE, eval = TRUE}
 
 # Check for heteroscedasticity via the fancy ggplot2 way of plotting fitted values vs. residuals:
-ggplot() + 
+ggplot() +
   geom_point(aes(x = fit_global_scaled_noSpecies$fitted.values,
-                 y = fit_global_scaled_noSpecies$residuals)) + 
-  geom_hline(data = data.frame(yintercept = 0), 
-             aes(yintercept = 0), 
+                 y = fit_global_scaled_noSpecies$residuals)) +
+  geom_hline(data = data.frame(yintercept = 0),
+             aes(yintercept = 0),
              linetype = 2,
              color = "red") +
-  xlab("Fitted values") + 
+  xlab("Fitted values") +
   ylab("Residuals")
 
 # Built-in model diagnostics for checking for heteroscedasticity, errors are normally distributed, etc.
-par(mfrow = c(2, 2)) # To make all plots be panels of a single figure. 
+par(mfrow = c(2, 2)) # To make all plots be panels of a single figure.
 plot(fit_global_scaled_noSpecies)
 
 ```
@@ -222,4 +220,4 @@ So our final model contains sex and an interaction of bill length and depth to e
 
 3. Graphically, how can we characterize uncertainty in our model? HINT: look at the predict() "se.fit" argument.
 
-4. Using words only, interpret our final model. 
+4. Using words only, interpret our final model.
