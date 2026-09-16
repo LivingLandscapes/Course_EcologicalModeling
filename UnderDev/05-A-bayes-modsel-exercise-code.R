@@ -1,27 +1,42 @@
 ################ 
-# Cleaning the PineRidge data a bit
+# Model selection: Bayesian approaches
 
-
+# Purpose: Learn Bayesian approaches to model selection. 
 
 # List of packages necessary to run this script:
-require(librarian, quietly = TRUE)
+require(librarian, 
+        quietly = TRUE)
 shelf(tidyverse, 
-      # cowplot, 
-      # performance, 
       brms,
-      # MuMIn,
-      # StanHeaders,
-      lterdatasampler, # For LTER data
+      MuMIn, # For AICc and model selection table
+      cmdstanr,
       lib = tempdir(),
       quiet = TRUE)
 
-# Pine Ridge tree data
-trees_raw <- 
-  read_csv("https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/data/PineRidge_30x30Tree_ALL.csv")
+# Scale helper function
+scale2 <- 
+  function(X) {
+    
+    (X - mean(X)) / sd(X)
+    
+  }
 
-# Pine Ridge coarse woody debris data
-cwd_raw <- 
-  read_csv("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/PineRidge_CWD_ALL.csv")
+
+# Load the data
+pineRidge <- 
+  read_csv("~/GitHub/Course_EcologicalModeling/data/PineRidge_Trees_cleaned.csv") %>%
+  # Forcing severity and YSF to be factors and ordering them for convenience.
+  mutate(BurnSeverity = factor(BurnSeverity,
+                               levels = c("U", "L", "M", "H")),
+         YearsSinceFire = factor(YearsSinceFire,
+                                 levels = c("10", "27")),
+         # And scaling the two continuous variables
+         CWD_z = scale2(CWD_volume_sum),
+         NTree_z = scale2(N_trees)) %>%
+  # Remove grasslands... because they will have low mean DBH regardless.
+  filter(CoverType != "G") %>%
+  # Remove unnecessary columns
+  select(-CoverType, -burn, -Severity_Num)
 
 ### NOTES: 
 
@@ -36,14 +51,77 @@ cwd_raw <-
 # = burn severity (U = unburned, L = low severity, M = moderate severity, H =
 # high severity, B = burned grassland)
 
-# # decay.class: L = live tree; numbers = ascending decay stages with 1 being
-# still intact and 5 being near collapse.
+# Check out the pairs plots
+pairs(pineRidge[ , 2:ncol(pineRidge)],
+      lower.panel = NULL)
 
-# # species: PP = Ponderosa Pine
+# Reminder: Don't put correlated variables in the same model. Pairs plots don't
+# show any clear correlations between predictors, so we'll call it good for this
+# exercise.
 
 #=============================================================================
-## Data wrangling with tidyverse!      
+## Model selection - frequentist fits
 
+# Model list
+mods <- 
+  list(Global = DBH_mean ~ BurnSeverity * YearsSinceFire + CWD_z + NTree_z,
+       AllFire = DBH_mean ~ BurnSeverity * YearsSinceFire,
+       Biotic = DBH_mean ~ CWD_z + NTree_z,
+       Severity = DBH_mean ~ BurnSeverity,
+       YSF = DBH_mean ~ YearsSinceFire,
+       Null = DBH_mean ~ 1)
+
+#### Challenge #1: 
+
+# 1. Fit all models in `mods` with a "single" function. Fit models with `lm()`,
+# and save as an object named `fits_lm`.
+
+fits_lm <- 
+  lapply(mods, lm, data = pineRidge)
+names(fits_lm) <- names(mods)
+
+# (Yes, we should probably be using another distribution, but there's a problem
+# with doing this. Can you spot it? Regardless, let's just do it the easy way
+# for now.)
+
+# 2. Critical step: check the fit for the "Global" model. Since this is the most
+# complex model, if it's a reasonable fit, the others *should* be too.
+
+# 3. Make an AICc model ranking table with the fit models
+
+model.sel(fits_lm)
+
+# 4. Interpret the model ranking table. 
+
+#=============================================================================
+## Model selection - Bayesian fits
+
+#### Challenge #2:
+
+# 1. Using the same data, `mods` list, and Gaussian(identity link) distribution
+# as in the frequentist fits, run Bayesian models. Set iter = 600 and backend =
+# "cmdstanr".
+fits_brms <-
+  lapply(mods,
+         function(X) {
+           brm(X,
+               family = gaussian,
+               iter = 600,
+               chains = 3,
+               cores = 6,
+               data = pineRidge,
+               backend = "cmdstanr")
+           })
+
+# 2. Okay, now that you have all the models run, you still need to check the
+# most complex model's diagnostics. How to do that with Bayesian models?
+
+
+
+
+
+
+##################
 # 
 str(trees_raw)
 
@@ -110,45 +188,6 @@ pineRidge <-
          N_trees = ifelse(is.na(N_trees), 0, N_trees),
          Severity_Num = as.numeric(factor(BurnSeverity,
                                           levels = c("U", "L", "M", "H"))))
-  
+
 write_csv(pineRidge,
-          "~/GitHub/Course_EcologicalModeling/data/PineRidge_Trees_cleaned.csv")  
-
-pineRidge <- read_csv("~/GitHub/Course_EcologicalModeling/data/PineRidge_Trees_cleaned.csv")
-
-#====================
-
-mods <- 
-  list(Global = DBH_mean ~ Severity_Num + YearsSinceFire + CWD_volume_sum + N_trees,
-       Global2 = DBH_mean ~ BurnSeverity + YearsSinceFire + CWD_volume_sum + N_trees,
-       Severity_YSF = DBH_mean ~ Severity_Num + YearsSinceFire,
-       Severity_YSF2 = DBH_mean ~ BurnSeverity + YearsSinceFire,
-       Biotic = DBH_mean ~ CWD_volume_sum + N_trees,
-       Severity = DBH_mean ~ Severity_Num,
-       Severity2 = DBH_mean ~ BurnSeverity,
-       Null = DBH_mean ~ 1)
-# fits <- 
-#   lapply(mods, 
-#          function(X) {lm(X, data = pineRidge)})
-# names(fits) = names(mods)
-# model.sel(fits)
-# summary(fits$Severity_YSF)
-
-# ## 
-# fits_brms <- 
-#   lapply(mods[1:3], 
-#          function(X) {
-#            brm(X, 
-#                family = gaussian,
-#                iter = 500,
-#                chains = 3,
-#                cores = 3,
-#                data = pineRidge)
-#            })
-tst <- 
-  brm(DBH_mean ~ 1, 
-      family = gaussian,
-      iter = 500,
-      chains = 1,
-      cores = 3,
-      data = pineRidge)
+          "~/GitHub/Course_EcologicalModeling/data/PineRidge_Trees_cleaned.csv") 
