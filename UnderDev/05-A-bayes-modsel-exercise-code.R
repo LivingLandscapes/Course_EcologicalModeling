@@ -94,13 +94,13 @@ model.sel(fits_lm)
 # 4. Interpret the model ranking table. 
 
 #=============================================================================
-## Model selection - Bayesian fits
+## Bayesian fits
 
 #### Challenge #2:
 
 # 1. Using the same data, `mods` list, and Gaussian(identity link) distribution
 # as in the frequentist fits, run Bayesian models. Set iter = 600 and backend =
-# "cmdstanr".
+# "cmdstanr". Save all the fits in an object named `fits_brms`.
 fits_brms <-
   lapply(mods,
          function(X) {
@@ -113,12 +113,40 @@ fits_brms <-
                backend = "cmdstanr")
            })
 
-# 2. Okay, now that you have all the models run, you still need to check the
+# 2. Now that you have all the models run, you still need to check the
 # most complex model's diagnostics. How to do that with Bayesian models?
 
+#=============================================================================
+## Model selection - Bayesian
 
+# There are several information criteria you could use for Bayesian model
+# selection, but the two dominate ones are the "Widely Applicable Information
+# Criterion" (WAIC) and "Leave-One-Out Cross Validation" (LOOCV).
 
+### If you really want to read more about these information criteria:
+# Vehtari, A., Gelman, A., & Gabry, J. (2017). Practical Bayesian model
+# evaluation using leave-one-out cross-validation and WAIC. Statistics and
+# computing, 27(5), 1413-1432.
 
+# Per the Veharti et al. (2017) article (cited >7,000 times!!), LOOCV is
+# prefered because "Although WAIC is asymptotically equal to LOO, we demonstrate
+# that PSIS-LOO is more robust in the finite case with weak priors or
+# influential observations." But people use both (for now), so don't fret too
+# much.
+
+### IMPORTANTLY: like everything else in Bayes-land, these information criteria
+### are generated as *distributions*, and you can get credible intervals on
+### them. That also means they can take a long time to compute--especially for
+### model runs with many iterations!
+
+#### Challenge #3:
+
+# 1. Run WAIC or LOOCV on all the models in `fits_brms`. Try do run a different
+# criteria from your neighbor so you can compare.
+
+# 2. Make a nice model ranking table (top-ranked model as first row, then
+# descending). Try using the "loo_compare()" function to do this--this function
+# will work for LOOCV and WAIC.
 
 
 ##################
