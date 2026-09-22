@@ -36,7 +36,7 @@ Roberts, C. P., Donovan, V. M., Nodskov, S. M., Keele, E. B., Allen, C. R., Wedi
 ---
 
 <p>
-![Tree density 27 years after the 1989 wildfire in Fort Robinson State Park, Nebraska](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Fire_Severity_Photosdensity.TIFF){width=400px}
+![Tree density 27 years after the 1989 wildfire in Fort Robinson State Park, Nebraska](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/PineRidgeFireHistory.png){width=400px}
 
 <p>
 
