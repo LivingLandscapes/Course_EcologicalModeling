@@ -11,7 +11,7 @@
 
 
 
-<title>Lab: Hello, Bayes!</title>
+<title>Homework 3</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -563,157 +563,165 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Lab: Hello, Bayes!</h1>
+<h1 class="title toc-ignore">Homework 3</h1>
 
 </div>
 
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>Northern Bobwhite (hereafter ‘quail’) are declining across most of
-their range. Quail are also a wildly popular species to hunt, study, and
-worry about–which often means there is excellent data on them! Today,
-we’re going to use historic quail “whistle count” surveys from eastern
-Nebraska to describe trends in quail abundance. Whistle counts are often
-used as a proxy for abundance (i.e., more whistles = more quail). The
-data you’ll be using ranges from 1965 - 2020!</p>
-<p>Download this <a
-href="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/04-A-hello-bayes-exercise-code.R">R
-script</a>. We’ll use it to work through the challenges today.</p>
-<hr />
+<p>Please provide a reproducible .R script that answers all questions
+below and produces all of your analysis and plots. Some reminders:</p>
+<ul>
+<li><strong>Reproducible:</strong> This means when I run your script, it
+will run all analyses and create all plots without errors, without me
+having to reset my working directory, and without forcing me to install
+anything on my machine (i.e., use the require(librarian); shelf(your
+packages, lib = tempdir()) approach as in the code block below). This
+also means there should be <em>NO ERRORS</em> when I run it!</li>
+<li><strong>Format:</strong> Answer each question with text and code,
+plus figures/tables where appropriate.</li>
+</ul>
+<div id="background" class="section level3">
+<h3>Background</h3>
 <p>
 <div class="float">
 <img
-src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Bobwhite_larus10.jpg"
-width="400" alt="Bobwhite Quail by Larus" />
-<div class="figcaption">Bobwhite Quail by Larus</div>
+src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/MtLofty_RubenSchade.jpg"
+width="300"
+alt="“Mount Lofty in the Adelaide Hills” by Ruben Schade is licensed under CC BY-NC 2.0" />
+<div class="figcaption">“Mount Lofty in the Adelaide Hills” by Ruben
+Schade is licensed under CC BY-NC 2.0</div>
 </div>
 <p>
+<p>The discipline of landscape ecology frequently postulates that the
+spatial pattern of habitat is important, in addition to local
+characteristics such as patch area, vegetation type, and climate.
+Westphal et al (2003) analyzed data from the South Australian Bird Atlas
+using a series of landscape pattern metrics estimated at 3 spatial
+scales. They concluded that landscape structure had a positive effect on
+many bird species. However, this dataset was never designed to be
+analyzed using logistic regression, and consequently their conclusions
+were somewhat weak, and badly compromised by model selection
+uncertainty. They used AIC rather than AICc, because the number of
+datapoints was relatively large (n=499) compared to the number of
+parameters in the most complex model (K = 5) so n/K ~ 100 and AIC is
+probably adequate. However the number of models considered (R = 45) is
+quite large. In addition, because of the way the Atlas data were
+archived, it was not possible to directly compare the effect of local
+patch variables to landscape pattern covariates.</p>
+<p>At the same time, Dr. Scott Field and colleagues of the University of
+Adelaide collected an independent data set at 34 woodland sites in the
+Mt. Lofty Ranges using a standard 2 ha, 20 min timed count procedure in
+each of 2 years. Field et al. (2002) describe some of the issues related
+to designing this survey; we have data for 34 of the 38 sites in that
+study. The bird data has sites and years in rows, and bird species in
+columns; for a given site in a particular year, a 1 indicates that the
+species was observed at least once out of three visits to the site, and
+a zero indicates that the species was not observed in three visits. This
+provides some correction for the problem of false negatives. <em>FYI: if
+you’re thinking “duh–these folks should have just used an occupancy
+model,” check out the date of the OG occupancy modeling papers (e.g.,
+MacKenzie et al. 2002 in Ecology).</em></p>
+<p>Here are citations for the papers mentioned above:</p>
+<ul>
+<li><em>Westphal, M. I., Field, S. A., Tyre, A. J., Paton, D., &amp;
+Possingham, H. P. (2003). Effects of landscape pattern on bird species
+distribution in the Mt. Lofty Ranges, South Australia. Landscape
+Ecology, 18, 413-426.</em></li>
+<li><em>Field, S. A., Tyre, A. J., &amp; Possingham, H. P. (2002).
+Estimating bird species richness: how should repeat surveys be organized
+in time?. Austral Ecology, 27(6), 624-629.</em></li>
+</ul>
+<p>Do not use the analysis presented in these papers, although you can
+refer to the paper for the ecological background.</p>
 </div>
-<div id="data-description" class="section level2">
-<h2>Data description</h2>
-<table>
-<colgroup>
-<col width="20%" />
-<col width="79%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Column Name</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Year</td>
-<td>years 1965 - 2020</td>
-</tr>
-<tr class="even">
-<td>County</td>
-<td>Nebraska county name</td>
-</tr>
-<tr class="odd">
-<td>Route.Name</td>
-<td>Route name</td>
-</tr>
-<tr class="even">
-<td>Route.Number</td>
-<td>Route number</td>
-</tr>
-<tr class="odd">
-<td>UTMXN</td>
-<td>UTM northing zone 14</td>
-</tr>
-<tr class="even">
-<td>UTMYE</td>
-<td>UTM easting zone 14</td>
-</tr>
-<tr class="odd">
-<td>WhistleCount</td>
-<td>Mean whistle count per route per year</td>
-</tr>
-<tr class="even">
-<td>Bob_Region</td>
-<td>Quail management region code</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p>Let’s load the data and tidy it:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#===============================================================================</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="do">## Preparations</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># # Clear environment?</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># rm(list=ls())</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">require</span>(librarian)</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, here, sf, brms, maps, terra, tidybayes,</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># Set path</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>repo_url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/&quot;</span></span>
+</div>
+<div id="data-descriptions" class="section level2">
+<h2>Data descriptions:</h2>
+<p>We have two datasets for this homework. First, we have the bird
+occurrence data in mlrbird:</p>
+<ul>
+<li>Year - year codes.</li>
+<li>Patch - patch code</li>
+<li>Name - Name of survey location</li>
+<li>East - UTM easting</li>
+<li>North - UTM northing</li>
+<li>All the rest are four-letter bird species codes.</li>
+</ul>
+<p>We also have landscape pattern variables similar to those used by
+Westphal et al at 2 km, 5 km, and 10 km scales, as well as three “local”
+covariates. Each of the landscape variables starts with the name,
+followed by 2k, 5k, or 10K according to which buffer size was used. The
+variables used by Westphal et al are indicated with an asterisk, and
+“local” covariates are indicated by two asterisks. These landscape data
+are in mlrland. Note that these data have NOT been modified to reduce
+correlations among the variables as Westphal et al described (This is a
+hint, maybe).</p>
+<p><strong>NOTE:</strong> There are twice as many rows in mlrbird than
+mlrland. This is because the bird surveys were conducted over two years,
+but landscape variables were only collected once… How should you deal
+with this?</p>
+<ul>
+<li>Patch - patch code</li>
+<li>Name - Name of survey location</li>
+<li>*TLA - total landscape area</li>
+<li>NumP - number of patches</li>
+<li>MPS - mean patch size</li>
+<li>LPI - largest patch index (% of TLA covered by largest patch)</li>
+<li>*LSI - landscape shape index (measure of edge) = 1.0 if one circular
+patch, increases with edge</li>
+<li>PSSD - patch size std. Dev.</li>
+<li>*MNN - mean nearest neighbor distance (not if NumP is 0, it should
+be NA not 0 - check)</li>
+<li>TE - total edge</li>
+<li>*MPAR = (TE/TLA/NumP) = mean patch perimeter area ratio. Note that
+MPAR is a derived variable not found in the provided dataset.</li>
+<li>**MRF - mean annual rainfall</li>
+<li>**PA - patch area</li>
+<li>**PP - patch perimeter</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, cowplot,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      AICcmodavg, <span class="co"># for aic.tab, model averaging, etc.</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      mgcv, <span class="co"># for qq.gam</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>())</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Load data:</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>mlrbird <span class="ot">&lt;-</span> </span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/data/mlrbird.csv&quot;</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>mlrland <span class="ot">&lt;-</span> </span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/data/mlrland.csv&quot;</span>)</span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># Set seed</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2252</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>dat_list <span class="ot">&lt;-</span> </span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">RouteDictionary =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteDictionary.csv&quot;</span>)),</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>       <span class="at">RouteUTMs =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteUTMs.csv&quot;</span>)),</span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>       <span class="at">RouteWhistleData =</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(repo_url, <span class="st">&quot;QuailWhistle_Nebraska_RouteWhistleData.csv&quot;</span>)))</span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#=============================================================================</span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="do">## Tidying data</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co"># Tidy whistle data</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>whistle <span class="ot">&lt;-</span> </span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  dat_list<span class="sc">$</span>RouteWhistleData <span class="sc">%&gt;%</span></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Cass<span class="sc">:</span>Lancaster_YH,</span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;Route.Name&quot;</span>,</span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;WhistleCount&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Route.Name =</span> <span class="fu">case_when</span>(Route.Name <span class="sc">==</span> <span class="st">&quot;Cass&quot;</span> <span class="sc">~</span> <span class="st">&quot;Cass North&quot;</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;GageN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Gage North&quot;</span>,</span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;GageS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Gage South&quot;</span>,</span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Jeffersn&quot;</span> <span class="sc">~</span> <span class="st">&quot;Jefferson&quot;</span>,</span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;JohnsonN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Johnson North&quot;</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;JohnsonS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Johnson South&quot;</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.East&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster East&quot;</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.North&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster North&quot;</span>,</span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Lancaster.Branched.Oak&quot;</span> <span class="sc">~</span> <span class="st">&quot;Lancaster-Branched Oak&quot;</span>,</span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;OtoeN&quot;</span> <span class="sc">~</span> <span class="st">&quot;Otoe North&quot;</span>,</span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;OtoeS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Otoe South&quot;</span>,</span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a>                                Route.Name <span class="sc">==</span> <span class="st">&quot;Richardn&quot;</span> <span class="sc">~</span> <span class="st">&quot;Richardson&quot;</span>,</span>
-<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a>                                <span class="at">.default =</span> Route.Name)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a>  <span class="fu">left_join</span>(dat_list<span class="sc">$</span>RouteDictionary <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Route.Name =</span> <span class="st">`</span><span class="at">Route Name</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Route.Number =</span> <span class="st">`</span><span class="at">Route Number</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a>  <span class="fu">filter</span>(Route.Name <span class="sc">!=</span> <span class="st">&quot;Lancaster_YH&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a>  <span class="fu">left_join</span>(dat_list<span class="sc">$</span>RouteUTMs <span class="sc">%&gt;%</span></span>
-<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">Route.Number =</span> Route) <span class="sc">%&gt;%</span></span>
-<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a>              <span class="fu">group_by</span>(Route.Number) <span class="sc">%&gt;%</span></span>
-<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">YearNum =</span> Year <span class="sc">-</span> <span class="dv">1964</span>,</span>
-<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>         <span class="at">YearNum2 =</span> (Year <span class="sc">-</span> <span class="dv">1964</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
-<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a>         <span class="at">Easting_scaled =</span> <span class="fu">scale</span>(UTMYE),</span>
-<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a>         <span class="at">Northing_scaled =</span> <span class="fu">scale</span>(UTMXN))</span></code></pre></div>
-<!-- ## Data Exploration -->
-<!-- **On your own, familiarize yourself with the data.** Below, we have an example: -->
-<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE} -->
-<!-- ggplot(whistle, -->
-<!--        aes(x = Year, y = WhistleCount, group = Route.Name, color = Route.Name)) +  -->
-<!--   geom_point() + -->
-<!--   geom_line(linewidth = 1.5) +  -->
-<!--   scale_colour_viridis_d() + -->
-<!--   theme_bw() -->
-<!-- ``` -->
-<!-- ## Your Task: -->
-<!-- **Objective:** *Quantify spatiotemporal trends in quail whistle counts* -->
-<!-- 1. We will work in groups. -->
-<!-- 2. Define your modeling “purpose.” -->
-<!-- 3. Define your analysis methods (e.g., one global model? model selection?) -->
-<!-- 4. Create and run your model(s).  -->
-<!-- 5. Interpret the output (plot predictions, create tables, ppc checks, etc.) -->
-<!-- 6. Draft results -->
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: You will need to join these datasets to conduct the analysis.</span></span></code></pre></div>
+</div>
+<div id="homework-questions" class="section level2">
+<h2>Homework questions</h2>
+<ol style="list-style-type: decimal">
+<li>Describe a set of 6 hypotheses (i.e., models comprised of
+combinations of covariates) that will allow you to compare patch
+vs. landscape explanations for variation in patch use of woodland birds,
+and estimate the best scale for landscape effects. <em>HINT: You likely
+need to do some work prior to creating your candidate models!</em></li>
+<li>Fit your selected models to the data using <strong>Bayesian</strong>
+binomial generalized linear models (GLMs) for “grcu” (Grey Currawong)
+and “silv” (Silvereye). Make sure you achieve convergence on all models.
+<em>NOTE: You will fit the same candidate models to both
+species.</em></li>
+<li>Use Bayesian information criteria (e.g., WAIC, LOO-IC) and create
+model ranking tables.</li>
+<li>Create “marginal effects” plots for the top-ranked model
+parameter(s) with 95% credible intervals. Marginal effects tells us how
+the response variable changes when a specific predictor variable
+changes. Other covariates are held constant (e.g., at their mean
+values). <em>Try combining all plots into a single plot object using the
+<code>cowplot</code> package or similar.</em></li>
+<li>Interpret the results of your model selection and top model(s),
+drawing conclusions about the relative importance of patch vs. landscape
+effects for the species you considered.</li>
+</ol>
 </div>
 
 

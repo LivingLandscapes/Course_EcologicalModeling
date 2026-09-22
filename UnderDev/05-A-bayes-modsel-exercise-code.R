@@ -139,83 +139,84 @@ fits_brms <-
 ### them. That also means they can take a long time to compute--especially for
 ### model runs with many iterations!
 
+
 #### Challenge #3:
 
 # 1. Run WAIC or LOOCV on all the models in `fits_brms`. Try do run a different
-# criteria from your neighbor so you can compare.
+# criteria from your neighbor so you can compare. Any warnings or errors?
 
-# 2. Make a nice model ranking table (top-ranked model as first row, then
-# descending). Try using the "loo_compare()" function to do this--this function
-# will work for LOOCV and WAIC.
+# 2a. Make a nice model ranking table (top-ranked model as first row, then
+# descending). Make columns for the model name, elpd, and information criterion.
+
+# 2b. Try using the "loo_compare()" function to do this--this function will work
+# for LOOCV and WAIC. How is this different from the above table?
 
 
-##################
+
+
+
+
+
+# #############################################################################
+# ## Code to generate data. Keep commented.
 # 
-str(trees_raw)
-
 # 
-trees_selected <- 
-  trees_raw %>%
-  select(plot.code:severity, species, decay.class, dbh.cm)
-
-#
-trees_selected <-
-  trees_selected %>%
-  #
-  mutate(YearsSinceFire = case_when(burn == "D" ~ "10",
-                                    burn == "FR" ~ "27",
-                                    .default = ">27"),
-         #
-         CoverType = str_sub(severity, 1, 1),
-         #
-         BurnSeverity = str_sub(severity, 2, 2))
-
-
 # # 
 # trees_selected <- 
-#   trees_selected %>%
-#   filter(decay.class == "L" & species == "PP") %>%
-#   # 
-#   select(-severity, - decay.class, -species)
-
+#   trees_raw %>%
+#   select(plot.code:severity, species, decay.class, dbh.cm)
 # 
-trees_summarized <- 
-  trees_selected %>%
-  na.omit() %>%
-  # 
-  filter(decay.class == "L") %>%
-  group_by(plot.code, burn, CoverType, BurnSeverity, YearsSinceFire) %>%
-  #
-  summarize(DBH_mean = mean(dbh.cm, na.rm = TRUE),
-            N_trees = n()) %>%
-  # 
-  ungroup()
-
-cwd_summarized <- 
-  cwd_raw %>%
-  mutate(YearsSinceFire = case_when(burn == "D" ~ "10",
-                                    burn == "FR" ~ "27",
-                                    .default = ">27"),
-         #
-         CoverType = str_sub(severity, 1, 1),
-         #
-         BurnSeverity = str_sub(severity, 2, 2)) %>%
-  select(plot.code, 
-         CoverType, BurnSeverity, YearsSinceFire, burn,
-         line.cover.cm, diameter1.width.cm, diameter2.height.cm) %>%
-  mutate(CWD_volume = line.cover.cm * diameter1.width.cm * diameter2.height.cm) %>%
-  group_by(plot.code, CoverType, BurnSeverity, YearsSinceFire, burn) %>%
-  summarize(CWD_volume_sum = sum(CWD_volume, na.rm = TRUE))
-
-pineRidge <- 
-  left_join(cwd_summarized,
-            trees_summarized) %>%
-  filter(BurnSeverity != "B") %>%
-  mutate(CWD_volume_sum = ifelse(is.na(CWD_volume_sum), 0, CWD_volume_sum),
-         DBH_mean = ifelse(is.na(DBH_mean), 0, DBH_mean),
-         N_trees = ifelse(is.na(N_trees), 0, N_trees),
-         Severity_Num = as.numeric(factor(BurnSeverity,
-                                          levels = c("U", "L", "M", "H"))))
-
-write_csv(pineRidge,
-          "~/GitHub/Course_EcologicalModeling/data/PineRidge_Trees_cleaned.csv") 
+# #
+# trees_selected <-
+#   trees_selected %>%
+#   #
+#   mutate(YearsSinceFire = case_when(burn == "D" ~ "10",
+#                                     burn == "FR" ~ "27",
+#                                     .default = ">27"),
+#          #
+#          CoverType = str_sub(severity, 1, 1),
+#          #
+#          BurnSeverity = str_sub(severity, 2, 2))
+# 
+# 
+# # 
+# trees_summarized <- 
+#   trees_selected %>%
+#   na.omit() %>%
+#   # 
+#   filter(decay.class == "L") %>%
+#   group_by(plot.code, burn, CoverType, BurnSeverity, YearsSinceFire) %>%
+#   #
+#   summarize(DBH_mean = mean(dbh.cm, na.rm = TRUE),
+#             N_trees = n()) %>%
+#   # 
+#   ungroup()
+# 
+# cwd_summarized <- 
+#   cwd_raw %>%
+#   mutate(YearsSinceFire = case_when(burn == "D" ~ "10",
+#                                     burn == "FR" ~ "27",
+#                                     .default = ">27"),
+#          #
+#          CoverType = str_sub(severity, 1, 1),
+#          #
+#          BurnSeverity = str_sub(severity, 2, 2)) %>%
+#   select(plot.code, 
+#          CoverType, BurnSeverity, YearsSinceFire, burn,
+#          line.cover.cm, diameter1.width.cm, diameter2.height.cm) %>%
+#   mutate(CWD_volume = line.cover.cm * diameter1.width.cm * diameter2.height.cm) %>%
+#   group_by(plot.code, CoverType, BurnSeverity, YearsSinceFire, burn) %>%
+#   summarize(CWD_volume_sum = sum(CWD_volume, na.rm = TRUE))
+# 
+# pineRidge <- 
+#   left_join(cwd_summarized,
+#             trees_summarized) %>%
+#   filter(BurnSeverity != "B") %>%
+#   mutate(CWD_volume_sum = ifelse(is.na(CWD_volume_sum), 0, CWD_volume_sum),
+#          DBH_mean = ifelse(is.na(DBH_mean), 0, DBH_mean),
+#          N_trees = ifelse(is.na(N_trees), 0, N_trees),
+#          Severity_Num = as.numeric(factor(BurnSeverity,
+#                                           levels = c("U", "L", "M", "H"))))
+# 
+# write_csv(pineRidge,
+#           "~/GitHub/Course_EcologicalModeling/data/PineRidge_Trees_cleaned.csv") 
