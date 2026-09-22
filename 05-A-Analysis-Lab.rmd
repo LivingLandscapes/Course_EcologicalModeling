@@ -52,6 +52,6 @@ And here's a pretty picture of Fort Robinson to motivate you!
 
 ## Scripts
 
-In the first part, we will download, organize, explore, and wrangle the data. Here's the for the first part: [Rscript](06-A-reproducability-rproj-exercise-code.R).
+In the first part, we will download, organize, explore, and wrangle the data. Here's the for the first part: [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/06-A-reproducability-rproj-exercise-code.R).
 
-In the second part, we will execute our analysis and produce results (tables, figures). Here's the Rscript for the second part: [Rscript](06-B-final-analysis-exercise-code.R).
+In the second part, we will execute our analysis and produce results (tables, figures). Here's the Rscript for the second part: [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/06-B-final-analysis-exercise-code.R).
