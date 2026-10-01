@@ -66,7 +66,7 @@ pika_elev_splcor <-
 # Plot the spline correlograms!
 plot(pika_elev_splcor)
 
-### Repear this for 'conc'
+### Repeat this for 'conc'
 
 
 #=============================================================================
@@ -85,8 +85,6 @@ plot(pika_elev_splcor)
 # dates less annoying. For instance, converting dates to the POSIX* format (see
 # ?POSIXlt):
 
-
-
 # Convert the "ice off" and "ice_on" dates to the POSIX* format and extract Julian date
 ntl_icecover <- 
   ntl_icecover %>%
@@ -102,6 +100,8 @@ head(ntl_icecover)
 
 # Okay, let's check out the patterns in how long ice is staying on the lakes
 # over time, and when the lakes are thawing over time:
+
+### Challenges:
 
 # Plot ice duration by lake using an 'lm' geom_smooth. Use different colors for
 # the different lakes.
@@ -143,13 +143,14 @@ ccf(x = ccf_df[ , 1], # ice duration
 
 
 
-# **On your own, interpret these acf and ccf plots.** In particular, ask yourself:
+# On your own, interpret these acf and ccf plots. In particular, ask yourself:
   
   # - On the plots, what does the blue dashed line mean?
   # - What does "lag" mean?
   # - What do the y-axis values mean?
-  # 
-  # Discussion questions:
+
+#=============================================================================
+## Discussion questions:
   
 # 1. If you were trying to model pika stress levels via the nwt_pikas dataset,
 # how might the spatial autocorrelation you detected affect your conclusions/the
