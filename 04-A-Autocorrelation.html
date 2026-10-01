@@ -45,109 +45,6 @@
 
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -603,199 +500,140 @@ started!</p>
 src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/ltersampler_logo.png"
 width="300" />
 <p>
-<hr />
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">shelf</span>(tidyverse, cowplot,</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      lterdatasampler, <span class="co"># For LTER data</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      sf, <span class="co"># For geospatial analyses and plotting</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      ncf, <span class="co"># For spline.correlog</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      nlme, <span class="co"># For gls</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>      <span class="at">lib =</span> <span class="fu">tempdir</span>(),</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>      <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Read in data files</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;nwt_pikas&quot;</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ntl_icecover&quot;</span>)</span></code></pre></div>
-</div>
-<div id="example-1-peaked-pikas" class="section level1">
-<h1>Example 1: Peaked pikas</h1>
-<p>Read the data description for the <a
-href="https://lter.github.io/lterdatasampler/reference/nwt_pikas.html">nwt_pikas
-datset</a>, and then <strong>do a bit of data exploration on your
-own.</strong> For example:</p>
-<ul>
-<li>Check out the ranges of elev_m and concentration_pg_g.</li>
-<li>What are UTMs? What do they mean, and what is the rough location
-they telling us the pikas are?</li>
-</ul>
-<p>Okay, now let’s create our first maps to explore the data further and
-look for any obvious signs of spatial autocorrelation:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Convert to sf object</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>pika_sf <span class="ot">&lt;-</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_as_sf</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    nwt_pikas,</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;utm_easting&quot;</span>, <span class="st">&quot;utm_northing&quot;</span>),</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">32613</span>)  <span class="co"># UTM zone 13 (Niwot Ridge LTER)</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  )</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># Map the pika locations with variables of interest varying by size/color</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>pika_conc_map <span class="ot">&lt;-</span> </span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(pika_sf) <span class="sc">+</span> </span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">size =</span> concentration_pg_g, <span class="co"># sf::geom_sf is for creating spatial ggplot</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>              <span class="at">color =</span> sex),</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>pika_elev_map <span class="ot">&lt;-</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="fu">ggplot</span>(pika_sf) <span class="sc">+</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">color =</span> elev_m)) <span class="sc">+</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="fu">scale_color_viridis_c</span>()</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co"># Plot maps together</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="fu">plot_grid</span>(pika_elev_map, pika_conc_map, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">align =</span> <span class="st">&quot;hv&quot;</span>)</span></code></pre></div>
-<p><img src="04-A-Autocorrelation_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
-<p>Do you see any evidence of spatial autocorrelation in these maps?
-<strong>On your own, try changing the color scales, the dot sizes, etc.
-to further investigate.</strong></p>
-<p>Visualizing spatial patterns is <strong>critical</strong>, but we
-often need more rigor–and specific information on distances and
-directionality of autocorrelation. There are multiple tests for spatial
-autocorrelation (some popular ones being Moran’s I and semivariograms).
-However, one of my favorites is the spline correlogram because 1) it’s
-easy to run, and 2) it gives just as much (and maybe more) information
-as other methods. The downside is that, depending on the size of your
-data, it can take a <em>long</em> time to run.</p>
-<p><strong>On your own, run the spline correlogram code below and
-interpret the plots.</strong> If you need help understanding the plots,
-read the ?spline.correlog help page and/or our Zuur et al. (2009) book
-(page 480).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Spline Correlograms using the &quot;ncf&quot; package.</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: depending on your data, these can take a LONG time. Beware.</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>pika_elev_splcor <span class="ot">&lt;-</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">spline.correlog</span>(<span class="at">x =</span> nwt_pikas<span class="sc">$</span>utm_easting,</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                  <span class="at">y =</span> nwt_pikas<span class="sc">$</span>utm_northing,</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                  <span class="at">z =</span> nwt_pikas<span class="sc">$</span>elev_m,</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                  <span class="at">resamp =</span> <span class="dv">500</span>) <span class="co"># Number of bootstrap samples.</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>pika_conc_splcor <span class="ot">&lt;-</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="fu">spline.correlog</span>(<span class="at">x =</span> nwt_pikas<span class="sc">$</span>utm_easting,</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>                  <span class="at">y =</span> nwt_pikas<span class="sc">$</span>utm_northing,</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>                  <span class="at">z =</span> nwt_pikas<span class="sc">$</span>concentration_pg_g,</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>                  <span class="at">resamp =</span> <span class="dv">500</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co"># Plot the spline correlograms!</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="fu">plot</span>(pika_elev_splcor)</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="fu">plot</span>(pika_conc_splcor)</span></code></pre></div>
-</div>
-<div id="example-2-thawing-lakes" class="section level1">
-<h1>Example 2: Thawing lakes</h1>
-<p>Read the data description for the <a
-href="https://lter.github.io/lterdatasampler/reference/ntl_icecover.html">ntl_icecover
-datset</a>, and then <strong>do a bit of data exploration on your
-own.</strong> For example:</p>
-<ul>
-<li>How many years of data are there??</li>
-<li>How many lakes are <em>actually</em> in the data?</li>
-<li>Can you tell which months are most common in the “ice_off”
-column?</li>
-</ul>
-<p>At this point, you may be thinking to yourself “uh, dealing with
-dates in R is super annoying.” Your feelings are valid. However, there
-are some ways to make dates less annoying. For instance, converting
-dates to the POSIX* format (see ?POSIXlt):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Convert the &quot;ice off&quot; and &quot;ice_on&quot; dates to the POSIX* format and extract Julian date</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>ntl_icecover <span class="ot">&lt;-</span> </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  ntl_icecover <span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ice_off_julian =</span> <span class="fu">as.POSIXlt</span>(ntl_icecover<span class="sc">$</span>ice_off,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>                                     <span class="at">format =</span> <span class="st">&quot;%d%b%y&quot;</span>)<span class="sc">$</span>yday,</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>         <span class="at">ice_on_julian =</span> <span class="fu">as.POSIXlt</span>(ntl_icecover<span class="sc">$</span>ice_on,</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                                     <span class="at">format =</span> <span class="st">&quot;%d%b%y&quot;</span>)<span class="sc">$</span>yday) </span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># Print the data.frame to see what we did:</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">head</span>(ntl_icecover)</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 7
-##   lakeid   ice_on     ice_off    ice_duration  year ice_off_julian ice_on_julian
-##   &lt;fct&gt;    &lt;date&gt;     &lt;date&gt;            &lt;dbl&gt; &lt;dbl&gt;          &lt;int&gt;         &lt;int&gt;
-## 1 Lake Me… NA         1853-04-05           NA  1852             94            NA
-## 2 Lake Me… 1853-12-27 NA                   NA  1853             NA           360
-## 3 Lake Me… 1855-12-18 1856-04-14          118  1855            104           351
-## 4 Lake Me… 1856-12-06 1857-05-06          151  1856            125           340
-## 5 Lake Me… 1857-11-25 1858-03-26          121  1857             84           328
-## 6 Lake Me… 1858-12-08 1859-03-14           96  1858             72           341</code></pre>
-<p>Now that we’ve done that, first make sure you understand what “Julian
-date” is.</p>
-<p>Okay, let’s check out the patterns in how long ice is staying on the
-lakes over time, and when the lakes are thawing over time:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Plot ice duration by lake</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>ice_duration_plot <span class="ot">&lt;-</span> </span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(ntl_icecover,</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> ice_duration, <span class="at">color =</span> lakeid, <span class="at">group =</span> lakeid)) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Ice duration (days)&quot;</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># Convert the &quot;ice off&quot; date to the POSIX* format and extract Julian day</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>ice_off_plot <span class="ot">&lt;-</span> </span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(ntl_icecover,</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> ice_off_julian, <span class="at">color =</span> lakeid, <span class="at">group =</span> lakeid)) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Date ice off</span><span class="sc">\n</span><span class="st">(Julian date)&quot;</span>)</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># Plot patterns together</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="fu">plot_grid</span>(ice_duration_plot, ice_off_plot, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">align =</span> <span class="st">&quot;hv&quot;</span>)</span></code></pre></div>
-<p><img src="04-A-Autocorrelation_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
-<p>Looks like some clear patterns! However, you may notice a few
-things:</p>
-<ul>
-<li>These patterns are repeated measurements from only two lakes!</li>
-<li>There seems to be some inter-annual patterns over time.
-<strong>Describe them to yourself.</strong></li>
-</ul>
-<p>As with the maps, I hope you can visually detect the temporal
-autocorrelation in these lake data. There are ways to statistically test
-for temporal autocorrelation, but unlike our spatial example, they’re
-very quick to run! Check out this code using the acf() “autocorrelation
-function” and ccf() “cross correlation function”. On your own, interpret
-the resultant plots.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Plot temporal auto-correlation for ice duration at Lake Mendota:</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>acf_df <span class="ot">&lt;-</span> <span class="co"># Prepare for acf</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  ntl_icecover <span class="sc">%&gt;%</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">filter</span>(lakeid <span class="sc">==</span> <span class="st">&quot;Lake Mendota&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">select</span>(ice_duration) <span class="sc">%&gt;%</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">acf</span>(acf_df[ , <span class="dv">1</span>]) <span class="co"># Run acf</span></span></code></pre></div>
-<p><img src="04-A-Autocorrelation_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Cross-correlation for ice duration and ice off</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>ccf_df <span class="ot">&lt;-</span> </span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  ntl_icecover <span class="sc">%&gt;%</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">filter</span>(lakeid <span class="sc">==</span> <span class="st">&quot;Lake Mendota&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">&quot;ice_duration&quot;</span>, <span class="st">&quot;ice_off_julian&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">ccf</span>(<span class="at">x =</span> ccf_df[ , <span class="dv">1</span>], <span class="co"># ice duration</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    <span class="at">y =</span> ccf_df[ , <span class="dv">2</span>], <span class="co"># ice off julian</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;Cross-correlation&quot;</span>)</span></code></pre></div>
-<p><img src="04-A-Autocorrelation_files/figure-html/unnamed-chunk-7-2.png" alt="" width="672" /></p>
-<p><strong>On your own, interpret these acf and ccf plots.</strong> In
-particular, ask yourself:</p>
-<ul>
-<li>On the plots, what does the blue dashed line mean?</li>
-<li>What does “lag” mean?</li>
-<li>What do the y-axis values mean?</li>
-</ul>
-</div>
-<div id="discussion-questions" class="section level1">
-<h1>Discussion questions:</h1>
-<ol style="list-style-type: decimal">
-<li><p>If you were trying to model pika stress levels via the nwt_pikas
-dataset, how might the spatial autocorrelation you detected affect your
-conclusions/the model outputs?</p></li>
-<li><p>If you were trying to model ice duration change over time, how
-might the temporal autocorrelation you detected affect your
-conclusions/model outputs?</p></li>
-</ol>
+<p>Open up this <a
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/04-A-autocorrelation-exercise-code.R">Rscript</a>
+and start!</p>
+<!-- --- -->
+<!-- ```{r include = TRUE, eval = TRUE, message = FALSE, results = 'hide'} -->
+<!-- # List of packages necessary to run this script: -->
+<!-- require(librarian, quietly = TRUE) -->
+<!-- shelf(tidyverse, cowplot, -->
+<!--       lterdatasampler, # For LTER data -->
+<!--       sf, # For geospatial analyses and plotting -->
+<!--       ncf, # For spline.correlog -->
+<!--       nlme, # For gls -->
+<!--       lib = tempdir(), -->
+<!--       quiet = TRUE) -->
+<!-- # Read in data files -->
+<!-- data("nwt_pikas") -->
+<!-- data("ntl_icecover") -->
+<!-- ``` -->
+<!-- # Example 1: Peaked pikas -->
+<!-- Read the data description for the [nwt_pikas datset](https://lter.github.io/lterdatasampler/reference/nwt_pikas.html), and then **do a bit of data exploration on your own.** For example: -->
+<!-- - Check out the ranges of elev_m and concentration_pg_g. -->
+<!-- - What are UTMs? What do they mean, and what is the rough location they telling us the pikas are? -->
+<!-- Okay, now let's create our first maps to explore the data further and look for any obvious signs of spatial autocorrelation: -->
+<!-- ```{r include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # Convert to sf object -->
+<!-- pika_sf <- -->
+<!--   sf::st_as_sf( -->
+<!--     nwt_pikas, -->
+<!--     coords = c("utm_easting", "utm_northing"), -->
+<!--     crs = st_crs(32613)  # UTM zone 13 (Niwot Ridge LTER) -->
+<!--   ) -->
+<!-- # Map the pika locations with variables of interest varying by size/color -->
+<!-- pika_conc_map <-  -->
+<!--   ggplot(pika_sf) +  -->
+<!--   geom_sf(aes(size = concentration_pg_g, # sf::geom_sf is for creating spatial ggplot -->
+<!--               color = sex), -->
+<!--           alpha = 0.5) -->
+<!-- pika_elev_map <- -->
+<!--   ggplot(pika_sf) + -->
+<!--   geom_sf(aes(color = elev_m)) + -->
+<!--   scale_color_viridis_c() -->
+<!-- # Plot maps together -->
+<!-- plot_grid(pika_elev_map, pika_conc_map, ncol = 1, align = "hv") -->
+<!-- ``` -->
+<!-- Do you see any evidence of spatial autocorrelation in these maps? **On your own, try changing the color scales, the dot sizes, etc. to further investigate.** -->
+<!-- Visualizing spatial patterns is **critical**, but we often need more rigor--and specific information on distances and directionality of autocorrelation. There are multiple tests for spatial autocorrelation (some popular ones being Moran's I and semivariograms). However, one of my favorites is the spline correlogram because 1) it's easy to run, and 2) it gives just as much (and maybe more) information as other methods. The downside is that, depending on the size of your data, it can take a *long* time to run.  -->
+<!-- **On your own, run the spline correlogram code below and interpret the plots.** If you need help understanding the plots, read the ?spline.correlog help page and/or our Zuur et al. (2009) book (page 480). -->
+<!-- ```{r include = TRUE, eval = FALSE} -->
+<!-- # Spline Correlograms using the "ncf" package. -->
+<!-- # NOTE: depending on your data, these can take a LONG time. Beware. -->
+<!-- pika_elev_splcor <- -->
+<!--   spline.correlog(x = nwt_pikas$utm_easting, -->
+<!--                   y = nwt_pikas$utm_northing, -->
+<!--                   z = nwt_pikas$elev_m, -->
+<!--                   resamp = 500) # Number of bootstrap samples. -->
+<!-- pika_conc_splcor <- -->
+<!--   spline.correlog(x = nwt_pikas$utm_easting, -->
+<!--                   y = nwt_pikas$utm_northing, -->
+<!--                   z = nwt_pikas$concentration_pg_g, -->
+<!--                   resamp = 500) -->
+<!-- # Plot the spline correlograms! -->
+<!-- plot(pika_elev_splcor) -->
+<!-- plot(pika_conc_splcor) -->
+<!-- ``` -->
+<!-- # Example 2: Thawing lakes -->
+<!-- Read the data description for the [ntl_icecover datset](https://lter.github.io/lterdatasampler/reference/ntl_icecover.html), and then **do a bit of data exploration on your own.** For example: -->
+<!-- - How many years of data are there?? -->
+<!-- - How many lakes are *actually* in the data? -->
+<!-- - Can you tell which months are most common in the "ice_off" column? -->
+<!-- At this point, you may be thinking to yourself "uh, dealing with dates in R is super annoying." Your feelings are valid. However, there are some ways to make dates less annoying. For instance, converting dates to the POSIX* format (see ?POSIXlt): -->
+<!-- ```{r include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # Convert the "ice off" and "ice_on" dates to the POSIX* format and extract Julian date -->
+<!-- ntl_icecover <-  -->
+<!--   ntl_icecover %>% -->
+<!--   mutate(ice_off_julian = as.POSIXlt(ntl_icecover$ice_off, -->
+<!--                                      format = "%d%b%y")$yday, -->
+<!--          ice_on_julian = as.POSIXlt(ntl_icecover$ice_on, -->
+<!--                                      format = "%d%b%y")$yday)  -->
+<!-- # Print the data.frame to see what we did: -->
+<!-- head(ntl_icecover) -->
+<!-- ``` -->
+<!-- Now that we've done that, first make sure you understand what "Julian date" is.  -->
+<!-- Okay, let's check out the patterns in how long ice is staying on the lakes over time, and when the lakes are thawing over time: -->
+<!-- ```{r include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # Plot ice duration by lake -->
+<!-- ice_duration_plot <-  -->
+<!--   ggplot(ntl_icecover, -->
+<!--        aes(x = year, y = ice_duration, color = lakeid, group = lakeid)) + -->
+<!--   geom_line() +  -->
+<!--   geom_smooth(method = "lm", formula = y ~ x) +  -->
+<!--   xlab("Year") +  -->
+<!--   ylab("Ice duration (days)") -->
+<!-- # Convert the "ice off" date to the POSIX* format and extract Julian day -->
+<!-- ice_off_plot <-  -->
+<!--   ggplot(ntl_icecover, -->
+<!--          aes(x = year, y = ice_off_julian, color = lakeid, group = lakeid)) + -->
+<!--   geom_line() +  -->
+<!--   geom_smooth(method = "lm", formula = y ~ x) +  -->
+<!--   xlab("Year") +  -->
+<!--   ylab("Date ice off\n(Julian date)") -->
+<!-- # Plot patterns together -->
+<!-- plot_grid(ice_duration_plot, ice_off_plot, ncol = 1, align = "hv") -->
+<!-- ``` -->
+<!-- Looks like some clear patterns! However, you may notice a few things: -->
+<!-- - These patterns are repeated measurements from only two lakes! -->
+<!-- - There seems to be some inter-annual patterns over time. **Describe them to yourself.** -->
+<!-- As with the maps, I hope you can visually detect the temporal autocorrelation in these lake data. There are ways to statistically test for temporal autocorrelation, but unlike our spatial example, they're very quick to run! Check out this code using the acf() "autocorrelation function" and ccf() "cross correlation function". On your own, interpret the resultant plots. -->
+<!-- ```{r include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # Plot temporal auto-correlation for ice duration at Lake Mendota: -->
+<!-- acf_df <- # Prepare for acf -->
+<!--   ntl_icecover %>% -->
+<!--   na.omit() %>% -->
+<!--   filter(lakeid == "Lake Mendota") %>% -->
+<!--   select(ice_duration) %>% -->
+<!--   as.matrix() -->
+<!-- acf(acf_df[ , 1]) # Run acf -->
+<!-- # Cross-correlation for ice duration and ice off -->
+<!-- ccf_df <-  -->
+<!--   ntl_icecover %>% -->
+<!--   na.omit() %>% -->
+<!--   filter(lakeid == "Lake Mendota") %>% -->
+<!--   select(c("ice_duration", "ice_off_julian")) %>% -->
+<!--   as.matrix() -->
+<!-- ccf(x = ccf_df[ , 1], # ice duration -->
+<!--     y = ccf_df[ , 2], # ice off julian -->
+<!--     ylab = "Cross-correlation") -->
+<!-- ``` -->
+<!-- **On your own, interpret these acf and ccf plots.** In particular, ask yourself: -->
+<!-- - On the plots, what does the blue dashed line mean? -->
+<!-- - What does "lag" mean? -->
+<!-- - What do the y-axis values mean? -->
+<!-- # Discussion questions: -->
+<!-- 1. If you were trying to model pika stress levels via the nwt_pikas dataset, how might the spatial autocorrelation you detected affect your conclusions/the model outputs? -->
+<!-- 2. If you were trying to model ice duration change over time, how might the temporal autocorrelation you detected affect your conclusions/model outputs? -->
 </div>
 
 
