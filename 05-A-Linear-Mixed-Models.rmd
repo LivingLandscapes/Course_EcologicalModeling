@@ -33,390 +33,392 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 We will be covering linear mixed models in this lab using two different datasets:
 
--  First, we will use the 'sleepstudy' dataset that comes loaded with the lme4 package. From the help documentation: *The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time on a series of tests given each day to each subject.*
+-  First, we will use the 'sleepstudy' dataset that comes loaded with the lme4 package. From the help documentation: *The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time on a series of tests given each day to each subject.* Yeah, maybe that's weird for an ecological modeling class, but it's useful for learning mixed models!
 -  Second, we will use a 'mice' dataset, which was collected by January Frost at the University of Nebraska. The mice dataset contains morphological measurements of mice caught at various sites in the Niobrara Valley.
 
-Here's a pretty picture from the Niobrara Valley Preserve (which you should 100% visit if you can) to inspire you:
+Here's the [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/07-A-linear-mixed-models-exercise-code.R) we'll use for the lab.
+
+And here's a pretty picture from the Niobrara Valley Preserve (which you should 100% visit if you can) to inspire you:
 
 <p>
 ![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/niobrara.png){width=600px}
 <p>
 
-```{r, include = TRUE, eval = TRUE, message = FALSE, results = 'hide'}
+<!-- ```{r, include = TRUE, eval = TRUE, message = FALSE, results = 'hide'} -->
 
-# List of packages necessary to run this script:
-require(librarian, quietly = TRUE)
-shelf(tidyverse, cowplot, performance, 
-      AICcmodavg, # for model selection
-      lme4, # For mixed modeling
-      # lmerTest,
-      DHARMa, # For checking mixed model residuals, etc.
-      pander,
-      broom.mixed,
-      lib = tempdir(),
-      quiet = TRUE)
+<!-- # List of packages necessary to run this script: -->
+<!-- require(librarian, quietly = TRUE) -->
+<!-- shelf(tidyverse, cowplot, performance,  -->
+<!--       AICcmodavg, # for model selection -->
+<!--       lme4, # For mixed modeling -->
+<!--       # lmerTest, -->
+<!--       DHARMa, # For checking mixed model residuals, etc. -->
+<!--       pander, -->
+<!--       broom.mixed, -->
+<!--       lib = tempdir(), -->
+<!--       quiet = TRUE) -->
 
-# Set the web address where R will look for files from this repository
-# Do not change this address
-repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
+<!-- # Set the web address where R will look for files from this repository -->
+<!-- # Do not change this address -->
+<!-- repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/" -->
 
-# Load our two datasets
-# NOTE: 'sleepstudy' data comes loaded in lme4
-mice <- read.table(paste0(repo_url, "/data/mice.txt"), 
-                   header = TRUE)
+<!-- # Load our two datasets -->
+<!-- # NOTE: 'sleepstudy' data comes loaded in lme4 -->
+<!-- mice <- read.table(paste0(repo_url, "/data/mice.txt"),  -->
+<!--                    header = TRUE) -->
 
-# # Set seed
-# set.seed(123)
+<!-- # # Set seed -->
+<!-- # set.seed(123) -->
 
-```
+<!-- ``` -->
 
-## Sleep Study
+<!-- ## Sleep Study -->
 
-### Simple linear regression
+<!-- ### Simple linear regression -->
 
-First, let's simply model the response of reaction time to number of days without sleep. **On your own:**
+<!-- First, let's simply model the response of reaction time to number of days without sleep. **On your own:** -->
 
-- Do some quick data exploration (e.g., familiarize yourself with the data columns, their ranges, etc.)
-- Interpret the results of the linear regression below.
+<!-- - Do some quick data exploration (e.g., familiarize yourself with the data columns, their ranges, etc.) -->
+<!-- - Interpret the results of the linear regression below. -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-# Simple linear regression between reaction time and number of days without
-# sleep.
-ss.lm <- lm(Reaction ~ Days, sleepstudy)
-# summary(ss.lm)
+<!-- # Simple linear regression between reaction time and number of days without -->
+<!-- # sleep. -->
+<!-- ss.lm <- lm(Reaction ~ Days, sleepstudy) -->
+<!-- # summary(ss.lm) -->
 
-```
+<!-- ``` -->
 
-Hopefully, you will have determined that (unsurprisingly) reaction time tends to slow as days without sleep increased.
+<!-- Hopefully, you will have determined that (unsurprisingly) reaction time tends to slow as days without sleep increased. -->
 
-However, you will also hopefully have noticed that there were several "subjects" of the experiment and that each subject's response times were measured multiple times... Do we think there's any variation between subject response times? Let's check it out:
+<!-- However, you will also hopefully have noticed that there were several "subjects" of the experiment and that each subject's response times were measured multiple times... Do we think there's any variation between subject response times? Let's check it out: -->
 
-```{r, eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE} -->
 
-ssBase <- 
-  ggplot(sleepstudy, 
-         aes(x = Days, 
-             y = Reaction)) + 
-  geom_point(aes(color = Subject)) + 
-  scale_color_viridis_d() + 
-  labs(x="Days with no sleep",
-       y="Reaction time [ms]") + 
-  geom_smooth(method = "lm", formula = y ~ x)
-ssBase
+<!-- ssBase <-  -->
+<!--   ggplot(sleepstudy,  -->
+<!--          aes(x = Days,  -->
+<!--              y = Reaction)) +  -->
+<!--   geom_point(aes(color = Subject)) +  -->
+<!--   scale_color_viridis_d() +  -->
+<!--   labs(x="Days with no sleep", -->
+<!--        y="Reaction time [ms]") +  -->
+<!--   geom_smooth(method = "lm", formula = y ~ x) -->
+<!-- ssBase -->
 
-```
+<!-- ``` -->
 
-Yep, look like some variation to me! Let's plot the relationship for each subject individually and see what happens:
+<!-- Yep, look like some variation to me! Let's plot the relationship for each subject individually and see what happens: -->
 
-```{r, eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE} -->
 
-# group by subject
-ssBase + 
-  facet_wrap( ~ Subject) + 
-  guides(color = FALSE) # suppress legend because facet labels do the job
+<!-- # group by subject -->
+<!-- ssBase +  -->
+<!--   facet_wrap( ~ Subject) +  -->
+<!--   guides(color = FALSE) # suppress legend because facet labels do the job -->
 
-```
+<!-- ``` -->
 
-If the relationship is plotted separately for each individual in the dataset, then the signal gets much stronger. Clearly, people differ in their responses to sleep deprivation. One subject got faster as they missed out on sleep!
+<!-- If the relationship is plotted separately for each individual in the dataset, then the signal gets much stronger. Clearly, people differ in their responses to sleep deprivation. One subject got faster as they missed out on sleep! -->
 
-We could fit a separate model to each subject and combine them. This is effectively a Subject * Days interaction model.
+<!-- We could fit a separate model to each subject and combine them. This is effectively a Subject * Days interaction model. -->
 
-```{r, eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE} -->
 
-# Fit a separate linear regression to each subject
-fm1 <- lme4::lmList(Reaction ~ Days | Subject, sleepstudy)
+<!-- # Fit a separate linear regression to each subject -->
+<!-- fm1 <- lme4::lmList(Reaction ~ Days | Subject, sleepstudy) -->
 
-# Get the coefficients from the list of linear regressions:
-coef(fm1)
+<!-- # Get the coefficients from the list of linear regressions: -->
+<!-- coef(fm1) -->
 
-```
+<!-- ``` -->
 
-The `lmList()` function fits a different linear model to each subset of a data.frame defined by the variable after the “|”, in this case “Subject”. 
+<!-- The `lmList()` function fits a different linear model to each subset of a data.frame defined by the variable after the “|”, in this case “Subject”.  -->
 
-**On your own:**
+<!-- **On your own:** -->
 
-- Calculate the mean intercept and Days coefficients from the matrix created by `coef(fm1)`. 
-- Compare these with the estimates from the single regression model. 
-- Use `summary(fm1)` to see the residual variance and degrees of freedom for the pooled list. Compare these values with the residual variance and degrees of freedom from the single regression model.
+<!-- - Calculate the mean intercept and Days coefficients from the matrix created by `coef(fm1)`.  -->
+<!-- - Compare these with the estimates from the single regression model.  -->
+<!-- - Use `summary(fm1)` to see the residual variance and degrees of freedom for the pooled list. Compare these values with the residual variance and degrees of freedom from the single regression model. -->
 
-Ask Caleb to confirm your answers once you've completed this!
+<!-- Ask Caleb to confirm your answers once you've completed this! -->
 
-```{r eval=TRUE, message=FALSE, include=TRUE}
+<!-- ```{r eval=TRUE, message=FALSE, include=TRUE} -->
 
-# Coefficients from linear regression list by subject
-cc <- coef(fm1)
+<!-- # Coefficients from linear regression list by subject -->
+<!-- cc <- coef(fm1) -->
 
-# Are coefficients from the simple model and list of models equal?
-all.equal(sapply(cc, mean), # mean of list model coefficients
-          coef(ss.lm)) # coefficients from simple linear regression
+<!-- # Are coefficients from the simple model and list of models equal? -->
+<!-- all.equal(sapply(cc, mean), # mean of list model coefficients -->
+<!--           coef(ss.lm)) # coefficients from simple linear regression -->
 
-```
+<!-- ``` -->
 
-### Mix it up!
+<!-- ### Mix it up! -->
 
-We can use a mixed model approach to get the best of both worlds - an estimate of the population average intercept and slope, and an idea of how much variation there is among individuals. The function lmer() in package lme4 is the method of choice here. The fixed effects part of the formula is identical to the lm() formula, with a response variable on the left of the ˜ and a covariate on the right. The new part specifies the random effects, and these are given in (). *To the left of the | are the fixed effects that will vary among groups, and to the right of the | are the variable(s) that specify the groups.* In this case the variable Subject defines the groups. As with other formulas, the intercept is implicit, so (Days | Subject) indicates that both the intercept and the slope are allowed to vary among subjects. This is the same as fitting a separate line to each subject, as we did above.
+<!-- We can use a mixed model approach to get the best of both worlds - an estimate of the population average intercept and slope, and an idea of how much variation there is among individuals. The function lmer() in package lme4 is the method of choice here. The fixed effects part of the formula is identical to the lm() formula, with a response variable on the left of the ˜ and a covariate on the right. The new part specifies the random effects, and these are given in (). *To the left of the | are the fixed effects that will vary among groups, and to the right of the | are the variable(s) that specify the groups.* In this case the variable Subject defines the groups. As with other formulas, the intercept is implicit, so (Days | Subject) indicates that both the intercept and the slope are allowed to vary among subjects. This is the same as fitting a separate line to each subject, as we did above. -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-# fit a linear mixed model
-ss.mm <- 
-  lmer(Reaction ~ Days + (Days | Subject),
-       sleepstudy,
-       REML = FALSE) # NOTE: you have to specify REML vs ML in lmer
-summary(ss.mm)
+<!-- # fit a linear mixed model -->
+<!-- ss.mm <-  -->
+<!--   lmer(Reaction ~ Days + (Days | Subject), -->
+<!--        sleepstudy, -->
+<!--        REML = FALSE) # NOTE: you have to specify REML vs ML in lmer -->
+<!-- summary(ss.mm) -->
 
-```
+<!-- ``` -->
 
-Looking at the summary of the mixed model, you should see a “fixed effects” section which is identical to that from a normal lm() fit, with one notable exception. There are no p-values reported for each coefficient--*unless you have the 'lmerTest' package loaded*. This isn’t a mistake, it is a deliberate choice by the software designer to avoid an argument over the correct number of degrees of freedom to use for the test! For more information, see this [StackOverflow post and answer](https://stackoverflow.com/questions/66081381/lme4-version-1-1-26-no-longer-printing-p-values-for-fixed-effects) by the mixed modeling wizard, Ben Bolker.
+<!-- Looking at the summary of the mixed model, you should see a “fixed effects” section which is identical to that from a normal lm() fit, with one notable exception. There are no p-values reported for each coefficient--*unless you have the 'lmerTest' package loaded*. This isn’t a mistake, it is a deliberate choice by the software designer to avoid an argument over the correct number of degrees of freedom to use for the test! For more information, see this [StackOverflow post and answer](https://stackoverflow.com/questions/66081381/lme4-version-1-1-26-no-longer-printing-p-values-for-fixed-effects) by the mixed modeling wizard, Ben Bolker. -->
 
-**On your own, compare the estimates and standard errors with those from the "lmList" and "lm" models above.**
+<!-- **On your own, compare the estimates and standard errors with those from the "lmList" and "lm" models above.** -->
 
-The new bit is the section labelled “Random effects”. We can see that the model has estimated not just one variance, but three, plus a correlation coefficient. One variance estimate is the residual variance, with the same interpretation as always. The other two variances indicate the variance of the “random effects” on the intercept and the slope. These random perturbations to the population are assumed to be correlated to some extent, so there is also a correlation parameter. In this case the random effects are relatively uncorrelated.
+<!-- The new bit is the section labelled “Random effects”. We can see that the model has estimated not just one variance, but three, plus a correlation coefficient. One variance estimate is the residual variance, with the same interpretation as always. The other two variances indicate the variance of the “random effects” on the intercept and the slope. These random perturbations to the population are assumed to be correlated to some extent, so there is also a correlation parameter. In this case the random effects are relatively uncorrelated. -->
 
-We can also get the random perturbations for each group, and combining those with the population level coefficients gives us the coefficients for the line in each group, as shown in the following table. When the random effects (shown in the left 2 columns) are negative, the coefficients for the group are less than the population coefficients, and when they are positive, the group coefficients are greater.
+<!-- We can also get the random perturbations for each group, and combining those with the population level coefficients gives us the coefficients for the line in each group, as shown in the following table. When the random effects (shown in the left 2 columns) are negative, the coefficients for the group are less than the population coefficients, and when they are positive, the group coefficients are greater. -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-knitr::kable(cbind(ranef(ss.mm)$Subject, coef(ss.mm)$Subject))
+<!-- knitr::kable(cbind(ranef(ss.mm)$Subject, coef(ss.mm)$Subject)) -->
 
-```
+<!-- ``` -->
 
-### Shrinkage
+<!-- ### Shrinkage -->
 
-In the following figure I’ve plotted the intercepts for each group from the mixed model against the intercepts from the list of models. If they were identical they would fall on the solid line. 
+<!-- In the following figure I’ve plotted the intercepts for each group from the mixed model against the intercepts from the list of models. If they were identical they would fall on the solid line.  -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-# Combine mixed model and linear regression coefficients
-shrink <-  
-  data.frame(coef(ss.mm)$Subject %>%
-               rename(Random_Intercept = `(Intercept)`,
-                      Random_Days = Days), 
-             cc %>%
-               rename(Fixed_Intercept = `(Intercept)`,
-                      Fixed_Days = Days))
+<!-- # Combine mixed model and linear regression coefficients -->
+<!-- shrink <-   -->
+<!--   data.frame(coef(ss.mm)$Subject %>% -->
+<!--                rename(Random_Intercept = `(Intercept)`, -->
+<!--                       Random_Days = Days),  -->
+<!--              cc %>% -->
+<!--                rename(Fixed_Intercept = `(Intercept)`, -->
+<!--                       Fixed_Days = Days)) -->
 
-# Manipulate data for ggplotting
-t1 <-
-  shrink %>%
-  pivot_longer(names(shrink), 
-               values_to = "estimate",
-               names_to = "coefficient") %>%
-  separate_wider_delim(cols = "coefficient", 
-                       names = c("model", "coefficient"),
-                       delim = "_") %>%
-  group_by(model) %>%
-  mutate(id = row_number()) %>%
-  pivot_wider(names_from = "model", 
-              values_from = "estimate")
+<!-- # Manipulate data for ggplotting -->
+<!-- t1 <- -->
+<!--   shrink %>% -->
+<!--   pivot_longer(names(shrink),  -->
+<!--                values_to = "estimate", -->
+<!--                names_to = "coefficient") %>% -->
+<!--   separate_wider_delim(cols = "coefficient",  -->
+<!--                        names = c("model", "coefficient"), -->
+<!--                        delim = "_") %>% -->
+<!--   group_by(model) %>% -->
+<!--   mutate(id = row_number()) %>% -->
+<!--   pivot_wider(names_from = "model",  -->
+<!--               values_from = "estimate") -->
 
-# phew! that was more work than I expected. 
+<!-- # phew! that was more work than I expected.  -->
 
-# make a little dataframe for the average point
-meanpoint <-
-  data.frame(
-    coefficient = c("Intercept", "Days"),
-    Random = fixef(ss.mm),
-    Fixed = coef(ss.lm)
-  )
+<!-- # make a little dataframe for the average point -->
+<!-- meanpoint <- -->
+<!--   data.frame( -->
+<!--     coefficient = c("Intercept", "Days"), -->
+<!--     Random = fixef(ss.mm), -->
+<!--     Fixed = coef(ss.lm) -->
+<!--   ) -->
 
-# now make the plot ... easier b/c of data manipulation?
-ggplot(t1, 
-       aes(x = Fixed,
-               y = Random)) +
-  geom_point() +
-  facet_wrap(~ coefficient, 
-             scales = "free") + 
-  geom_smooth(method = "lm") + 
-  geom_abline(slope = 1, 
-              intercept = 0, 
-              linetype = 2) + 
-  geom_point(data = meanpoint, 
-             color = "violetred1",
-             size = 2)
+<!-- # now make the plot ... easier b/c of data manipulation? -->
+<!-- ggplot(t1,  -->
+<!--        aes(x = Fixed, -->
+<!--                y = Random)) + -->
+<!--   geom_point() + -->
+<!--   facet_wrap(~ coefficient,  -->
+<!--              scales = "free") +  -->
+<!--   geom_smooth(method = "lm") +  -->
+<!--   geom_abline(slope = 1,  -->
+<!--               intercept = 0,  -->
+<!--               linetype = 2) +  -->
+<!--   geom_point(data = meanpoint,  -->
+<!--              color = "violetred1", -->
+<!--              size = 2) -->
 
-```
+<!-- ``` -->
 
-Random effects coefficients are slightly biased towards the mean value indicated by the red dot. Therefore the blue line (fit to the points) has a slope less than 1. The dashed line has a slope of 1 and an intercept of 0. This phenomenon
-is called “shrinkage”, because the estimates of the within group coefficients “shrink” towards the population mean.
+<!-- Random effects coefficients are slightly biased towards the mean value indicated by the red dot. Therefore the blue line (fit to the points) has a slope less than 1. The dashed line has a slope of 1 and an intercept of 0. This phenomenon -->
+<!-- is called “shrinkage”, because the estimates of the within group coefficients “shrink” towards the population mean. -->
 
-## Mouse Example 
+<!-- ## Mouse Example  -->
 
-Let's look at the breakdown of the relationship between ear size and foot length by geographic site and sex. Do some quick data exploration of the 'mice' data to familiarize yourself with it. Also, please ignore that a normal distribution may or may not be the best for this data. Now, check out the faceted plot below:
+<!-- Let's look at the breakdown of the relationship between ear size and foot length by geographic site and sex. Do some quick data exploration of the 'mice' data to familiarize yourself with it. Also, please ignore that a normal distribution may or may not be the best for this data. Now, check out the faceted plot below: -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE, fig.cap='Mouse Fig 1: Ear length vs. foot length in mm at a number of sites in the Northwest of Nebraska for two species of deer mouse.'}
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE, fig.cap='Mouse Fig 1: Ear length vs. foot length in mm at a number of sites in the Northwest of Nebraska for two species of deer mouse.'} -->
 
-# Remove rows with unknown sex.
-mice = filter(mice, sex != "U")
+<!-- # Remove rows with unknown sex. -->
+<!-- mice = filter(mice, sex != "U") -->
 
-# Plot relationship
-basemouse <- 
-  ggplot(mice,
-         aes(x = foot, y = ear)) +
-  geom_point(alpha = 0.2) +
-  xlab('Foot Length [mm]') + ylab('Ear Length [mm]')
+<!-- # Plot relationship -->
+<!-- basemouse <-  -->
+<!--   ggplot(mice, -->
+<!--          aes(x = foot, y = ear)) + -->
+<!--   geom_point(alpha = 0.2) + -->
+<!--   xlab('Foot Length [mm]') + ylab('Ear Length [mm]') -->
 
-basemouse +
-  geom_smooth(method = "lm") +
-  facet_wrap( ~ site)
-   
-```
+<!-- basemouse + -->
+<!--   geom_smooth(method = "lm") + -->
+<!--   facet_wrap( ~ site) -->
 
-A few things are obvious from this plot. First, there is a lot of data at a few sites, and much less at others. Some of the sex size effects are clear in a few sites (two groups of points), but much less clear in others. But most interesting is the variation in slope. In many sites the bigger the feet the bigger the ears. But not everywhere! Put it all in one plot, adjusting the alpha level so overplotting is clearer.
+<!-- ``` -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE, fig.cap='Mouse Fig 2: Ear length by foot length with a predicted line for each site. Shading indicates overlapping points.'}
+<!-- A few things are obvious from this plot. First, there is a lot of data at a few sites, and much less at others. Some of the sex size effects are clear in a few sites (two groups of points), but much less clear in others. But most interesting is the variation in slope. In many sites the bigger the feet the bigger the ears. But not everywhere! Put it all in one plot, adjusting the alpha level so overplotting is clearer. -->
 
- basemouse +
-   geom_smooth(aes(group = site),
-               method = "lm", 
-               se = FALSE)
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE, fig.cap='Mouse Fig 2: Ear length by foot length with a predicted line for each site. Shading indicates overlapping points.'} -->
 
-```
+<!--  basemouse + -->
+<!--    geom_smooth(aes(group = site), -->
+<!--                method = "lm",  -->
+<!--                se = FALSE) -->
 
-### Mixed model diagnostics
+<!-- ``` -->
 
-So we want to check a model that lets the relationship between feet and ears vary by species and sex. The sites are a random sample of possible places we could look for mice, so we'll treat site as a random effect. We can also see that the slope of the effect varies alot between sites, so we'll let the coefficient of foot vary between sites too, at least initially. Here's the global model, and check the residuals:
+<!-- ### Mixed model diagnostics -->
 
-```{r, eval = TRUE, message = FALSE, include = TRUE}
+<!-- So we want to check a model that lets the relationship between feet and ears vary by species and sex. The sites are a random sample of possible places we could look for mice, so we'll treat site as a random effect. We can also see that the slope of the effect varies alot between sites, so we'll let the coefficient of foot vary between sites too, at least initially. Here's the global model, and check the residuals: -->
 
-# Global mixed mouse model!
-mice.global <- 
-  lmer(ear ~ foot * species * sex + (foot | site),
-       data = mice)
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE} -->
 
-# Check residuals with DHARMa
-simulateResiduals(mice.global, plot = TRUE)
+<!-- # Global mixed mouse model! -->
+<!-- mice.global <-  -->
+<!--   lmer(ear ~ foot * species * sex + (foot | site), -->
+<!--        data = mice) -->
 
-```
+<!-- # Check residuals with DHARMa -->
+<!-- simulateResiduals(mice.global, plot = TRUE) -->
 
-How do the simulated residuals look for you? Given they're simulated, they could look a bit different each time you run them. However, the significant KS test indicates we may not be using the best probability distribution (he says sheepishly). Regardless, **on your own, dig into the [DHARMa vignette](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html#general-remarks-on-interperting-residual-patterns-and-tests) a bit and learn about what you're seeing.**
+<!-- ``` -->
 
-### Model selection
+<!-- How do the simulated residuals look for you? Given they're simulated, they could look a bit different each time you run them. However, the significant KS test indicates we may not be using the best probability distribution (he says sheepishly). Regardless, **on your own, dig into the [DHARMa vignette](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html#general-remarks-on-interperting-residual-patterns-and-tests) a bit and learn about what you're seeing.** -->
 
-Let's fit a range of models with different random effects structures, and compare using AICc. Here is a table from the [lme4 package vignette](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf) describing random effect syntax and meaning:
+<!-- ### Model selection -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE, echo = FALSE}
+<!-- Let's fit a range of models with different random effects structures, and compare using AICc. Here is a table from the [lme4 package vignette](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf) describing random effect syntax and meaning: -->
 
-knitr::kable(
-  cbind(Formula =  c("(1 | g)", "0 + offset(o) + (1 | g)", "(1 | g1/g2)", "(1 | g1) + (1 | g2)", "x + (x | g)", "x + (x || g)"),
-        `Alternative Formula` = c(" 1 + (1 | g)", "-1 + offset(o) + (1 | g)", "(1 | g1)+(1 | g1:g2)", "1 + (1 | g1) + (1 | g2)", "1 + x + (1 + x | g)", "1 + x + (1 | g) + (0 + x | g)"),
-        Meaning = c("Random intercept with fixed mean.", "Random intercept with a priori means.", "Intercept varying among g1 and g2 within g1.", "Intercept varying among g1 and g2.", "Correlated random intercept and slope.", "Uncorrelated random intercept and slope.")
-  )
-)
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE, echo = FALSE} -->
 
-```
+<!-- knitr::kable( -->
+<!--   cbind(Formula =  c("(1 | g)", "0 + offset(o) + (1 | g)", "(1 | g1/g2)", "(1 | g1) + (1 | g2)", "x + (x | g)", "x + (x || g)"), -->
+<!--         `Alternative Formula` = c(" 1 + (1 | g)", "-1 + offset(o) + (1 | g)", "(1 | g1)+(1 | g1:g2)", "1 + (1 | g1) + (1 | g2)", "1 + x + (1 + x | g)", "1 + x + (1 | g) + (0 + x | g)"), -->
+<!--         Meaning = c("Random intercept with fixed mean.", "Random intercept with a priori means.", "Intercept varying among g1 and g2 within g1.", "Intercept varying among g1 and g2.", "Correlated random intercept and slope.", "Uncorrelated random intercept and slope.") -->
+<!--   ) -->
+<!-- ) -->
 
+<!-- ``` -->
 
-The problem with comparing different random effects using Likelihood Ratio tests is that our null hypothesis is "on the boundary" of the parameter space, because you can't have negative variances. Choosing a model that has the minimum AICc won't be bothered by this consideration, but this would affect the calculation of the weights.
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- The problem with comparing different random effects using Likelihood Ratio tests is that our null hypothesis is "on the boundary" of the parameter space, because you can't have negative variances. Choosing a model that has the minimum AICc won't be bothered by this consideration, but this would affect the calculation of the weights. -->
 
-# uncorrelated random effects # NOTE: Does not converge!
-mice.1 <-
-  lmer(ear ~ foot * species * sex + (foot - 1 | site) + (1 | site),
-       data = mice)
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-# only random slope
-mice.2 <- 
-  lmer(ear ~ foot * species * sex + (foot - 1 | site), 
-       data = mice)
+<!-- # uncorrelated random effects # NOTE: Does not converge! -->
+<!-- mice.1 <- -->
+<!--   lmer(ear ~ foot * species * sex + (foot - 1 | site) + (1 | site), -->
+<!--        data = mice) -->
 
-# only random intercept
-mice.3 <- 
-  lmer(ear ~ foot * species * sex + (1 | site), 
-       data = mice)
+<!-- # only random slope -->
+<!-- mice.2 <-  -->
+<!--   lmer(ear ~ foot * species * sex + (foot - 1 | site),  -->
+<!--        data = mice) -->
 
-# Model selection for random effects.
-# NOTE: AICcmodavg and MuMIn functions won't work because these models are
-# different "classes". Check it out if you're interested:
-# lapply(list(mice.global, mice.1, mice.2, mice.3), class)
-aicc <- sapply(list(mice.global, mice.1, mice.2, mice.3), AICc)
-knitr::kable(
-  cbind(
-    Model = c("Correlated", "Uncorrelated", "Slope", "Intercept"),
-    AICc = format(aicc, digits = 5
-    )
-))
+<!-- # only random intercept -->
+<!-- mice.3 <-  -->
+<!--   lmer(ear ~ foot * species * sex + (1 | site),  -->
+<!--        data = mice) -->
 
-```
+<!-- # Model selection for random effects. -->
+<!-- # NOTE: AICcmodavg and MuMIn functions won't work because these models are -->
+<!-- # different "classes". Check it out if you're interested: -->
+<!-- # lapply(list(mice.global, mice.1, mice.2, mice.3), class) -->
+<!-- aicc <- sapply(list(mice.global, mice.1, mice.2, mice.3), AICc) -->
+<!-- knitr::kable( -->
+<!--   cbind( -->
+<!--     Model = c("Correlated", "Uncorrelated", "Slope", "Intercept"), -->
+<!--     AICc = format(aicc, digits = 5 -->
+<!--     ) -->
+<!-- )) -->
 
-We're in luck, the model with both a random slope and intercept where the effects are correlated has the lowest AICc, and by a large margin. 
+<!-- ``` -->
 
-However, we still need to select the best *fixed effect* structure too! To do that, we need to create some candidate models based off the global fixed effects while always using the random effect structure we identified. And critically, we need to *use Maximum Likelihood to compare fixed effects*.
+<!-- We're in luck, the model with both a random slope and intercept where the effects are correlated has the lowest AICc, and by a large margin.  -->
 
-**On your own, create a candidate model list to identify which fixed effect structure has the most support.**
+<!-- However, we still need to select the best *fixed effect* structure too! To do that, we need to create some candidate models based off the global fixed effects while always using the random effect structure we identified. And critically, we need to *use Maximum Likelihood to compare fixed effects*. -->
 
-... Pausing while you do this...
+<!-- **On your own, create a candidate model list to identify which fixed effect structure has the most support.** -->
 
-Okay, so you may have found that your final model is: `ear ~ foot + (1+foot|site)`. This means the relationship between ear and foot length is constant between sexes and species, but varies geographically. I find that quite fascinating. I'll fit this final model, and make a plot or two.
+<!-- ... Pausing while you do this... -->
 
-### Predictions with mixed models
+<!-- Okay, so you may have found that your final model is: `ear ~ foot + (1+foot|site)`. This means the relationship between ear and foot length is constant between sexes and species, but varies geographically. I find that quite fascinating. I'll fit this final model, and make a plot or two. -->
 
-You can make predictions from these models just as you would with other models. Below, we have a plot showing all predicted ear/foot relationships by site.
+<!-- ### Predictions with mixed models -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- You can make predictions from these models just as you would with other models. Below, we have a plot showing all predicted ear/foot relationships by site. -->
 
-# Example of final model
-mice.final <- lmer(ear ~ foot + (1+foot|site),
-                   REML = FALSE,
-                   data = mice)
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-# Create a new data.frame with all site/foot length combinations
-nd <- expand.grid(foot = seq(min(mice$foot),
-                          max(mice$foot),length=50),
-                  site = unique(mice$site))
+<!-- # Example of final model -->
+<!-- mice.final <- lmer(ear ~ foot + (1+foot|site), -->
+<!--                    REML = FALSE, -->
+<!--                    data = mice) -->
 
-# Conditional prediction
-pred_conditional <- 
-  data.frame(fit = predict(mice.final, newdata = nd, re.form = NULL),
-             nd)
+<!-- # Create a new data.frame with all site/foot length combinations -->
+<!-- nd <- expand.grid(foot = seq(min(mice$foot), -->
+<!--                           max(mice$foot),length=50), -->
+<!--                   site = unique(mice$site)) -->
 
-# Plot the predictions
-ggplot() +
-  geom_point(data = mice, 
-             mapping = aes(x = foot, y = ear), 
-             alpha = 0.2) +
-  scale_color_viridis_d() + 
-  xlab('Foot Length [mm]') + 
-  ylab('Ear Length [mm]') +
-  geom_line(data = pred_conditional,
-            mapping = aes(x = foot, 
-                          y = fit, 
-                          group = site, 
-                          color = site)) +
-  theme(legend.position = "none") # Too busy with all sites, so kill legend
+<!-- # Conditional prediction -->
+<!-- pred_conditional <-  -->
+<!--   data.frame(fit = predict(mice.final, newdata = nd, re.form = NULL), -->
+<!--              nd) -->
 
-```
+<!-- # Plot the predictions -->
+<!-- ggplot() + -->
+<!--   geom_point(data = mice,  -->
+<!--              mapping = aes(x = foot, y = ear),  -->
+<!--              alpha = 0.2) + -->
+<!--   scale_color_viridis_d() +  -->
+<!--   xlab('Foot Length [mm]') +  -->
+<!--   ylab('Ear Length [mm]') + -->
+<!--   geom_line(data = pred_conditional, -->
+<!--             mapping = aes(x = foot,  -->
+<!--                           y = fit,  -->
+<!--                           group = site,  -->
+<!--                           color = site)) + -->
+<!--   theme(legend.position = "none") # Too busy with all sites, so kill legend -->
 
-We say the predictions in the above plot are "conditional" on the random effects, because they include the perturbations from the random effects. Another thing you might want are predictions "unconditional" on the random effects. The line below represents the relationship between ears and feet we expect to find at a randomly chosen new site.
+<!-- ``` -->
 
-```{r eval = TRUE, message = FALSE, include = TRUE}
+<!-- We say the predictions in the above plot are "conditional" on the random effects, because they include the perturbations from the random effects. Another thing you might want are predictions "unconditional" on the random effects. The line below represents the relationship between ears and feet we expect to find at a randomly chosen new site. -->
 
-# Create a new data.frame with just one site
-nd2 <- expand.grid(foot = seq(min(mice$foot),
-                          max(mice$foot),length=50),
-                  site = unique(mice$site)[1]) # Choose one site
+<!-- ```{r eval = TRUE, message = FALSE, include = TRUE} -->
 
-# Conditional prediction
-pred_unconditional <- 
-  data.frame(fit = predict(mice.final, newdata = nd, re.form = NA),
-             nd2)
+<!-- # Create a new data.frame with just one site -->
+<!-- nd2 <- expand.grid(foot = seq(min(mice$foot), -->
+<!--                           max(mice$foot),length=50), -->
+<!--                   site = unique(mice$site)[1]) # Choose one site -->
 
-# Plot the predictions
-ggplot() +
-  geom_point(data = mice, 
-             mapping = aes(x = foot, y = ear), 
-             alpha = 0.2) +
-  scale_color_viridis_d() + 
-  xlab('Foot Length [mm]') + 
-  ylab('Ear Length [mm]') +
-  geom_line(data = pred_unconditional,
-            mapping = aes(x = foot, 
-                          y = fit),
-            color = "darkred",
-            linewidth = 2)
+<!-- # Conditional prediction -->
+<!-- pred_unconditional <-  -->
+<!--   data.frame(fit = predict(mice.final, newdata = nd, re.form = NA), -->
+<!--              nd2) -->
 
-```
+<!-- # Plot the predictions -->
+<!-- ggplot() + -->
+<!--   geom_point(data = mice,  -->
+<!--              mapping = aes(x = foot, y = ear),  -->
+<!--              alpha = 0.2) + -->
+<!--   scale_color_viridis_d() +  -->
+<!--   xlab('Foot Length [mm]') +  -->
+<!--   ylab('Ear Length [mm]') + -->
+<!--   geom_line(data = pred_unconditional, -->
+<!--             mapping = aes(x = foot,  -->
+<!--                           y = fit), -->
+<!--             color = "darkred", -->
+<!--             linewidth = 2) -->
 
-What about confidence intervals on our predictions? A very good question, young grasshopper, but one that will have to wait!
+<!-- ``` -->
+
+<!-- What about confidence intervals on our predictions? A very good question, young grasshopper, but one that will have to wait! -->
