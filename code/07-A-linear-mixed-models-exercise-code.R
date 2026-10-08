@@ -68,7 +68,21 @@ ssBase
 # 1. Create a single ggplot with individual regression lines for each individual
 # subject.
 
+ggplot(sleepstudy,
+       aes(x = Days,
+           y = Reaction,
+           group = Subject)) + 
+  geom_point(size = 1, 
+             color = "orange") + 
+  geom_smooth(method = "lm") + 
+  facet_wrap(~Subject) + 
+  theme_bw() + 
+  ylab("Reaction time (ms)") + 
+  xlab("Days without sleep")
+
 # 2. What do you notice from these individual regressions?
+
+
 
 # We could fit a separate model to each subject and combine them. This is
 # effectively a Subject * Days interaction model.
@@ -86,7 +100,11 @@ coef(fm1)
 # 1. Calculate the mean intercept and Days coefficients from the matrix created
 # by `coef(fm1)`.
 
+colMeans(coef(fm1))
+
 # 2. Compare these with the estimates from the single regression model. 
+
+coef(ss.lm)
 
 # 3. Use `summary(fm1)` to see the residual variance and degrees of freedom for
 # the pooled list. Compare these values with the residual variance and degrees
@@ -105,9 +123,15 @@ coef(fm1)
 # 1. Fit your first linear mixed effects model using "lme4::lmer" and creating a
 # random effect structure to reflect the patterns we saw above.
 
+ss.lmer <- 
+  lme4::lmer(Reaction ~ Days + (Days | Subject),
+           data = sleepstudy,
+           REML = TRUE)
+summary(ss.lmer)
+
 # 2. Compare the estimates and standard errors with those from the "lmList" and
 # "lm" models above.**
-  
+
 
 # We can also get the random perturbations for each group, and combining those
 # with the population level coefficients gives us the coefficients for the line
@@ -115,7 +139,7 @@ coef(fm1)
 # in the left 2 columns) are negative, the coefficients for the group are less
 # than the population coefficients, and when they are positive, the group
 # coefficients are greater.
-cbind(ranef(ss.mm)$Subject, coef(ss.mm)$Subject)
+cbind(ranef(ss.lmer)$Subject, coef(ss.lmer)$Subject)
 
 #=============================================================================
 ## Mouse Example 
@@ -132,7 +156,7 @@ mice <- filter(mice, sex != "U")
 # Plot relationship
 basemouse <- 
   ggplot(mice,
-         aes(x = foot, y = ear)) +
+         aes(x = foot, y = ear, color = sex)) +
   geom_point(alpha = 0.2) +
   xlab('Foot Length [mm]') + ylab('Ear Length [mm]')
 
@@ -197,7 +221,21 @@ simulateResiduals(mice.global, plot = TRUE)
 # 1. Create 3 - 4 models with different (reasonable) random effect structures,
 # keeping the fixed effects the same in all models.
   
+mice_randInt <- 
+  lmer(ear ~ foot * species + (1 | site),
+       data = mice)
+mice_randSlopeInt <- 
+  lmer(ear ~ foot * species + (1 | site) + (1 | sex),
+       data = mice)
+mice_UncorrRandSlopeInt <- 
+  lmer(ear ~ foot * species + (sex | site),
+       data = mice)
+
 # 2. Use AICc to determine the "best" random effect structure.
+
+aictab(list(mice_UncorrRandSlopeInt, mice_randSlopeInt, mice_randInt))
+sapply(list(mice_UncorrRandSlopeInt, mice_randSlopeInt, mice_randInt),
+       AICc)
 
 # 3. Once you've chosen your random effect structure via model selection, create 3 - 4 candidate models varying by fixed effects.
 
@@ -217,6 +255,21 @@ mice.final <- lmer(ear ~ foot + (1+foot|site),
 
 # Predict ear response, showing predictions for all site/foot combinations.
 
+nd <- 
+  expand.grid(foot = seq(min(mice$foot),
+                         max(mice$foot),
+                         0.1),
+              site = unique(mice$site))
+predDF <- 
+  cbind(fit = predict(mice.final, nd, type = "response", re.form = NULL),
+        nd)
+ggplot(predDF, 
+       aes(x = foot,
+           y = fit, 
+           group = site,
+           color = site))  +
+  geom_line() + 
+  theme_classic()
 ### To be continued...
 
 # What about confidence intervals on our predictions? A very good question, but
