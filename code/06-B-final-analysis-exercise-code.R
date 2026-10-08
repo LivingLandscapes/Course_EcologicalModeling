@@ -1,6 +1,6 @@
-# Code for Reproducibility and RProjects lab
+# Code for From Wrangling to Final Figures
 # Author: Dr. Roberts
-# Date: Sep 24, 2026
+# Date: Sep 29, 2026
 
 ### Citations:
 
@@ -8,8 +8,9 @@
 # Data from: Fire legacies in eastern ponderosa pine forests [Dataset]. Dryad.
 # https://doi.org/10.5061/dryad.3sp331p
 
-### For this lab, we will get everything set up and complete the data wrangling
-### script. We're going to 1) plan our approach and 2) execute the approach.
+### For this lab, we will continue the work we started in the "Reproducibility
+### and RProjects" lab. Hopefully, we can start by sourcing the data wrangling
+### script we made last time.
 
 ### Dataset: Fort Rob birds/veg--download whole folder
 
@@ -19,4 +20,4 @@
 ### Statistical approach: Model selection using frequentist methods.
 
 #=============================================================================
-## What's the plan??
+## Preparations

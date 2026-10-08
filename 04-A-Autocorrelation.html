@@ -505,6 +505,18 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis A - Z
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="05-A-Analysis-Lab.html">Lab: Analysis A - Z</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Autocorrelation
      
     <span class="caret"></span>
@@ -531,9 +543,6 @@ div.tocify {
     <li>
       <a href="05-C-Confidence-Intervals-Mixed-Models.html">Lab: Confidence Intervals for Mixed Models</a>
     </li>
-    <li>
-      <a href="05-C-Homework-03.html">Homework 3</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -545,9 +554,6 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="06-A-Hierarchical-Generalized-Additive-Models.html">Lab: HGAMs</a>
-    </li>
-    <li>
-      <a href="06-B-Homework-04.html">Homework 4</a>
     </li>
   </ul>
 </li>
@@ -597,6 +603,9 @@ started!</p>
 src="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/ltersampler_logo.png"
 width="300" />
 <p>
+<p>Open up this <a
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/04-A-autocorrelation-exercise-code.R">Rscript</a>
+and start!</p>
 <hr />
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># List of packages necessary to run this script:</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">require</span>(librarian, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
@@ -634,8 +643,8 @@ look for any obvious signs of spatial autocorrelation:</p>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  )</span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># Map the pika locations with variables of interest varying by size/color</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>pika_conc_map <span class="ot">&lt;-</span> </span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(pika_sf) <span class="sc">+</span> </span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>pika_conc_map <span class="ot">&lt;-</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="fu">ggplot</span>(pika_sf) <span class="sc">+</span></span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">size =</span> concentration_pg_g, <span class="co"># sf::geom_sf is for creating spatial ggplot</span></span>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>              <span class="at">color =</span> sex),</span>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
@@ -696,12 +705,12 @@ dates in R is super annoying.” Your feelings are valid. However, there
 are some ways to make dates less annoying. For instance, converting
 dates to the POSIX* format (see ?POSIXlt):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Convert the &quot;ice off&quot; and &quot;ice_on&quot; dates to the POSIX* format and extract Julian date</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>ntl_icecover <span class="ot">&lt;-</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>ntl_icecover <span class="ot">&lt;-</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  ntl_icecover <span class="sc">%&gt;%</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ice_off_julian =</span> <span class="fu">as.POSIXlt</span>(ntl_icecover<span class="sc">$</span>ice_off,</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>                                     <span class="at">format =</span> <span class="st">&quot;%d%b%y&quot;</span>)<span class="sc">$</span>yday,</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>         <span class="at">ice_on_julian =</span> <span class="fu">as.POSIXlt</span>(ntl_icecover<span class="sc">$</span>ice_on,</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                                     <span class="at">format =</span> <span class="st">&quot;%d%b%y&quot;</span>)<span class="sc">$</span>yday) </span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                                     <span class="at">format =</span> <span class="st">&quot;%d%b%y&quot;</span>)<span class="sc">$</span>yday)</span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># Print the data.frame to see what we did:</span></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">head</span>(ntl_icecover)</span></code></pre></div>
@@ -719,21 +728,21 @@ date” is.</p>
 <p>Okay, let’s check out the patterns in how long ice is staying on the
 lakes over time, and when the lakes are thawing over time:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Plot ice duration by lake</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>ice_duration_plot <span class="ot">&lt;-</span> </span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>ice_duration_plot <span class="ot">&lt;-</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(ntl_icecover,</span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> ice_duration, <span class="at">color =</span> lakeid, <span class="at">group =</span> lakeid)) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Ice duration (days)&quot;</span>)</span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># Convert the &quot;ice off&quot; date to the POSIX* format and extract Julian day</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>ice_off_plot <span class="ot">&lt;-</span> </span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>ice_off_plot <span class="ot">&lt;-</span></span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(ntl_icecover,</span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> ice_off_julian, <span class="at">color =</span> lakeid, <span class="at">group =</span> lakeid)) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span> </span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Date ice off</span><span class="sc">\n</span><span class="st">(Julian date)&quot;</span>)</span>
 <span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
 <span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># Plot patterns together</span></span>
@@ -762,7 +771,7 @@ the resultant plots.</p>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">acf</span>(acf_df[ , <span class="dv">1</span>]) <span class="co"># Run acf</span></span></code></pre></div>
 <p><img src="04-A-Autocorrelation_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Cross-correlation for ice duration and ice off</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>ccf_df <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>ccf_df <span class="ot">&lt;-</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  ntl_icecover <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">filter</span>(lakeid <span class="sc">==</span> <span class="st">&quot;Lake Mendota&quot;</span>) <span class="sc">%&gt;%</span></span>
