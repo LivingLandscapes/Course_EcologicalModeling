@@ -31,257 +31,266 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ## Overview
 
-We'll continue to look at Linear and Generalized linear mixed effects models, emphasizing how to get confidence intervals on the predictions. To do that, we'll use our new friend: the bootstrapping method. Below is an example of bootstrapping used to estimate confidence intervals for the analysis in the assigned Shipley et al. (2022) paper:
+We'll continue to look at mixed effects models, emphasizing how to get confidence intervals on the predictions. To do that, we'll use our new friend: the bootstrapping method. Below is an example of bootstrapping used to estimate confidence intervals for the analysis in the assigned Shipley et al. (2022) paper:
 
 <p>
 ![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Shipley2022Bootstrap.jpg){width=600px}
 <p>
 
-```{r, include = TRUE, eval = TRUE, message = FALSE}
+We'll also use data from Vicente et al. (2005), who looked at the distribution and faecal shedding patterns of 1st stage larvae of *Elaphostrongylus cervi* in red deer. Here we're interested in the presence and absence of larvae in deer as functions of size (length in cm), sex, and farm identity. The study was done near Cuidad Real in Spain. Here's a nice pic of red deer at Cabañeros National Park in Spain, which is near Ciudad Real (and Don Quixote territory):
 
-# List of packages necessary to run this script:
-require(librarian, quietly = TRUE)
-library(librarian)
-shelf(tidyverse, broom.mixed, broom, lme4, boot, snow, here, parallel,
-      lib = tempdir())
+<p>
+![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/reddeer.png){width=600px}
+<p>
 
-# Set seed
-set.seed(7871)
-
-# Set the web address where R will look for files from this repository
-# Do not change this address
-repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
-
-# Load data
-ecervi <- 
-  read.table(paste0(repo_url, "/data/DeerEcervi.txt"), 
-             header = TRUE)
-
-```
-
-## Confidence intervals for LMMs
-
-We'll start with something easy - a linear mixed effects model with the sleepstudy data.
-
-```{r PrepareData, include = TRUE, eval = TRUE, message = FALSE}
+Here's the [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/08-A-confidence-mixed-exercise-code.R) for the coding exercise!
 
 
-ssBase <- ggplot(sleepstudy, aes(x = Days, y = Reaction)) + 
-  geom_point(aes(color=Subject)) + 
-  scale_color_discrete() + 
-  labs(x="Days with no sleep",
-       y="Reaction time [ms]")
-ssBase + geom_smooth(method="lm")+ facet_wrap(~Subject) + guides(color=FALSE)
+<!-- ```{r, include = TRUE, eval = TRUE, message = FALSE} -->
 
-```
+<!-- # List of packages necessary to run this script: -->
+<!-- require(librarian, quietly = TRUE) -->
+<!-- library(librarian) -->
+<!-- shelf(tidyverse, broom.mixed, broom, lme4, boot, snow, here, parallel, -->
+<!--       lib = tempdir()) -->
 
-So there's the basic data, and now we fit a mixed model with both the intercept and Days varying across subjects.
+<!-- # Set seed -->
+<!-- set.seed(7871) -->
 
-```{r MixedModel, include = TRUE, eval = TRUE, message = FALSE}
-# fit a mixed model
-summary(ss.mm <- lmer(Reaction ~ Days + (1 + Days | Subject),
-                      sleepstudy,REML=FALSE))
-```
+<!-- # Set the web address where R will look for files from this repository -->
+<!-- # Do not change this address -->
+<!-- repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/" -->
 
-Let's check the profile confidence limits on the estimates before we look at getting confidence limits on predictions.
+<!-- # Load data -->
+<!-- ecervi <-  -->
+<!--   read.table(paste0(repo_url, "/data/DeerEcervi.txt"),  -->
+<!--              header = TRUE) -->
 
-```{r MixedConfInt, include = TRUE, eval = TRUE, message = FALSE}
-# remember this is SLOOOOW
-#ss.parms <- tidy(ss.mm, conf.int=TRUE, conf.method="profile")
-# unfortunately tidy.merMod doesn't do profile intervals
-confint(ss.mm, oldNames = FALSE)
-```
+<!-- ``` -->
 
-So the most interesting thing here is that the confidence limit for the correlation coefficient includes 0. The other thing to recognize is that all of the variance parameters are uncertain as well. Even the *residual variance* has a range of possible values! This is the uncertainty that is not easy to include in our confidence intervals on predictions. 
+<!-- ## Confidence intervals for LMMs -->
 
-What I want to do now is get confidence intervals on predicted values so we can add nice confidence polygons to our predicted plots. Unlike `glm()` or `lm()` objects, the predict function for `merMod` objects produced by `(g)lmer()` doesn't give us standard errors or confidence limits. The reason given by the developers is that there isn't a clear method to account for the variance in the random effects parameters. Recognizing that these parameters are uncertain would increase the width of the confidence intervals on our predictions. 
+<!-- We'll start with something easy - a linear mixed effects model with the sleepstudy data. -->
 
-First I want to make a plot that has both the population level fitted values and the subject level lines. This is going to get messy. 
+<!-- ```{r PrepareData, include = TRUE, eval = TRUE, message = FALSE} -->
 
-```{r ssAugment, include = TRUE, eval = TRUE, message = FALSE}
-# get fitted values
-ss.fitted <- broom.mixed::augment(ss.mm)
-names(ss.fitted)
-```
 
-`augment()` gives us a bunch of columns for merMod objects; the one we're interested in here is `.fitted`. There is also a column `.mu` that has identical values in it. For a model that has a link function other than the identity link (e.g. the default logit link for the binomial family) `.fixed` will be on the *link* scale, and `.mu` will be on the *response* scale. We'll come back to that in the next example. 
+<!-- ssBase <- ggplot(sleepstudy, aes(x = Days, y = Reaction)) +  -->
+<!--   geom_point(aes(color=Subject)) +  -->
+<!--   scale_color_discrete() +  -->
+<!--   labs(x="Days with no sleep", -->
+<!--        y="Reaction time [ms]") -->
+<!-- ssBase + geom_smooth(method="lm")+ facet_wrap(~Subject) + guides(color=FALSE) -->
 
-```{r messyPlot1, include = TRUE, eval = TRUE, message = FALSE}
-# x is inherited from ssBase
-# if we don't specify color=Subject in geom_line()
-# we only get one line ... oh, because I specified color=Subject
-# in geom_points() not ggplot()
-ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted) + guides(color=FALSE)
-```
+<!-- ``` -->
 
-So each line represents the fitted values including the effects of the random perturbations on the intercept and slope. Now get the population level predictions using predict() and a new data.frame.
+<!-- So there's the basic data, and now we fit a mixed model with both the intercept and Days varying across subjects. -->
 
-```{r popPredictions, fig.cap='Reaction time as a function of days without sleep. Fine lines are subject level fitted values, thick black line is the population level prediction.', include = TRUE, eval = TRUE, message = FALSE}
-nd <- data.frame(Days=0:9)
-# re.form tells predict what to do with the random effects
-# ~0 says ignore them; population level predictions
-nd$PopPred <- predict(ss.mm, newdata=nd, re.form=~0)
-ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted, alpha=0.5) + 
-  geom_line(aes(y=PopPred), data=nd, linewidth =2) +
-  guides(color=FALSE)
-```
+<!-- ```{r MixedModel, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # fit a mixed model -->
+<!-- summary(ss.mm <- lmer(Reaction ~ Days + (1 + Days | Subject), -->
+<!--                       sleepstudy,REML=FALSE)) -->
+<!-- ``` -->
 
-OK, but we want to know how much confidence to have in that prediction. Really the only option here is to use bootstrapping. This is slow, but gets all the uncertainty in our prediction. Fortunately `lme4` includes a function `bootMer` to do bootstrapping by generating a random sample of data and then fitting the model to that new data. Repeat that 1000's of times and you can get a distribution of possible model fits. Unfortunately we have to write a function to extract the predictions from the random samples the way we want them. Start by getting a single random sample.
+<!-- Let's check the profile confidence limits on the estimates before we look at getting confidence limits on predictions. -->
 
-```{r singleSample, include = TRUE, eval = TRUE, message = FALSE}
-# bootMer takes a fitted merMod object
-# then the function that takes a fitted merMod object and returns the thing we want as a vector
-# fitted() will give us the coefficients from a fit
-test <- bootMer(ss.mm, fixef)
-# a (fairly) compact look at the *str*ucture of an object
-str(test)
-```
+<!-- ```{r MixedConfInt, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # remember this is SLOOOOW -->
+<!-- #ss.parms <- tidy(ss.mm, conf.int=TRUE, conf.method="profile") -->
+<!-- # unfortunately tidy.merMod doesn't do profile intervals -->
+<!-- confint(ss.mm, oldNames = FALSE) -->
+<!-- ``` -->
 
-There's alot of stuff in there, most of which relates to internal stuff that would allow us to recreate the simulation. We are mostly interested in `t0` and `t`. `t0` is the result of applying our FUN to the original object. In this case it gives us a vector of the fixed effects coefficients. `t` is a matrix of the simulation output. In each row is the result of our FUN applied to a simulated result. By default `bootMer` only does one simulation. If we want more:
+<!-- So the most interesting thing here is that the confidence limit for the correlation coefficient includes 0. The other thing to recognize is that all of the variance parameters are uncertain as well. Even the *residual variance* has a range of possible values! This is the uncertainty that is not easy to include in our confidence intervals on predictions.  -->
 
-```{r moreSamples, include = TRUE, eval = TRUE, message = FALSE}
-test <- bootMer(ss.mm, fixef, nsim=10)
-test$t
-```
+<!-- What I want to do now is get confidence intervals on predicted values so we can add nice confidence polygons to our predicted plots. Unlike `glm()` or `lm()` objects, the predict function for `merMod` objects produced by `(g)lmer()` doesn't give us standard errors or confidence limits. The reason given by the developers is that there isn't a clear method to account for the variance in the random effects parameters. Recognizing that these parameters are uncertain would increase the width of the confidence intervals on our predictions.  -->
 
-If we set `nsim = 10000` and then took quantiles of the resulting columns, we could get bootstrapped confidence limits on our fixed effects. That's what is happening when we do `confint(ss.mm, method="boot")`. We want a function that makes a prediction from a fitted model. Just using `predict()` won't work, because the function only takes one argument, the fitted model. So we have to make a "wrapper" that will call `predict()` with the right arguments.
+<!-- First I want to make a plot that has both the population level fitted values and the subject level lines. This is going to get messy.  -->
 
-```{r bootPrediction, include = TRUE, eval = TRUE, message = FALSE}
-myFunc <- function(mm){
-  # forgot the re.form argument on first try
-  predict(mm, newdata=nd, re.form=~0)
-}
-myFunc(ss.mm) # works
-# try with bootMer()
-test <- bootMer(ss.mm, myFunc)
-test$t #works
-```
+<!-- ```{r ssAugment, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # get fitted values -->
+<!-- ss.fitted <- broom.mixed::augment(ss.mm) -->
+<!-- names(ss.fitted) -->
+<!-- ``` -->
 
-OK, this next bit takes a while ... about 10 ten seconds on my laptop
-```{r bigBoot, include = TRUE, eval = TRUE, message = FALSE}
-bigBoot <- bootMer(ss.mm, myFunc, nsim=100)
-head(bigBoot$t)
-```
+<!-- `augment()` gives us a bunch of columns for merMod objects; the one we're interested in here is `.fitted`. There is also a column `.mu` that has identical values in it. For a model that has a link function other than the identity link (e.g. the default logit link for the binomial family) `.fixed` will be on the *link* scale, and `.mu` will be on the *response* scale. We'll come back to that in the next example.  -->
 
-Now we want quantiles of each column of that thing, turned around so the columns are rows like the original `nd`. 
+<!-- ```{r messyPlot1, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # x is inherited from ssBase -->
+<!-- # if we don't specify color=Subject in geom_line() -->
+<!-- # we only get one line ... oh, because I specified color=Subject -->
+<!-- # in geom_points() not ggplot() -->
+<!-- ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted) + guides(color=FALSE) -->
+<!-- ``` -->
 
-```{r getQuantiles, include = TRUE, eval = TRUE, message = FALSE}
-# apply(xx, MARGIN = 2, FUN, ...) 'applies' FUN to each column (because MARGIN = 2). arguments in ... get passed to FUN
-# t() transposes the result
-predCL <- t(apply(bigBoot$t, MARGIN = 2, 
-                  FUN = quantile, 
-                  probs=c(0.025, 0.975)))
-# ggplot only works with data.frames so
-# add to nd
-# '%' in column names is a disaster so be explicit
-nd$lci <- predCL[,1]
-nd$uci <- predCL[,2]
+<!-- So each line represents the fitted values including the effects of the random perturbations on the intercept and slope. Now get the population level predictions using predict() and a new data.frame. -->
 
-ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted, alpha=0.5) + 
-  geom_line(aes(y=PopPred), data=nd, size=2) +
-  geom_ribbon(aes(x=Days, ymin=lci, ymax=uci),
-              data=nd, inherit.aes = FALSE, 
-              alpha=0.2) +
-  guides(color=FALSE)
-```
+<!-- ```{r popPredictions, fig.cap='Reaction time as a function of days without sleep. Fine lines are subject level fitted values, thick black line is the population level prediction.', include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- nd <- data.frame(Days=0:9) -->
+<!-- # re.form tells predict what to do with the random effects -->
+<!-- # ~0 says ignore them; population level predictions -->
+<!-- nd$PopPred <- predict(ss.mm, newdata=nd, re.form=~0) -->
+<!-- ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted, alpha=0.5) +  -->
+<!--   geom_line(aes(y=PopPred), data=nd, linewidth =2) + -->
+<!--   guides(color=FALSE) -->
+<!-- ``` -->
 
-So that's pretty nice. I can add a geom_smooth() to show how much wider the confidence intervals are compared to ignoring all the extra variability.
+<!-- OK, but we want to know how much confidence to have in that prediction. Really the only option here is to use bootstrapping. This is slow, but gets all the uncertainty in our prediction. Fortunately `lme4` includes a function `bootMer` to do bootstrapping by generating a random sample of data and then fitting the model to that new data. Repeat that 1000's of times and you can get a distribution of possible model fits. Unfortunately we have to write a function to extract the predictions from the random samples the way we want them. Start by getting a single random sample. -->
 
-```{r compareRibbons, fig.cap = 'Reaction time as a function of days without sleep. Fine lines are subject level fits, thick line is population level prediction. The outer ribbon are bootstrapped 95% confidence limits. The inner ribbon is a 95% confidence limit ignoring between subject variation and random effects uncertainty.', include = TRUE, eval = TRUE, message = FALSE}
-ssBase + geom_line(aes(y=.fitted, color=Subject),
-                   data=ss.fitted, alpha=0.5) + 
-  geom_line(aes(y=PopPred), data=nd, size=2) +
-  # set inherit.aes to FALSE here otherwise 
-  # geom_ribbon looks for a y aesthetic 
-  # called Reaction
-  geom_ribbon(aes(x=Days, ymin=lci, ymax=uci),
-              data=nd, inherit.aes = FALSE, 
-              alpha=0.2) +
-  geom_smooth(method="lm", alpha=0.8, 
-              color="black") +
-  guides(color=FALSE)
-```
+<!-- ```{r singleSample, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # bootMer takes a fitted merMod object -->
+<!-- # then the function that takes a fitted merMod object and returns the thing we want as a vector -->
+<!-- # fitted() will give us the coefficients from a fit -->
+<!-- test <- bootMer(ss.mm, fixef) -->
+<!-- # a (fairly) compact look at the *str*ucture of an object -->
+<!-- str(test) -->
+<!-- ``` -->
 
-It is interesting that there isn't much difference when Days == 0. Note that you wouldn't ever do this in practice! However, it might be nice to build a few polygons at different levels of confidence. 
+<!-- There's alot of stuff in there, most of which relates to internal stuff that would allow us to recreate the simulation. We are mostly interested in `t0` and `t`. `t0` is the result of applying our FUN to the original object. In this case it gives us a vector of the fixed effects coefficients. `t` is a matrix of the simulation output. In each row is the result of our FUN applied to a simulated result. By default `bootMer` only does one simulation. If we want more: -->
 
-```{r multiRibbons, fig.cap = 'Adding multiple transparent ribbons to match 95%, 90%, 80% and 50% confidence limits.', include = TRUE, eval = TRUE, message = FALSE}
-predCL <- t(apply(bigBoot$t, MARGIN = 2, 
-                  FUN = quantile, 
-                  probs=c(0.05, 0.95, 
-                          0.1, 0.9, 
-                          0.25, 0.75)))
-# try making it into a dataframe
-predCL <- data.frame(predCL)
-# names(predCL)
-# so puts a X at the front bc can't start with a number, 
-# and replaces % with . 
-# put them into nd
-nd <- bind_cols(nd, predCL)
-# brute force multi-ribbons:
-ssBase + 
-  geom_line(aes(y=.fitted, color=Subject),
-                   data=ss.fitted, alpha=0.5) + 
-  geom_line(aes(y=PopPred), data=nd, size=2) +
-  # set inherit.aes to FALSE here otherwise 
-  # geom_ribbon looks for a y aesthetic 
-  # called Reaction
-  geom_ribbon(aes(x=Days, ymin=lci, ymax=uci),
-              data=nd, inherit.aes = FALSE, 
-              alpha=0.2) +
-  # add 90% ribbon
-  geom_ribbon(aes(x=Days, ymin=X5., ymax=X95.),
-              data=nd, inherit.aes = FALSE, 
-              alpha=0.2) +
-  # add 80% ribbon
-  geom_ribbon(aes(x=Days, ymin=X10., ymax=X90.),
-              data=nd, inherit.aes = FALSE, 
-              alpha=0.2) +
-  # add 50% ribbon
-  geom_ribbon(aes(x=Days, ymin=X25., ymax=X75.),
-              data=nd, inherit.aes = FALSE, 
-              alpha=0.2) +
+<!-- ```{r moreSamples, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- test <- bootMer(ss.mm, fixef, nsim=10) -->
+<!-- test$t -->
+<!-- ``` -->
 
-    guides(color=FALSE)
+<!-- If we set `nsim = 10000` and then took quantiles of the resulting columns, we could get bootstrapped confidence limits on our fixed effects. That's what is happening when we do `confint(ss.mm, method="boot")`. We want a function that makes a prediction from a fitted model. Just using `predict()` won't work, because the function only takes one argument, the fitted model. So we have to make a "wrapper" that will call `predict()` with the right arguments. -->
 
-```
+<!-- ```{r bootPrediction, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- myFunc <- function(mm){ -->
+<!--   # forgot the re.form argument on first try -->
+<!--   predict(mm, newdata=nd, re.form=~0) -->
+<!-- } -->
+<!-- myFunc(ss.mm) # works -->
+<!-- # try with bootMer() -->
+<!-- test <- bootMer(ss.mm, myFunc) -->
+<!-- test$t #works -->
+<!-- ``` -->
 
-That doesn't look as good as I'd hoped. The idea here is to draw the eye closer to the expected value rather than the outer edges of the confidence region. 
+<!-- OK, this next bit takes a while ... about 10 ten seconds on my laptop -->
+<!-- ```{r bigBoot, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- bigBoot <- bootMer(ss.mm, myFunc, nsim=100) -->
+<!-- head(bigBoot$t) -->
+<!-- ``` -->
 
-## Doing it with a GLMM
+<!-- Now we want quantiles of each column of that thing, turned around so the columns are rows like the original `nd`.  -->
 
-So now we want to redo the deer model from last lab.
+<!-- ```{r getQuantiles, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- # apply(xx, MARGIN = 2, FUN, ...) 'applies' FUN to each column (because MARGIN = 2). arguments in ... get passed to FUN -->
+<!-- # t() transposes the result -->
+<!-- predCL <- t(apply(bigBoot$t, MARGIN = 2,  -->
+<!--                   FUN = quantile,  -->
+<!--                   probs=c(0.025, 0.975))) -->
+<!-- # ggplot only works with data.frames so -->
+<!-- # add to nd -->
+<!-- # '%' in column names is a disaster so be explicit -->
+<!-- nd$lci <- predCL[,1] -->
+<!-- nd$uci <- predCL[,2] -->
 
-```{r, include = TRUE, eval = TRUE, message = FALSE}
-ecervi <- ecervi %>%
-  mutate(Ecervi.pa = Ecervi > 0,
-         fSex = factor(Sex, labels=c("Male","Female")),
-         cLength = Length - mean(Length),
-         csLength = cLength / sd(Length))
+<!-- ssBase + geom_line(aes(y=.fitted, color=Subject), data=ss.fitted, alpha=0.5) +  -->
+<!--   geom_line(aes(y=PopPred), data=nd, size=2) + -->
+<!--   geom_ribbon(aes(x=Days, ymin=lci, ymax=uci), -->
+<!--               data=nd, inherit.aes = FALSE,  -->
+<!--               alpha=0.2) + -->
+<!--   guides(color=FALSE) -->
+<!-- ``` -->
 
-contrasts(ecervi$fSex) <- contr.sum(2)
+<!-- So that's pretty nice. I can add a geom_smooth() to show how much wider the confidence intervals are compared to ignoring all the extra variability. -->
 
-M0 <- glmer(Ecervi.pa~fSex*csLength+(1 + csLength | Farm),
-            data=ecervi,family=binomial)
+<!-- ```{r compareRibbons, fig.cap = 'Reaction time as a function of days without sleep. Fine lines are subject level fits, thick line is population level prediction. The outer ribbon are bootstrapped 95% confidence limits. The inner ribbon is a 95% confidence limit ignoring between subject variation and random effects uncertainty.', include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- ssBase + geom_line(aes(y=.fitted, color=Subject), -->
+<!--                    data=ss.fitted, alpha=0.5) +  -->
+<!--   geom_line(aes(y=PopPred), data=nd, size=2) + -->
+<!--   # set inherit.aes to FALSE here otherwise  -->
+<!--   # geom_ribbon looks for a y aesthetic  -->
+<!--   # called Reaction -->
+<!--   geom_ribbon(aes(x=Days, ymin=lci, ymax=uci), -->
+<!--               data=nd, inherit.aes = FALSE,  -->
+<!--               alpha=0.2) + -->
+<!--   geom_smooth(method="lm", alpha=0.8,  -->
+<!--               color="black") + -->
+<!--   guides(color=FALSE) -->
+<!-- ``` -->
 
-lr = range(ecervi$csLength)
-nd <- expand.grid(csLength = seq(lr[1], lr[2], length=20),
-                  fSex=factor(levels(ecervi$fSex)))
+<!-- It is interesting that there isn't much difference when Days == 0. Note that you wouldn't ever do this in practice! However, it might be nice to build a few polygons at different levels of confidence.  -->
 
-nd$pp = predict(M0,newdata=nd,
-             type="response", re.form=~0)
+<!-- ```{r multiRibbons, fig.cap = 'Adding multiple transparent ribbons to match 95%, 90%, 80% and 50% confidence limits.', include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- predCL <- t(apply(bigBoot$t, MARGIN = 2,  -->
+<!--                   FUN = quantile,  -->
+<!--                   probs=c(0.05, 0.95,  -->
+<!--                           0.1, 0.9,  -->
+<!--                           0.25, 0.75))) -->
+<!-- # try making it into a dataframe -->
+<!-- predCL <- data.frame(predCL) -->
+<!-- # names(predCL) -->
+<!-- # so puts a X at the front bc can't start with a number,  -->
+<!-- # and replaces % with .  -->
+<!-- # put them into nd -->
+<!-- nd <- bind_cols(nd, predCL) -->
+<!-- # brute force multi-ribbons: -->
+<!-- ssBase +  -->
+<!--   geom_line(aes(y=.fitted, color=Subject), -->
+<!--                    data=ss.fitted, alpha=0.5) +  -->
+<!--   geom_line(aes(y=PopPred), data=nd, size=2) + -->
+<!--   # set inherit.aes to FALSE here otherwise  -->
+<!--   # geom_ribbon looks for a y aesthetic  -->
+<!--   # called Reaction -->
+<!--   geom_ribbon(aes(x=Days, ymin=lci, ymax=uci), -->
+<!--               data=nd, inherit.aes = FALSE,  -->
+<!--               alpha=0.2) + -->
+<!--   # add 90% ribbon -->
+<!--   geom_ribbon(aes(x=Days, ymin=X5., ymax=X95.), -->
+<!--               data=nd, inherit.aes = FALSE,  -->
+<!--               alpha=0.2) + -->
+<!--   # add 80% ribbon -->
+<!--   geom_ribbon(aes(x=Days, ymin=X10., ymax=X90.), -->
+<!--               data=nd, inherit.aes = FALSE,  -->
+<!--               alpha=0.2) + -->
+<!--   # add 50% ribbon -->
+<!--   geom_ribbon(aes(x=Days, ymin=X25., ymax=X75.), -->
+<!--               data=nd, inherit.aes = FALSE,  -->
+<!--               alpha=0.2) + -->
 
-ggplot(nd, aes(x=csLength, y=pp, col=fSex)) +
-  geom_line(alpha=0.5) +
-   ylab("Probability of E. cervi infection") +
-  geom_line(aes(x=csLength, y=pp, col=fSex), data=nd, inherit.aes = FALSE, linewidth=2) +
-    geom_rug(aes(x=csLength), data=filter(ecervi, Ecervi.pa),sides="t", inherit.aes = FALSE) +
-  geom_rug(aes(x=csLength), data=filter(ecervi, !Ecervi.pa),sides="b", inherit.aes = FALSE) +
-  facet_wrap(~fSex) +
-  guides(color=FALSE)
+<!--     guides(color=FALSE) -->
 
-```
+<!-- ``` -->
 
-OK, now we want to do the bootstrap. But fitting this model already is slow, so doing it 1000 times is even slower! Bootstrapping is one of the things that benefits from parallel computing very easily. The bit of code below sets up a "cluster" on my computer and splits the computation up 4 ways. 4 times faster. Most modern CPU's have multiple cores that can run independently. In normal operation R uses just one core. Depending on how many cores your computer has, running this code in parallel could speed up this computation by a lot. 
+<!-- That doesn't look as good as I'd hoped. The idea here is to draw the eye closer to the expected value rather than the outer edges of the confidence region.  -->
+
+<!-- ## Doing it with a GLMM -->
+
+<!-- So now we want to redo the deer model from last lab. -->
+
+<!-- ```{r, include = TRUE, eval = TRUE, message = FALSE} -->
+<!-- ecervi <- ecervi %>% -->
+<!--   mutate(Ecervi.pa = Ecervi > 0, -->
+<!--          fSex = factor(Sex, labels=c("Male","Female")), -->
+<!--          cLength = Length - mean(Length), -->
+<!--          csLength = cLength / sd(Length)) -->
+
+<!-- contrasts(ecervi$fSex) <- contr.sum(2) -->
+
+<!-- M0 <- glmer(Ecervi.pa~fSex*csLength+(1 + csLength | Farm), -->
+<!--             data=ecervi,family=binomial) -->
+
+<!-- lr = range(ecervi$csLength) -->
+<!-- nd <- expand.grid(csLength = seq(lr[1], lr[2], length=20), -->
+<!--                   fSex=factor(levels(ecervi$fSex))) -->
+
+<!-- nd$pp = predict(M0,newdata=nd, -->
+<!--              type="response", re.form=~0) -->
+
+<!-- ggplot(nd, aes(x=csLength, y=pp, col=fSex)) + -->
+<!--   geom_line(alpha=0.5) + -->
+<!--    ylab("Probability of E. cervi infection") + -->
+<!--   geom_line(aes(x=csLength, y=pp, col=fSex), data=nd, inherit.aes = FALSE, linewidth=2) + -->
+<!--     geom_rug(aes(x=csLength), data=filter(ecervi, Ecervi.pa),sides="t", inherit.aes = FALSE) + -->
+<!--   geom_rug(aes(x=csLength), data=filter(ecervi, !Ecervi.pa),sides="b", inherit.aes = FALSE) + -->
+<!--   facet_wrap(~fSex) + -->
+<!--   guides(color=FALSE) -->
+
+<!-- ``` -->
+
+<!-- OK, now we want to do the bootstrap. But fitting this model already is slow, so doing it 1000 times is even slower! Bootstrapping is one of the things that benefits from parallel computing very easily. The bit of code below sets up a "cluster" on my computer and splits the computation up 4 ways. 4 times faster. Most modern CPU's have multiple cores that can run independently. In normal operation R uses just one core. Depending on how many cores your computer has, running this code in parallel could speed up this computation by a lot.  -->
 
 
 
