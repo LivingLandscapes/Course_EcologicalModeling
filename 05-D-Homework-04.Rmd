@@ -1,6 +1,6 @@
 ---
 layout: topic
-title: "Homework 3"
+title: "Homework 4"
 output: html_document
 ---
 
@@ -28,10 +28,12 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ## Overview
 
-Please provide a reproducible .Rmd script to address the scenario below and produces all of your analysis and plots. Some reminders:
+Please provide a reproducible .Rscript to address the scenario below and produces all of your analysis and plots. Some reminders:
 
-- **Reproducible:** This means when I run your .Rmd file, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
-- **Format:** In the .Rmd file, arrange and format similar to a scientific article. Specifically, I want to see 1) an analytical methods section, 2) a results section that includes figures, tables, and *text interpreting the figures and tables and model(s)*!, and 3) a brief conclusion (1 - 2 paragraphs) based on the results. **NOTE:** You do not need to create an introduction, reiterate the data collection methods, or produce a literature cited section!
+- **Reproducible:** This means when I run your .Rscript file, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
+- **Format:** In the .Rscript file, arrange and format similar to a scientific article. Specifically, I want to see 1) an analytical methods section, 2) a results section that includes figures, tables, and *text interpreting the figures and tables and model(s)*!, and 3) a brief conclusion (1 - 2 paragraphs) based on the results. **NOTE:** You do not need to create an introduction, reiterate the data collection methods, or produce a literature cited section!
+- **Approach:** Please use a *Bayesian* approach.
+- **Remember:** Be sure to apply due diligence by exploring data appropriately, checking model diagnostics, and showing uncertainty in your results.
 
 ### Background
 
@@ -47,7 +49,7 @@ Hi! I'm a graduate student, and I set up an experiment testing the effects of di
 
 I established $4m^2$ plots of bull thistle seedlings at five distances (0, 7.5, 15, 30 and 60 meters) from a tall thistle patch.  I did not attempt to control the presence or abundance of other patches of tall thistle at the site. At each distance, I established an insecticide (insect herbivory reduced) and control (insect herbivory present) plot.  I sowed a fixed weight of Bull thistle seeds into the plots in April (538 seeds/ $4m^2$) and censused seedling density per $1m2$ subplots the following September across all distances for insecticide and control plots.  I repeated this experimental design in 10 sites in Washington and southern Benton counties.  Additionally, I clumped sites into regions (4 regions), adding a second layer of spatial complexity. All sites within a region are closer to each other than in other regions.  Region 1 is comprised of 3 sites at Healing Springs Natural Area, region 2 is a single site at Woolsey Wet Prairie, region 3 includes 3 sites Wilson Springs Preserve, and region 4 includes 3 sites at the Milo J. Shult Agricultural Research Center (the UA "farm").  
 
-I tried a two way ANOVA for an initial analysis. But according to the ANOVA, there didn't appear to be an effect of distance! This is devastating to the enemy release hypothesis, and I'm afraid I'm going to have to completely rewrite my thesis!  I heard you just learned about mixed modeling. Could you *please* run a generalized or linear mixed model on my data and see if it picks up a different signal?!?     
+I tried a two way ANOVA for an initial analysis. But according to the ANOVA, there didn't appear to be an effect of distance! This is devastating to the enemy release hypothesis, and I'm afraid I'm going to have to completely rewrite my thesis!  I heard you just learned about mixed modeling. Could you *please* run a mixed model on my data and see if it picks up a different signal?!?     
 
 ### Data description
 
@@ -95,4 +97,4 @@ thistles$subplot = factor(thistles$subplot)
 
 ## Your assignment
 
-Using these data, apply your knowledge of (generalized?) linear mixed models to determine if there is support for the enemy release hypothesis.  *Remember:* not only are you analyzing the data, but you are also doing a post-mortem on the experiment/data collection/study design. Make sure to do model diagnostics and include any glaring issues you identify in the Results. See the *Format* instructions in the Overview section for required format and elements.
+Using these data, apply your knowledge of mixed models to determine if there is support for the enemy release hypothesis.  *Remember:* not only are you analyzing the data, but you are also doing a post-mortem on the experiment/data collection/study design. Make sure to do model diagnostics and include any glaring issues you identify in the Results. See the instructions in the Overview section for required format and elements.

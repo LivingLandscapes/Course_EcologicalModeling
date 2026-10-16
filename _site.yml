@@ -54,14 +54,14 @@ navbar:
           href: 05-B-Generalized-Linear-Mixed-Models.html
         - text: "Lab: Confidence Intervals for Mixed Models"
           href: 05-C-Confidence-Intervals-Mixed-Models.html
-        # - text: "Homework 3"
-        #   href: 05-C-Homework-03.html
-    - text: "HGAMs"
+        - text: "Homework 4"
+          href: 05-D-Homework-04.html
+    - text: "GAMs"
       menu:
         - text: "Lab: HGAMs"
           href: 06-A-Hierarchical-Generalized-Additive-Models.html
-        # - text: "Homework 4"
-        #   href: 06-B-Homework-04.html
+        - text: "Homework 5"
+          href: 06-B-Homework-05.html
 
 output_dir: "."
 exclude: ["CONTRIBUT*.md","index.md","README.md","*.db"]

@@ -26,10 +26,11 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ## Overview
 
-Please provide a reproducible .Rmd script to address the scenario below and produces all of your analysis and plots. Some reminders:
+Please provide a reproducible Rscript script to address the scenario below and produces all of your analysis and plots. Some reminders:
 
-- **Reproducible:** This means when I run your .Rmd file, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
-- **Format:** In the .Rmd file, arrange and format similar to a scientific article. Specifically, I want to see 1) an analytical methods section, 2) a results section that includes figures, tables, and *text interpreting the figures and tables and model(s)*!, and 3) a brief conclusion (1 - 2 paragraphs) based on the results. **NOTE:** You do not need to create an introduction, reiterate the data collection methods, or produce a literature cited section!
+- **Reproducible:** This means when I run your Rscript file, it will run all analyses and create all plots without errors, without me having to reset my working directory, and without forcing me to install anything on my machine (i.e., use the require(librarian); shelf(your packages, lib = tempdir()) approach as in the code block below). This also means there should be *NO ERRORS* when I run it!
+- **Format:** In the Rscript file, start with data wrangling (if needed), move to data exploration, briefly (1-2 paragraphs) explain the HGAM approach you'll use in words, conduct your analysis, perform model diagnostics, and briefly (1-2 paragraphs) explain your results in words.
+- **Approach:** Please use a *frequentist* approach, with the Pedersen et al. (2019) paper as your guide.
 
 ### Background 
 
