@@ -1,13 +1,8 @@
 ---
 layout: topic
-title: "Confidence Intervals for Mixed Models"
+title: "Bayesian Mixed Models: Choose your own adventure!"
 output: html_document
 ---
-
-**Assigned Reading:**
-
-- Shipley, J. R., Twining, C. W., Taff, C. C., Vitousek, M. N., & Winkler, D. W. (2022). Selection counteracts developmental plasticity in body-size responses to climate change. Nature Climate Change, 12(9), 863-868.
-- Christensen, S. A., Ruder, M. G., Williams, D. M., Porter, W. F., & Stallknecht, D. E. (2020). The role of drought as a determinant of hemorrhagic disease in the eastern United States. Global Change Biology, 26(7), 3799-3808.
 
 ```{r include = FALSE}
 
@@ -33,10 +28,12 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 This week, it's "choose your own adventure" time. I want you to work in pairs to tackle this scenario below:
 
-The data are the weights of deer harvested at Desoto National Wildlife Refuge between 2003 and 2006. Refuge biologists were trying to reduce the population to prevent overbrowsing and damage to the remaining habitat, especially as they convert existing row crops on the refuge to warm season perennial grasses. They were interested in whether the weight of harvested deer decreases when populations are relatively high in the refuge – this is expected because of density dependent reductions in body condition. 
+The data are the weights of deer harvested at Desoto National Wildlife Refuge between 2003 and 2006. Refuge biologists were trying to reduce the population to prevent overbrowsing and damage to the remaining habitat, especially as they convert existing row crops on the refuge to warm season perennial grasses. **They were interested in whether the weight of harvested deer decreases when populations are relatively high in the refuge** – this is expected because of density dependent reductions in body condition.
+
+It's reasonable to expect deer of different sexes and ages to weigh different amounts – the key question is how much do they vary among years and hunts, and *is mass a good indirect indicator of density*? 
 
 <p>
-![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Whitetail.JPG){width=600px}
+![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Whitetail.jpg){width=400px}
 <p>
 
 ## Data description:
@@ -45,9 +42,14 @@ The data are the weights of deer harvested at Desoto National Wildlife Refuge be
 
 ```{r, include = TRUE}
 
+# Load packages
+require(librarian)
+shelf(brms, cmdstanr, tidyverse,
+      lib = tempdir())
+
 # Load the data
 deer <- 
-  read.table("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/refs/heads/master/data/csd2003-2006%20kg.txt",
+  read.table(paste0(repo_url, "data/csd2003-2006kg.txt"),
              header=TRUE)
 
 ### Data columns
@@ -62,7 +64,7 @@ deer <-
 # hunt.year – which “season” was it (i.e. Jan 2005 is part of the 2004 “hunt year”) 
 # sex – duh.          
 # Age – numeric estimate of age  
-# age.class – factor variable for ageclass (probably more reliable than age)    
+# age.class – factor variable for age class (more reliable than age)    
 # mass - pounds
 # kg.mass - kg      
 # buck.count – an index of the buck population   
@@ -77,11 +79,13 @@ deer <-
 # hpue – harvest per unit effort         
 # d.est  - estimated  # of deer in the refuge (independent helicopter count)
 
-# Very briefly explore:
+# Convert age.class to a factor
 deer$age.class <- factor(deer$age.class)
-xyplot(kg.mass ~ ha.crop | sex * age.class, 
-       data = deer)
-coplot(kg.mass ~ age.class |sex * ha.crop, 
+
+# Very briefly explore:
+coplot(kg.mass ~ age.class | sex * ha.crop, 
+       data = deer) 
+coplot(kg.mass ~ d.est | sex * ha.crop, 
        data = deer) 
 
 ```
