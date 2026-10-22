@@ -11,7 +11,7 @@
 
 
 
-<title>Confidence Intervals for Mixed Models</title>
+<title>Bayesian Mixed Models: Choose your own adventure!</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -578,22 +578,12 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Confidence Intervals for Mixed Models</h1>
+<h1 class="title toc-ignore">Bayesian Mixed Models: Choose your own
+adventure!</h1>
 
 </div>
 
 
-<p><strong>Assigned Reading:</strong></p>
-<ul>
-<li>Shipley, J. R., Twining, C. W., Taff, C. C., Vitousek, M. N., &amp;
-Winkler, D. W. (2022). Selection counteracts developmental plasticity in
-body-size responses to climate change. Nature Climate Change, 12(9),
-863-868.</li>
-<li>Christensen, S. A., Ruder, M. G., Williams, D. M., Porter, W. F.,
-&amp; Stallknecht, D. E. (2020). The role of drought as a determinant of
-hemorrhagic disease in the eastern United States. Global Change Biology,
-26(7), 3799-3808.</li>
-</ul>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
 <p>This week, it’s “choose your own adventure” time. I want you to work
@@ -661,16 +651,12 @@ deer.</strong></p>
 <span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>deer<span class="sc">$</span>age.class <span class="ot">&lt;-</span> <span class="fu">factor</span>(deer<span class="sc">$</span>age.class)</span>
 <span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a></span>
 <span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co"># Very briefly explore:</span></span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="fu">hist</span>(deer<span class="sc">$</span>d.est)</span></code></pre></div>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="fu">coplot</span>(kg.mass <span class="sc">~</span> age.class <span class="sc">|</span> sex <span class="sc">*</span> ha.crop, </span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>       <span class="at">data =</span> deer) </span></code></pre></div>
 <p><img src="05-D-Bayesian-Mixed-Models_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">unique</span>(deer<span class="sc">$</span>d.est))</span></code></pre></div>
-<pre><code>## [1] 1115 1219 1240 1427</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">coplot</span>(kg.mass <span class="sc">~</span> age.class <span class="sc">|</span> sex <span class="sc">*</span> ha.crop, </span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>       <span class="at">data =</span> deer) </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">coplot</span>(kg.mass <span class="sc">~</span> d.est <span class="sc">|</span> sex <span class="sc">*</span> ha.crop, </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>       <span class="at">data =</span> deer) </span></code></pre></div>
 <p><img src="05-D-Bayesian-Mixed-Models_files/figure-html/unnamed-chunk-2-2.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">coplot</span>(kg.mass <span class="sc">~</span> d.est <span class="sc">|</span> sex <span class="sc">*</span> ha.crop, </span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>       <span class="at">data =</span> deer) </span></code></pre></div>
-<p><img src="05-D-Bayesian-Mixed-Models_files/figure-html/unnamed-chunk-2-3.png" alt="" width="672" /></p>
 </div>
 
 

@@ -28,9 +28,18 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 This week, it's "choose your own adventure" time. I want you to work in pairs to tackle this scenario below:
 
-The data are the weights of deer harvested at Desoto National Wildlife Refuge between 2003 and 2006. Refuge biologists were trying to reduce the population to prevent overbrowsing and damage to the remaining habitat, especially as they convert existing row crops on the refuge to warm season perennial grasses. **They were interested in whether the weight of harvested deer decreases when populations are relatively high in the refuge** – this is expected because of density dependent reductions in body condition.
+The data are the weights of deer harvested at [Desoto National Wildlife Refuge](https://www.fws.gov/refuge/desoto) between 2003 and 2006. Refuge biologists were trying to reduce the population to prevent overbrowsing and damage to the remaining habitat, especially as they convert existing row crops on the refuge to warm season perennial grasses. **They were interested in whether the weight of harvested deer decreases when populations are relatively high in the refuge** – this is expected because of density dependent reductions in body condition. It's reasonable to expect deer of different sexes and ages to weigh different amounts – the key question is how much do they vary among years and hunts, and *is mass a good indirect indicator of density*? 
 
-It's reasonable to expect deer of different sexes and ages to weigh different amounts – the key question is how much do they vary among years and hunts, and *is mass a good indirect indicator of density*? 
+### Your task
+
+Develop a *Bayesian* mixed model provide the refuge biologists an answer to their deer question. Specifically:
+
+1. Conduct some data exploration. (15 minutes)
+2. Formulate/run Bayesian mixed model(s) to answer the question. (20 minutes)
+3. Check model diagnostics. (10 minutes)
+4. Create figures to demonstrate model outcomes. (20 minutes)
+
+Work in teams (Dr. Roberts will assign). Dr. Roberts will call on teams to present different stages of the work to the class.
 
 <p>
 ![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Whitetail.jpg){width=400px}
