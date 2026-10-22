@@ -1,0 +1,89 @@
+---
+layout: topic
+title: "Confidence Intervals for Mixed Models"
+output: html_document
+---
+
+**Assigned Reading:**
+
+- Shipley, J. R., Twining, C. W., Taff, C. C., Vitousek, M. N., & Winkler, D. W. (2022). Selection counteracts developmental plasticity in body-size responses to climate change. Nature Climate Change, 12(9), 863-868.
+- Christensen, S. A., Ruder, M. G., Williams, D. M., Porter, W. F., & Stallknecht, D. E. (2020). The role of drought as a determinant of hemorrhagic disease in the eastern United States. Global Change Biology, 26(7), 3799-3808.
+
+```{r include = FALSE}
+
+# This code block sets up the r session when the page is rendered to html
+# include = FALSE means that it will not be included in the html document
+
+# Write every code block to the html document 
+knitr::opts_chunk$set(echo = TRUE)
+
+# Write the results of every code block to the html document 
+knitr::opts_chunk$set(eval = TRUE)
+
+# Set the web address where R will look for files from this repository
+# Do not change this address
+repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
+
+# Suppress warnings and messages
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+```
+
+## Overview
+
+This week, it's "choose your own adventure" time. I want you to work in pairs to tackle this scenario below:
+
+The data are the weights of deer harvested at Desoto National Wildlife Refuge between 2003 and 2006. Refuge biologists were trying to reduce the population to prevent overbrowsing and damage to the remaining habitat, especially as they convert existing row crops on the refuge to warm season perennial grasses. They were interested in whether the weight of harvested deer decreases when populations are relatively high in the refuge – this is expected because of density dependent reductions in body condition. 
+
+<p>
+![](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Whitetail.JPG){width=600px}
+<p>
+
+## Data description:
+
+**Each row in the dataset corresponds to a single deer.**
+
+```{r, include = TRUE}
+
+# Load the data
+deer <- 
+  read.table(paste0(repo_url, "csd2003-2006 kg.txt"),
+             header=TRUE)
+
+### Data columns
+# num – unique identifier of each deer
+# location – always “desoto"     
+# hunt – either “AL” or “ES” – different types of hunt “AntlerLess” or “EitherSex”. Deer should be smaller in the AL hunts because the focus is on deer without Antlers. 
+# bonus – y or n depending on whether it was a “bonus tag” deer
+# num.totaltag – total number of tags for that hunt
+# num.tag – number of normal tags issued      
+# num.bonustag – number of bonus tags issued 
+# year         month        day – actual date of the hunt
+# hunt.year – which “season” was it (i.e. Jan 2005 is part of the 2004 “hunt year”) 
+# sex – duh.          
+# Age – numeric estimate of age  
+# age.class – factor variable for ageclass (probably more reliable than age)    
+# mass - pounds
+# kg.mass - kg      
+# buck.count – an index of the buck population   
+# doe.count – an index of the doe population    
+# fawn.count  - an index of the fawn population
+# b.d – bucks per doe (estimate of sex ratio)        
+# f.d – fawns per doe (estimate of productivity)
+# ha.crop – hectares of the refuge in row crop      
+# ha.corn      ha.soybean   
+# h.count – index of population prior to harvest
+# harvest – number harvested      
+# hpue – harvest per unit effort         
+# d.est  - estimated  # of deer in the refuge (independent helicopter count)
+
+# Very briefly explore:
+deer$age.class <- factor(deer$age.class)
+xyplot(kg.mass ~ ha.crop | sex * age.class, 
+       data = deer)
+coplot(kg.mass ~ age.class |sex * ha.crop, 
+       data = deer) 
+
+```
+
+

@@ -54,6 +54,8 @@ navbar:
           href: 05-B-Generalized-Linear-Mixed-Models.html
         - text: "Lab: Confidence Intervals for Mixed Models"
           href: 05-C-Confidence-Intervals-Mixed-Models.html
+        - text: "Lab: Bayesian Mixed Models-Choose your own adventure!"
+          href: 05-D-Bayesian-Mixed-Models.html
         - text: "Homework 4"
           href: 05-D-Homework-04.html
     - text: "GAMs"
