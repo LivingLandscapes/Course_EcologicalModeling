@@ -47,7 +47,7 @@ The data are the weights of deer harvested at Desoto National Wildlife Refuge be
 
 # Load the data
 deer <- 
-  read.table(paste0(repo_url, "csd2003-2006 kg.txt"),
+  read.table("https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/refs/heads/master/data/csd2003-2006%20kg.txt",
              header=TRUE)
 
 ### Data columns
