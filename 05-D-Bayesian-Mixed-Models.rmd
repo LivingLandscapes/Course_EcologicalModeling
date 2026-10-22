@@ -15,10 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 # Write the results of every code block to the html document 
 knitr::opts_chunk$set(eval = TRUE)
 
-# Set the web address where R will look for files from this repository
-# Do not change this address
-repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
-
 # Suppress warnings and messages
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
@@ -55,6 +51,9 @@ Work in teams (Dr. Roberts will assign). Dr. Roberts will call on teams to prese
 require(librarian)
 shelf(brms, cmdstanr, tidyverse,
       lib = tempdir())
+
+# Set the web address where R will look for files from this repository
+repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/"
 
 # Load the data
 deer <- 
