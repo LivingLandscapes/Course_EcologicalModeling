@@ -1,0 +1,149 @@
+---
+layout: topic
+title: "Lab: Generalized Additive Models"
+output: 
+  html_document
+---
+
+
+```{r include = FALSE}
+
+# This code block sets up the r session when the page is rendered to html
+# include = FALSE means that it will not be included in the html document
+
+# Write every code block to the html document 
+knitr::opts_chunk$set(echo = TRUE)
+
+# Write the results of every code block to the html document 
+knitr::opts_chunk$set(eval = TRUE)
+
+# Set the web address where R will look for files from this repository
+# Do not change this address
+repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/"
+
+# Suppress warnings and messages
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+# Force text wrapping in code blocks
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+
+```
+
+## Overview
+
+
+We're going to use the Northern Bobwhite (hereafter 'quail') "whistle count" surveys alongside remotely-sensed tree cover data for our first generalized additive models (GAMs). Broadly, we'll be comparing quail abundance (measured by whistle counts) to tree cover while accounting for spatiotemporal autocorrelation. Then we're going to practice writing results for the model outputs.
+
+Download this [R script](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/09-A-writing-results-exercise-code.R). We'll use it to work through the challenges today.
+
+---
+
+<p>
+![Bobwhite Quail by Larus](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/master/images/Bobwhite_larus10.jpg){width=400px}
+<p>
+
+## Data description
+
+
+| **Column Name**| **Description**                                             |
+|----------------|-------------------------------------------------------------|
+| Year       | years 1965 - 2020                                           |
+| County   | Nebraska county name|
+| Route.Name | Route name                  |
+| Route.Number        | Route number                                                    |
+| UTMXN       | UTM northing zone 14                                                   |
+| UTMYE      | UTM easting zone 14                       |
+| WhistleCount        | Mean whistle count per route per year |
+| Bob_Region | Quail management region code |
+
+---
+
+Let's load the data and tidy it:
+
+```{r, include = TRUE, eval = TRUE, message = FALSE, echo = TRUE}
+
+#===============================================================================
+## Preparations
+
+# # Clear environment?
+# rm(list=ls())
+
+# List of packages necessary to run this script:
+require(librarian)
+shelf(tidyverse, here, sf, brms, maps, terra, tidybayes,
+      lib = tempdir())
+
+# Set path
+repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_EcologicalModeling/master/data/"
+
+# Set seed
+set.seed(2252)
+
+# Load data
+dat_list <- 
+  list(RouteDictionary = read_csv(paste0(repo_url, "QuailWhistle_Nebraska_RouteDictionary.csv")),
+       RouteUTMs = read_csv(paste0(repo_url, "QuailWhistle_Nebraska_RouteUTMs.csv")),
+       RouteWhistleData = read_csv(paste0(repo_url, "QuailWhistle_Nebraska_RouteWhistleData.csv")))
+
+#=============================================================================
+## Tidying data
+
+# Tidy whistle data
+whistle <- 
+  dat_list$RouteWhistleData %>%
+  pivot_longer(cols = Cass:Lancaster_YH,
+               names_to = "Route.Name",
+               values_to = "WhistleCount") %>%
+  mutate(Route.Name = case_when(Route.Name == "Cass" ~ "Cass North",
+                                Route.Name == "GageN" ~ "Gage North",
+                                Route.Name == "GageS" ~ "Gage South",
+                                Route.Name == "Jeffersn" ~ "Jefferson",
+                                Route.Name == "JohnsonN" ~ "Johnson North",
+                                Route.Name == "JohnsonS" ~ "Johnson South",
+                                Route.Name == "Lancaster.East" ~ "Lancaster East",
+                                Route.Name == "Lancaster.North" ~ "Lancaster North",
+                                Route.Name == "Lancaster.Branched.Oak" ~ "Lancaster-Branched Oak",
+                                Route.Name == "OtoeN" ~ "Otoe North",
+                                Route.Name == "OtoeS" ~ "Otoe South",
+                                Route.Name == "Richardn" ~ "Richardson",
+                                .default = Route.Name)) %>%
+  left_join(dat_list$RouteDictionary %>% mutate(Route.Name = `Route Name`)) %>%
+  mutate(Route.Number = `Route Number`) %>%
+  filter(Route.Name != "Lancaster_YH") %>%
+  left_join(dat_list$RouteUTMs %>%
+              mutate(Route.Number = Route) %>%
+              group_by(Route.Number) %>%
+              filter(row_number() == 1)) %>%
+  mutate(YearNum = Year - 1964,
+         YearNum2 = (Year - 1964)^2,
+         Easting_scaled = scale(UTMYE),
+         Northing_scaled = scale(UTMXN))
+
+
+```
+
+<!-- ## Data Exploration -->
+
+<!-- **On your own, familiarize yourself with the data.** Below, we have an example: -->
+
+<!-- ```{r, eval = TRUE, message = FALSE, include = TRUE, echo = TRUE} -->
+
+<!-- ggplot(whistle, -->
+<!--        aes(x = Year, y = WhistleCount, group = Route.Name, color = Route.Name)) +  -->
+<!--   geom_point() + -->
+<!--   geom_line(linewidth = 1.5) +  -->
+<!--   scale_colour_viridis_d() + -->
+<!--   theme_bw() -->
+
+<!-- ``` -->
+
+<!-- ## Your Task: -->
+
+<!-- **Objective:** *Quantify spatiotemporal trends in quail whistle counts* -->
+
+<!-- 1. We will work in groups. -->
+<!-- 2. Define your modeling “purpose.” -->
+<!-- 3. Define your analysis methods (e.g., one global model? model selection?) -->
+<!-- 4. Create and run your model(s).  -->
+<!-- 5. Interpret the output (plot predictions, create tables, ppc checks, etc.) -->
+<!-- 6. Draft results -->

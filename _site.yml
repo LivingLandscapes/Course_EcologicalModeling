@@ -60,6 +60,8 @@ navbar:
           href: 05-D-Homework-04.html
     - text: "GAMs"
       menu:
+        - text: "Lab: GAMs"
+          href: 06-A1-Generalized-Additive-Models.html
         - text: "Lab: HGAMs"
           href: 06-A-Hierarchical-Generalized-Additive-Models.html
         - text: "Homework 5"
