@@ -17,11 +17,23 @@ repo_url <- "https://raw.githubusercontent.com/LivingLandscapes/Course_Ecologica
 # Set seed
 set.seed(2252)
 
-# Load data
+# Load whistle data
 dat_list <- 
   list(RouteDictionary = read_csv(paste0(repo_url, "QuailWhistle_Nebraska_RouteDictionary.csv")),
        RouteUTMs = read_csv(paste0(repo_url, "QuailWhistle_Nebraska_RouteUTMs.csv")),
        RouteWhistleData = read_csv(paste0(repo_url, "QuailWhistle_Nebraska_RouteWhistleData.csv")))
+
+# Load RAP tree cover data
+treeDat <- 
+  read_csv(paste0(repo_url, "TreeCover_QuailWhistleNebraska.csv")) %>%
+  # For some reason, lots of duplicates...
+  distinct() %>%
+  # Replace NAs with 0
+  replace(is.na(.), 0) %>% 
+  # Rename columns for our sanity
+  rename(Tree_mean = "mean", Tree_sd = "stdDev") %>%
+  # Remove unnecessary columns
+  select(-c(count, sum))
 
 #=============================================================================
 ## Tidying data
@@ -64,18 +76,6 @@ whistle_sf <-
   st_write(here("data"),
            "QuailWhistleShp",
            driver = "ESRI Shapefile")
-
-# Load RAP tree cover data
-treeDat <- 
-  read_csv(here("data/TreeCover_QuailWhistleNebraska.csv")) %>%
-  # For some reason, lots of duplicates...
-  distinct() %>%
-  # Replace NAs with 0
-  replace(is.na(.), 0) %>% 
-  # Rename columns for our sanity
-  rename(Tree_mean = "mean", Tree_sd = "stdDev") %>%
-  # Remove unnecessary columns
-  select(-c(count, sum))
 
 # Joint with whistle count data
 allDat <- 
