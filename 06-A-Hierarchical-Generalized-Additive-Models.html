@@ -533,6 +533,9 @@ space?</strong></li>
 from our hypotheses, appraise HGAM fits, and conduct model selection
 with HGAMs. Through the second question, we will learn to do spatial
 predictions (i.e., making predictive maps) with our model outputs.</p>
+<p>We’ll use this <a
+href="https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/10-A-HGAM-exercise-code.R">Rscript</a>
+for our lab today.</p>
 <hr />
 <p>
 <div class="float">
@@ -557,23 +560,93 @@ invasive species cover data from the Eastern U.S. from 2001 - 2020. I
 also extracted growth habits and orders of each plant species from the
 <a href="https://plants.usda.gov/">USDA Plants Database</a>. Below is a
 table with descriptions of columns in each dataset:</p>
-<!-- | Data File Name | **Column Name**| **Description**                            | -->
-<!-- |:---------------|:---------------|:-------------------------------------------| -->
-<!-- | FIA_Invasives_GrowthTaxonomy.csv | SCIENTIFIC_NAME | Genus and species | -->
-<!-- | | GrowthHabit1 | Primary growth habit | -->
-<!-- | | GrowthHabit2 | Secondary growth habit, if applicable |  -->
-<!-- | | GrowthHabit3 | Tertiary growth habit, if applicable | -->
-<!-- | | GrowthHabit_Number | Number of growth habits |  -->
-<!-- | | Order | Order of the species |  -->
-<!-- | | COMMON_NAME | Species' common name |  -->
-<!-- | FIA_Invasives_Cover.csv | Year       | years 2001 - 2020                   | -->
-<!-- | | pltID   | Unique identifier for each FIA plot                            | -->
-<!-- | | SCIENTIFIC_NAME | Genus and species                                      | -->
-<!-- | | COMMON_NAME | Species' common name                                       | -->
-<!-- | | cover       | areal cover of invasive species (acres)                    | -->
-<!-- | | Longitude   | decimal degrees longitude                       | -->
-<!-- | | Latitude    | decimal degrees latitude -->
-<!-- --- -->
+<table>
+<colgroup>
+<col width="21%" />
+<col width="21%" />
+<col width="57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Data File Name</th>
+<th align="left"><strong>Column Name</strong></th>
+<th align="left"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">FIA_Invasives_GrowthTaxonomy.csv</td>
+<td align="left">SCIENTIFIC_NAME</td>
+<td align="left">Genus and species</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">GrowthHabit1</td>
+<td align="left">Primary growth habit</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">GrowthHabit2</td>
+<td align="left">Secondary growth habit, if applicable</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">GrowthHabit3</td>
+<td align="left">Tertiary growth habit, if applicable</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">GrowthHabit_Number</td>
+<td align="left">Number of growth habits</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Order</td>
+<td align="left">Order of the species</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">COMMON_NAME</td>
+<td align="left">Species’ common name</td>
+</tr>
+<tr class="even">
+<td align="left">FIA_Invasives_Cover.csv</td>
+<td align="left">Year</td>
+<td align="left">years 2001 - 2020</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">pltID</td>
+<td align="left">Unique identifier for each FIA plot</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">SCIENTIFIC_NAME</td>
+<td align="left">Genus and species</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">COMMON_NAME</td>
+<td align="left">Species’ common name</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">cover</td>
+<td align="left">areal cover of invasive species (acres)</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">Longitude</td>
+<td align="left">decimal degrees longitude</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Latitude</td>
+<td align="left">decimal degrees latitude</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <!-- Let's load the data and join the two files: -->
 <!-- ```{r, include = TRUE, eval = TRUE, message = FALSE, echo = TRUE} -->
 <!-- # List of packages necessary to run this script: -->

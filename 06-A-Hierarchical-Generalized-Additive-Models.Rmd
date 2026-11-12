@@ -48,6 +48,8 @@ For the spatial distribution issue, we will ask:
 
 The first question will help us understand how to construct HGAMs from our hypotheses, appraise HGAM fits, and conduct model selection with HGAMs. Through the second question, we will learn to do spatial predictions (i.e., making predictive maps) with our model outputs.
 
+We'll use this [Rscript](https://github.com/LivingLandscapes/Course_EcologicalModeling/raw/refs/heads/master/code/10-A-HGAM-exercise-code.R) for our lab today.
+
 ---
 
 <p>
@@ -59,23 +61,23 @@ The first question will help us understand how to construct HGAMs from our hypot
 The data you will be using is from the U.S. Forest Service's "Forest Inventory and Analysis" (FIA) dataset. The FIA dataset is taken on public and private forested and timber lands throughout the U.S. on specific plots. The plots are revisited approximately every 4 - 5 years, but some plots are never revisited. One of the data collected at each plot is percent cover of various invasive plants. Here, I used the ["rFIA" R package](https://rfia.netlify.app/) to extract invasive species cover data from the Eastern U.S. from 2001 - 2020. I also extracted growth habits and orders of each plant species from the [USDA Plants Database](https://plants.usda.gov/). Below is a table with descriptions of columns in each dataset:
 
 
-<!-- | Data File Name | **Column Name**| **Description**                            | -->
-<!-- |:---------------|:---------------|:-------------------------------------------| -->
-<!-- | FIA_Invasives_GrowthTaxonomy.csv | SCIENTIFIC_NAME | Genus and species | -->
-<!-- | | GrowthHabit1 | Primary growth habit | -->
-<!-- | | GrowthHabit2 | Secondary growth habit, if applicable |  -->
-<!-- | | GrowthHabit3 | Tertiary growth habit, if applicable | -->
-<!-- | | GrowthHabit_Number | Number of growth habits |  -->
-<!-- | | Order | Order of the species |  -->
-<!-- | | COMMON_NAME | Species' common name |  -->
-<!-- | FIA_Invasives_Cover.csv | Year       | years 2001 - 2020                   | -->
-<!-- | | pltID   | Unique identifier for each FIA plot                            | -->
-<!-- | | SCIENTIFIC_NAME | Genus and species                                      | -->
-<!-- | | COMMON_NAME | Species' common name                                       | -->
-<!-- | | cover       | areal cover of invasive species (acres)                    | -->
-<!-- | | Longitude   | decimal degrees longitude                       | -->
-<!-- | | Latitude    | decimal degrees latitude -->
-<!-- --- -->
+| Data File Name | **Column Name**| **Description**                            |
+|:---------------|:---------------|:-------------------------------------------|
+| FIA_Invasives_GrowthTaxonomy.csv | SCIENTIFIC_NAME | Genus and species |
+| | GrowthHabit1 | Primary growth habit |
+| | GrowthHabit2 | Secondary growth habit, if applicable |
+| | GrowthHabit3 | Tertiary growth habit, if applicable |
+| | GrowthHabit_Number | Number of growth habits |
+| | Order | Order of the species |
+| | COMMON_NAME | Species' common name |
+| FIA_Invasives_Cover.csv | Year       | years 2001 - 2020                   |
+| | pltID   | Unique identifier for each FIA plot                            |
+| | SCIENTIFIC_NAME | Genus and species                                      |
+| | COMMON_NAME | Species' common name                                       |
+| | cover       | areal cover of invasive species (acres)                    |
+| | Longitude   | decimal degrees longitude                       |
+| | Latitude    | decimal degrees latitude
+---
 
 <!-- Let's load the data and join the two files: -->
 
